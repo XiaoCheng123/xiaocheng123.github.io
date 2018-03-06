@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="vue," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言先说句前话，如果不是接触大型项目，不需要有多个子页面，不使用vuex也是完全可以的。 说实在话，我在阅读vuex文档的时候，也很难以去理解vuex，甚至觉得没有使用它我也可以。但是直到我在项目碰到下面这些问题：  当路由切换的时候，原本路由的数据太多，传递过去太麻烦。 有些数据是多个路由需要用到的，那我就需要从后台获取多次数据  当然，这些问题都可以解决，就是在实例化vue对象的时候，就将这些">
+<meta name="keywords" content="vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue学习日记（四）——Vue状态管理vuex">
+<meta property="og:url" content="http://yoursite.com/2018/02/02/Vue学习日记（四）——Vue状态管理vuex/index.html">
+<meta property="og:site_name" content="前端学习博客">
+<meta property="og:description" content="前言先说句前话，如果不是接触大型项目，不需要有多个子页面，不使用vuex也是完全可以的。 说实在话，我在阅读vuex文档的时候，也很难以去理解vuex，甚至觉得没有使用它我也可以。但是直到我在项目碰到下面这些问题：  当路由切换的时候，原本路由的数据太多，传递过去太麻烦。 有些数据是多个路由需要用到的，那我就需要从后台获取多次数据  当然，这些问题都可以解决，就是在实例化vue对象的时候，就将这些">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/12.png?raw=true">
+<meta property="og:updated_time" content="2018-03-06T05:23:51.512Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue学习日记（四）——Vue状态管理vuex">
+<meta name="twitter:description" content="前言先说句前话，如果不是接触大型项目，不需要有多个子页面，不使用vuex也是完全可以的。 说实在话，我在阅读vuex文档的时候，也很难以去理解vuex，甚至觉得没有使用它我也可以。但是直到我在项目碰到下面这些问题：  当路由切换的时候，原本路由的数据太多，传递过去太麻烦。 有些数据是多个路由需要用到的，那我就需要从后台获取多次数据  当然，这些问题都可以解决，就是在实例化vue对象的时候，就将这些">
+<meta name="twitter:image" content="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/12.png?raw=true">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/02/Vue学习日记（四）——Vue状态管理vuex/"/>
+
+
+
+
+
+  <title>Vue学习日记（四）——Vue状态管理vuex | 前端学习博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+    <a href="https://github.com/XiaoCheng123"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png" alt="Fork me on GitHub"></a>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">前端学习博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-search">
+          <a href="/search/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-search"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/02/Vue学习日记（四）——Vue状态管理vuex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vue学习日记（四）——Vue状态管理vuex</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-02T00:00:00+08:00">
+                2018-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>先说句前话，如果不是接触大型项目，不需要有多个子页面，不使用vuex也是完全可以的。</p>
+<p>说实在话，我在阅读vuex文档的时候，也很难以去理解vuex，甚至觉得没有使用它我也可以。但是直到我在项目碰到下面这些问题：</p>
+<ol>
+<li>当路由切换的时候，原本路由的数据太多，传递过去太麻烦。</li>
+<li>有些数据是多个路由需要用到的，那我就需要从后台获取多次数据</li>
+</ol>
+<p>当然，这些问题都可以解决，就是在实例化vue对象的时候，就将这些数据绑定在window对象上面。但是我们也不得不设想：</p>
+<ol>
+<li>万一数据太多了，那么可阅读性是不是会下降</li>
+<li>如果只是修改单独的数据，是不是所有的页面都可以更新</li>
+</ol>
+<p>对于第一个问题，答案是肯定的，虽然说，我们现在也可以用模块化的思想去使可阅读性更加好，但是没有一个规范，对于刚入手项目的总是难以理解。</p>
+<p>对于第二个问题，当你页面少的时候，是不会出现这样的问题的，但是如果页面多了，你就会发现，当你把window.$data里面的数据更新的时候，所有页面的计算属性都会失效，就是你无论怎么修改数据，页面都不会更新数据。</p>
+<p><strong>这时候，就需要用到我们的vuex了。</strong></p>
+<h1 id="vuex介绍"><a href="#vuex介绍" class="headerlink" title="vuex介绍"></a>vuex介绍</h1><blockquote>
+<p>那么vuex 到底是什么？</p>
+</blockquote>
+<p>引用官网的说法就是Vuex是一个专为Vue.js应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+<p>是不是还是有点难以理解，<strong>其实简单的说vuex就是把这个项目的所有数据都存储在一个地方，方便修改和获取数据</strong>。</p>
+<p>例如，我们从下面这张图给大家先简单的分析一下</p>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/12.png?raw=true" alt="image"></p>
+<p>在这张图片里面我们很明显可以看到三个部分</p>
+<ol>
+<li>Vue Components 表示vue里面的组件</li>
+<li>Backend API 后台API</li>
+<li>vuex 组件里面的数据管理</li>
+</ol>
+<p>我们可以生动形象的理解，如果说Vuex是一个仓库，那么么Vue Components就就是售货者，负责把仓库里面的东西展现出来，Backend API就相当于入货的人，负责将货物买进来（也就是后台返回数据给前端，保存在vuex里面）。而vuex就是仓库，这个仓库里面有货物state，有管理货物进出的Muations</p>
+<h2 id="引用vuex"><a href="#引用vuex" class="headerlink" title="引用vuex"></a>引用vuex</h2><p>在说state之前，我们可以先在我们vue项目引用vuex<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vuex</span><br></pre></td></tr></table></figure></p>
+<p>然后在我们的src目录下新建一个store的文件夹，在store文件夹里面新建一个index.js的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// ~/src/store/index.js</span><br><span class="line">import Vue from &apos;Vue&apos;</span><br><span class="line">import Vuex from &apos;Vuex&apos;</span><br><span class="line"></span><br><span class="line">// 在这里声明实例一个Vue 去引用Vuex状态管理插件</span><br><span class="line">// 这样就可以减少在main.js里面的代码量了</span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"></span><br><span class="line">// 返回store实例对象</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>这里说一下吧，这里Store其实就是相当vuex实例化的一个仓库。</p>
+<h2 id="data替代者state"><a href="#data替代者state" class="headerlink" title="data替代者state"></a>data替代者state</h2><blockquote>
+<p>为什么说state是data的替代者呢？</p>
+</blockquote>
+<p>很容易理解，就是讲组件里面的局部参数，改成了一个可以全局使用的参数state，例如，我们在me.vue组件引用的数据todo。</p>
+<p>那么我们可以在store里面这样实例化它出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// ~/src/store/index.js</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>那么，我们在组件里面怎么使用这个数据呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// me.vue组件文件</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    meTodo: [] // 然后在方法里面引用this.meTodo = this.$store.state.todo</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<p>是不是很简单，但是我们不可能每次使用这个值都要获取一次吧，这些vue团队也都想好了，我们可以通过计算属性来获取state里面的数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapState</span><br><span class="line">import &#123; mapState &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: mapState([</span><br><span class="line">  // 映射 this.todo 为 store.state.todo</span><br><span class="line">  &apos;todo&apos;</span><br><span class="line">])</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<p>相当于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  computed:</span><br><span class="line">  todo () &#123;</span><br><span class="line">    return this.$store.state.todo</span><br><span class="line">  &#125;</span><br><span class="line">])</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<h2 id="计算属性Getter"><a href="#计算属性Getter" class="headerlink" title="计算属性Getter"></a>计算属性Getter</h2><p>有时候我们会需要对state的数据进行一些过滤操作，例如我们只要在todo里面大于10的数字，如果是用computed的话，我们就需要使用filter函数，为了更加简便，vuex也给我们提供了计算属性getter。</p>
+<p>我们可以修改我们的~/src/store/index文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>然后在me.vue里面引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapGetters</span><br><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([</span><br><span class="line">      // 映射 this.todo 为 store.state.todo</span><br><span class="line">      &apos;todo&apos;</span><br><span class="line">    ])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<p>这样就可以简单拿到大于10的todo数据了</p>
+<h2 id="修改state的Mutation"><a href="#修改state的Mutation" class="headerlink" title="修改state的Mutation"></a>修改state的Mutation</h2><blockquote>
+<p>我们说了怎么获取数据，但是我们应该怎么修改数据呢，是不是直接赋值给数据就可以了呢？</p>
+</blockquote>
+<p>答案当然不是，vuex规定了，我们只能用Mutation来进行修改数据，那么，我们怎么进行修改数据呢？<br>修改我们的~/src/store/index.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10)</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    revsiseTode: (state, oneTodo) =&gt; (state.todo = oneTodo) // 修改state的值</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>然后在我们的me.vue组件里面修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapGetters</span><br><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapMutations</span><br><span class="line">import &#123; mapMutations &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([</span><br><span class="line">      // 映射 this.todo 为 store.state.todo</span><br><span class="line">      &apos;todo&apos;</span><br><span class="line">    ])</span><br><span class="line">  &#125;,</span><br><span class="line">  method: &#123;</span><br><span class="line">    ...mapMutations(</span><br><span class="line">      [</span><br><span class="line">        // 将 `this.revsiseTode()` 映射为 `this.$store.commit(&apos;revsiseTode&apos;)`</span><br><span class="line">        // 如果想传递参数可以使用this.$store.commit(&apos;revsiseTode&apos;, oneTode)</span><br><span class="line">        // 或者Action</span><br><span class="line">        &apos;revsiseTode&apos;</span><br><span class="line">      ]</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Action的使用"><a href="#Action的使用" class="headerlink" title="Action的使用"></a>Action的使用</h2><p>写了这么久，终于到了Action的出场了，其实不管怎么说，Action主要是为了与后台交互而使用的属性，这里，我就假设todo的数据在路由/me/gettodo里面能够获取，因此，修改~/store/index.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10)</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    revsiseTode: (state, oneTodo) =&gt; (state.todo = oneTodo) // 修改state的值</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    getTodo: context =&gt; Vue.http.get(&apos;/me/gettodo&apos;, (res) =&gt; &#123;</span><br><span class="line">      context.commit(&apos;revsiseTode&apos;, res.body.todo)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>然后就可以通过触发我们的actions来提交mutations去修改state的数据了，在me.vue修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapGetters</span><br><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapMutations</span><br><span class="line">import &#123; mapActions &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([</span><br><span class="line">      // 映射 this.todo 为 store.state.todo</span><br><span class="line">      &apos;todo&apos;</span><br><span class="line">    ])</span><br><span class="line">  &#125;,</span><br><span class="line">  method: &#123;</span><br><span class="line">    ...mapActions(</span><br><span class="line">      [</span><br><span class="line">        &apos;reviseTodo&apos;, // 将 `this.reviseTodo()` 映射为 `this.$store.dispatch(&apos;reviseTodo&apos;)</span><br><span class="line">      ]</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<h1 id="vuex目录结构"><a href="#vuex目录结构" class="headerlink" title="vuex目录结构"></a>vuex目录结构</h1><p>上面主要只是简单的讲了一下vuex的使用，也只是讲了一部分，不过相信看了这里之后再去官网就会有更深的理解。当然这些都是简单的使用，如果想把vuex运用到项目，必须把他们模块化更加好看，vuex官网也为我们提供了<a href="https://vuex.vuejs.org/zh-cn/structure.html" target="_blank" rel="noopener">规范的项目目录结构</a>，我这里就不多啰嗦几句了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>vuex其实不难，我一开始也以为很难一直学不会，只要多使用就会觉得，其实也就只是别人都封装好了的方法，我们去使用这个简便的<strong>仓库</strong>就行了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/vue/" rel="tag"># vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/01/Vue学习日记（三）——Vue路由管理vue-router/" rel="next" title="Vue学习日记（三）——Vue路由管理vue-router">
+                <i class="fa fa-chevron-left"></i> Vue学习日记（三）——Vue路由管理vue-router
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/头像.jpg"
+                alt="广工小成" />
+            
+              <p class="site-author-name" itemprop="name">广工小成</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vuex介绍"><span class="nav-number">2.</span> <span class="nav-text">vuex介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引用vuex"><span class="nav-number">2.1.</span> <span class="nav-text">引用vuex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#data替代者state"><span class="nav-number">2.2.</span> <span class="nav-text">data替代者state</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算属性Getter"><span class="nav-number">2.3.</span> <span class="nav-text">计算属性Getter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改state的Mutation"><span class="nav-number">2.4.</span> <span class="nav-text">修改state的Mutation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Action的使用"><span class="nav-number">2.5.</span> <span class="nav-text">Action的使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#vuex目录结构"><span class="nav-number">3.</span> <span class="nav-text">vuex目录结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">广工小成</span>
+
+  
+</div>
+
+
+  <div class="powered-by">前端开发者</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">blog &mdash; 广工小成的博客</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
