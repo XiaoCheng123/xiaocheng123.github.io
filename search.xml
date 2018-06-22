@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[Function里面的aguments]]></title>
-    <url>%2F2018%2F06%2F21%2FFunction%E9%87%8C%E9%9D%A2%E7%9A%84aguments%2F</url>
-    <content type="text"><![CDATA[前言1.在JS里Array是一个类 slice是此类里的一个方法 ，那么使用此方法应该Array.prototype.slice这么去用slice从字面上的意思很容易理解就是截取（当然你不是英肓的话） 这方法如何使用呢? slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。1234567891011121314151617181920var animals = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;elephant&apos;];console.log(animals.slice(2));// expected output: Array [&quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]console.log(animals.slice(2, 4));// expected output: Array [&quot;camel&quot;, &quot;duck&quot;]console.log(animals.slice(1, 5));// expected output: Array [&quot;bison&quot;, &quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]/* 用法 */arr.slice();// [0, end]arr.slice(begin);// [begin, end]arr.slice(begin, end);// [begin, end) slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组。你只需将该方法绑定到这个对象上。 一个函数中的 arguments 就是一个类数组对象的例子。12345function list() &#123; return Array.prototype.slice.call(arguments);&#125;var list1 = list(1, 2, 3); // [1, 2, 3] arrayObj.slice(start, [end]) 很显然是截取数组的一部分。 123456function test(a,b,c,d) &#123; var arg = Array.prototype.slice.call(arguments,1); alert(arg); &#125; test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;); //b,c,d 解释先给个例子，这是jqFloat插件里的代码： 1234567if (element.data(&apos;jDefined&apos;)) &#123; if (options &amp;&amp; typeof options === &apos;object&apos;) &#123; methods.update.apply(this, Array.prototype.slice.call(arguments, 1)); &#125;&#125; else &#123; methods.init.apply(this, Array.prototype.slice.call(arguments, 1));&#125; 因为arguments并不是真正的数组对象，只是与数组类似而已，所以它并没有slice这个方法，而Array.prototype.slice.call(arguments, 1)可以理解成是让arguments转换成一个数组对象，让arguments具有slice()方法。要是直接写arguments.slice(1)会报错。 原理Array.prototype.slice.call(arguments)能将具有length属性的对象转成数组，除了IE下的节点集合（因为ie下的dom对象是以com对象的形式实现的，js对象与com对象不能进行转换） 1234567891011121314var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;//类数组,有length属性，长度为2，第0个是first，第1个是secondconsole.log(Array.prototype.slice.call(a,0));// [&quot;first&quot;, &quot;second&quot;],调用数组的slice(0);var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;console.log(Array.prototype.slice.call(a,1));//[&quot;second&quot;]，调用数组的slice(1);var a=&#123;0:&apos;first&apos;,1:&apos;second&apos;&#125;;//去掉length属性，返回一个空数组console.log(Array.prototype.slice.call(a,0));//[]function test()&#123; console.log(Array.prototype.slice.call(arguments,0));//[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]，slice(0) console.log(Array.prototype.slice.call(arguments,1));//[&quot;b&quot;, &quot;c&quot;],slice(1)&#125;test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;);]]></content>
-      <categories>
-        <category>js</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[带有延时的promise，封装函数延时执行]]></title>
     <url>%2F2018%2F06%2F21%2F%E5%B8%A6%E6%9C%89%E5%BB%B6%E6%97%B6%E7%9A%84promise%EF%BC%8C%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0%E5%BB%B6%E6%97%B6%E6%89%A7%E8%A1%8C%2F</url>
     <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334// 1) 调用方式new People(&apos;whr&apos;).sleep(3).eat(&apos;apple&apos;).sleep(5).eat(&apos;durian&apos;);// 2) 打印结果&apos;hello, whr&apos; -(等待3s)--&gt; &apos;whr eat apple&apos; -(等待5s)--&gt; &apos;whr eat durian&apos;// 3) 以下是代码实现class People &#123; constructor(name) &#123; this.name = name; this.sayHello(); this.queue = Promise.resolve(); &#125; sayHello() &#123; console.log(`hello, $&#123;this.name&#125;`); &#125; sleep(time) &#123; // 这里对queue进行动态改变 this.queue = this.queue.then(() =&gt; &#123; return new Promise(res =&gt; &#123; setTimeout(() =&gt; &#123; res(); &#125;, time * 1000) &#125;) &#125;) return this; &#125; eat(food) &#123; this.queue = this.queue.then(() =&gt; &#123; console.log(`$&#123;this.name&#125; eat $&#123;food&#125;`); &#125;) return this; &#125;&#125;]]></content>
@@ -24,14 +13,13 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[内存泄漏]]></title>
-    <url>%2F2018%2F06%2F08%2F%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%2F</url>
-    <content type="text"></content>
+    <title><![CDATA[Function里面的aguments]]></title>
+    <url>%2F2018%2F06%2F21%2FFunction%E9%87%8C%E9%9D%A2%E7%9A%84aguments%2F</url>
+    <content type="text"><![CDATA[前言1.在JS里Array是一个类 slice是此类里的一个方法 ，那么使用此方法应该Array.prototype.slice这么去用slice从字面上的意思很容易理解就是截取（当然你不是英肓的话） 这方法如何使用呢? slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。1234567891011121314151617181920var animals = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;elephant&apos;];console.log(animals.slice(2));// expected output: Array [&quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]console.log(animals.slice(2, 4));// expected output: Array [&quot;camel&quot;, &quot;duck&quot;]console.log(animals.slice(1, 5));// expected output: Array [&quot;bison&quot;, &quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]/* 用法 */arr.slice();// [0, end]arr.slice(begin);// [begin, end]arr.slice(begin, end);// [begin, end) slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组。你只需将该方法绑定到这个对象上。 一个函数中的 arguments 就是一个类数组对象的例子。12345function list() &#123; return Array.prototype.slice.call(arguments);&#125;var list1 = list(1, 2, 3); // [1, 2, 3] arrayObj.slice(start, [end]) 很显然是截取数组的一部分。 123456function test(a,b,c,d) &#123; var arg = Array.prototype.slice.call(arguments,1); alert(arg); &#125; test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;); //b,c,d 解释先给个例子，这是jqFloat插件里的代码： 1234567if (element.data(&apos;jDefined&apos;)) &#123; if (options &amp;&amp; typeof options === &apos;object&apos;) &#123; methods.update.apply(this, Array.prototype.slice.call(arguments, 1)); &#125;&#125; else &#123; methods.init.apply(this, Array.prototype.slice.call(arguments, 1));&#125; 因为arguments并不是真正的数组对象，只是与数组类似而已，所以它并没有slice这个方法，而Array.prototype.slice.call(arguments, 1)可以理解成是让arguments转换成一个数组对象，让arguments具有slice()方法。要是直接写arguments.slice(1)会报错。 原理Array.prototype.slice.call(arguments)能将具有length属性的对象转成数组，除了IE下的节点集合（因为ie下的dom对象是以com对象的形式实现的，js对象与com对象不能进行转换） 1234567891011121314var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;//类数组,有length属性，长度为2，第0个是first，第1个是secondconsole.log(Array.prototype.slice.call(a,0));// [&quot;first&quot;, &quot;second&quot;],调用数组的slice(0);var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;console.log(Array.prototype.slice.call(a,1));//[&quot;second&quot;]，调用数组的slice(1);var a=&#123;0:&apos;first&apos;,1:&apos;second&apos;&#125;;//去掉length属性，返回一个空数组console.log(Array.prototype.slice.call(a,0));//[]function test()&#123; console.log(Array.prototype.slice.call(arguments,0));//[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]，slice(0) console.log(Array.prototype.slice.call(arguments,1));//[&quot;b&quot;, &quot;c&quot;],slice(1)&#125;test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;);]]></content>
       <categories>
-        <category>前端资源</category>
+        <category>js</category>
       </categories>
       <tags>
-        <tag>es6</tag>
         <tag>js</tag>
       </tags>
   </entry>
@@ -71,6 +59,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[核心（1）Events]]></title>
+    <url>%2F2018%2F05%2F28%2F%E6%A0%B8%E5%BF%83%EF%BC%881%EF%BC%89Events%2F</url>
+    <content type="text"><![CDATA[简介Events API是node的最主要的核心，node的events类似DOM事件的Event事件。node主要通过一个类EventEmitter来进行模拟实现 EventEmitterEventEmitter提供了不少方法，但是最主要的是两个方法on和emit，其中我们如果使用过1234var http = require(&apos;http&apos;)var net = requere(&apos;net&apos;)var server = http.createServer(...) 就明白，其实http和net也是继承了EventEmitter的实例方法 on方法接受两个参数，监听事件名称，及事件触发调用的函数 123server.on(&apos;eventName&apos;, function()&#123; // 执行相应的操作&#125;) emit方法主要是针对某个对象进行触发事件，接受多个参数即事件名，第一个参数为事件名，另外的为参数 1server.emit(&apos;eventName&apos;) 具体实现]]></content>
+      <categories>
+        <category>node</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>node</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[组合式继承]]></title>
     <url>%2F2018%2F05%2F28%2F%E7%BB%84%E5%90%88%E5%BC%8F%E7%BB%A7%E6%89%BF%2F</url>
     <content type="text"><![CDATA[利用Object.create(prototype) 123456789101112131415161718192021function Parent(name) &#123; this.name = name;&#125;Parent.prototype.play = function() &#123; console.log(this.name);&#125;function Child(name, age) &#123; Parent.call(this, name); this.age = age;&#125;Child.prototype = Object.create(Parent.prototype);// 多态Child.prototype.play = function() &#123; Parent.prototype.play.call(this); console.log(this.age);&#125;]]></content>
@@ -79,6 +79,18 @@
       </categories>
       <tags>
         <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[核心（2）Http]]></title>
+    <url>%2F2018%2F05%2F28%2F%E6%A0%B8%E5%BF%83%EF%BC%882%EF%BC%89Http%2F</url>
+    <content type="text"><![CDATA[简介http是node的核心不为过，毕竟node说实在，就是为了搭建服务器而使用的一门语言，具体还是得看看官网API 服务端实例简单一个实例吧1234567891011121314// 创建一个servervar http = require(&apos;http&apos;)var server = http.createServer()var handler = function(req, res) &#123; res.write(200, &#123;&#125;) res.end(&apos;hello world&apos;)&#125;// 对server的请求事件进行监听server.on(&apos;request&apos;, handler)// 将server运行在8080端口server.listen(8080) 客户端实例简单创建一个客户端 12345678910111213141516var http = require(&apos;http&apos;)var opts = &#123; host: &apos;127.0.0.1&apos;, port: &apos;8080&apos;, path: &apos;/&apos;, method: &apos;GET&apos;&#125;// 创建客户端实例var req = http.request(opts, function(res) &#123; console.log(res)&#125;)// 发送消息req.end()]]></content>
+      <categories>
+        <category>node</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>node</tag>
       </tags>
   </entry>
   <entry>
@@ -94,33 +106,9 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[核心（1）Events]]></title>
-    <url>%2F2018%2F05%2F28%2F%E6%A0%B8%E5%BF%83%EF%BC%881%EF%BC%89Events%2F</url>
-    <content type="text"><![CDATA[简介Events API是node的最主要的核心，node的events类似DOM事件的Event事件。node主要通过一个类EventEmitter来进行模拟实现 EventEmitterEventEmitter提供了不少方法，但是最主要的是两个方法on和emit，其中我们如果使用过1234var http = require(&apos;http&apos;)var net = requere(&apos;net&apos;)var server = http.createServer(...) 就明白，其实http和net也是继承了EventEmitter的实例方法 on方法接受两个参数，监听事件名称，及事件触发调用的函数 123server.on(&apos;eventName&apos;, function()&#123; // 执行相应的操作&#125;) emit方法主要是针对某个对象进行触发事件，接受多个参数即事件名，第一个参数为事件名，另外的为参数 1server.emit(&apos;eventName&apos;) 具体实现]]></content>
-      <categories>
-        <category>node</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-        <tag>node</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Node.js体系结构]]></title>
     <url>%2F2018%2F05%2F28%2FNode-js%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%2F</url>
     <content type="text"><![CDATA[Node架构Node.js主要分为四大部分，Node Standard Library，Node Bindings，V8，Libuv，架构图如下: Node Standard Library 是我们每天都在用的标准库，如Http, Buffer 模块。 Node Bindings 是沟通JS和C++的桥梁，封装V8和Libuv的细节，向上层提供基础API服务。这一层是支撑 Node.js 运行的关键，由 C/C++ 实现。 V8 是Google开发的JavaScript引擎，提供JavaScript运行环境，可以说它就是 Node.js 的发动机。 Libuv 是专门为Node.js开发的一个封装库，提供跨平台的异步I/O能力. C-ares：提供了异步处理 DNS 相关的能力。 http_parser、OpenSSL、zlib 等：提供包括 http 解析、SSL、数据压缩等其他的能力。 简单实例12345678910const http = require(&apos;http&apos;); // 加载node的http模块const hostname = &apos;127.0.0.1&apos;;const port = 1337;http.createServer((req, res) =&gt; &#123; res.writeHead(200, &#123; &apos;Content-Type&apos;: &apos;text/plain&apos; &#125;); res.end(&apos;Hello World\n&apos;); // 创建成功结束返回的数据&#125;).listen(port, hostname, () =&gt; &#123; console.log(`Server running at http://$&#123;hostname&#125;:$&#123;port&#125;/`);&#125;); 首先了解一下HTTP Server的继承关系，有利于更好的理解代码 最后一句1console.log(`Server running at http://$&#123;hostname&#125;:$&#123;port&#125;/`); 但却没有通过 require 获取，这就要说到global对象了，Node.js的顶层对象]]></content>
-      <categories>
-        <category>node</category>
-      </categories>
-      <tags>
-        <tag>js</tag>
-        <tag>node</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[核心（2）Http]]></title>
-    <url>%2F2018%2F05%2F28%2F%E6%A0%B8%E5%BF%83%EF%BC%882%EF%BC%89Http%2F</url>
-    <content type="text"><![CDATA[简介http是node的核心不为过，毕竟node说实在，就是为了搭建服务器而使用的一门语言，具体还是得看看官网API 服务端实例简单一个实例吧1234567891011121314// 创建一个servervar http = require(&apos;http&apos;)var server = http.createServer()var handler = function(req, res) &#123; res.write(200, &#123;&#125;) res.end(&apos;hello world&apos;)&#125;// 对server的请求事件进行监听server.on(&apos;request&apos;, handler)// 将server运行在8080端口server.listen(8080) 客户端实例简单创建一个客户端 12345678910111213141516var http = require(&apos;http&apos;)var opts = &#123; host: &apos;127.0.0.1&apos;, port: &apos;8080&apos;, path: &apos;/&apos;, method: &apos;GET&apos;&#125;// 创建客户端实例var req = http.request(opts, function(res) &#123; console.log(res)&#125;)// 发送消息req.end()]]></content>
       <categories>
         <category>node</category>
       </categories>
@@ -166,17 +154,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[防sql注入]]></title>
-    <url>%2F2018%2F05%2F23%2F%E9%98%B2sql%E6%B3%A8%E5%85%A5%2F</url>
-    <content type="text"><![CDATA[Web安全简史在Web1.0时代，人们更多是关注服务器端动态脚本语言的安全问题，比如将一个可执行脚本（俗称Webshell）通过脚本语言的漏洞上传到服务器上，从而获得服务器权限。 在Web发展初期，随着动态脚本语言的发展和普及，以及早期工程师对安全问题认知不足导致很多”安全血案”的发生，至今仍然遗留下许多历史问题，比如PHP语言至今仍然无法从语言本身杜绝「文件包含漏洞」），只能依靠工程师良好的代码规范和安全意识。伴随着Web2.0、社交网络、微博等一系列新型互联网产品的兴起，基于Web环境的互联网应用越来越广泛，Web攻击的手段也越来越多样，Web安全史上的一个重要里程碑是大约1999年发现的SQL注入攻击，之后的XSS，CSRF等攻击手段愈发强大，Web攻击的思路也从服务端转向了客户端，转向了浏览器和用户。 在安全领域，一般用帽子的颜色来比喻黑客的善与恶，白帽子是指那些工作在反黑客领域的技术专家，这个群体是”善”的的象征；而黑帽子则是指那些利用黑客技术造成破坏甚至谋取私利造成犯罪的群体，他们是”恶”的代表。“白帽子”和”黑帽子”是两个完全对立的群体。对于黑帽子而言，他们只要找到系统的一个切入点就可以达到入侵破坏的目的，而白帽子必须将自己系统所有可能被突破的地方都设防，以保证系统的安全运行。 这看起来好像是不公平的，但是安全世界里的规则就是这样，可能我们的网站1000处都布防的很好，考虑的很周到，但是只要有一个地方疏忽了，攻击者就会利用这个点进行突破，让我们另外的1000处努力白费。常见攻击方式一般说来，在Web安全领域，常见的攻击方式大概有以下几种：1、SQL注入攻击2、跨站脚本攻击 - XSS3、跨站伪造请求攻击 - CSRF4、文件上传漏洞攻击5、分布式拒绝服务攻击 - DDOS限于篇幅，本篇只讨论SQL注入攻击的技巧与防范。SQL注入常见攻击技巧SQL注入攻击是Web安全史上的一个重要里程碑，它从1999年首次进入人们的视线，至今已经有十几年的历史了，虽然我们现在已经有了很全面的防范对策，但是它的威力仍然不容小觑，SQL注入攻击至今仍然是Web安全领域中的一个重要组成部分。以PHP+MySQL为例，让我们以一个Web网站中最基本的用户系统来做实例演示，看看SQL注入究竟是怎么发生的。 1、创建一个名为demo的数据库：1CREATE DATABASE `demo` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; 2、创建一个名为user的数据表，并插入1条演示数据：123456CREATE TABLE `demo`.`user` (`uid` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT &apos;用户uid&apos;,`username` VARCHAR( 20 ) NOT NULL COMMENT &apos;用户名&apos;,`password` VARCHAR( 32 ) NOT NULL COMMENT &apos;用户密码&apos;) ENGINE = INNODB;INSERT INTO `demo`.`user` (`uid`, `username`, `password`) VALUES (&apos;1&apos;, &apos;plhwin&apos;, MD5(&apos;123456&apos;)); 实例一通过传入username参数，在页面打印出这个会员的详细信息，编写 userinfo.php 程序代码：1234567891011121314151617181920212223&lt;?phpheader(&apos;Content-type:text/html; charset=UTF-8&apos;);$username = isset($_GET[&apos;username&apos;]) ? $_GET[&apos;username&apos;] : &apos;&apos;;$userinfo = array();if($username)&#123; //使用mysqli驱动连接demo数据库 $mysqli = new mysqli(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;, &apos;demo&apos;); $sql = &quot;SELECT uid,username FROM user WHERE username=&apos;&#123;$username&#125;&apos;&quot;; //mysqli multi_query 支持执行多条MySQL语句 $query = $mysqli-&gt;multi_query($sql); if($query)&#123; do &#123; $result = $mysqli-&gt;store_result(); while($row = $result-&gt;fetch_assoc())&#123; $userinfo[] = $row; &#125; if(!$mysqli-&gt;more_results())&#123; break; &#125; &#125; while ($mysqli-&gt;next_result()); &#125;&#125;echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;; 上面这个程序要实现的功能是根据浏览器传入的用户名参数，在页面上打印出这个用户的详细信息，程序写的这么复杂是因为我采用了mysqli的驱动，以便能使用到 multi_query 方法来支持同时执行多条SQL语句，这样能更好的说明SQL注入攻击的危害性。假设我们可以通过 http://localhost/test/userinfo.php?username=plhwin 这个URL来访问到具体某个会员的详情，正常情况下，如果浏览器里传入的username是合法的，那么SQL语句会执行：1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; 但是，如果用户在浏览器里把传入的username参数变为 plhwin’;SHOW TABLES– hack，也就是当URL变为 http://localhost/test/userinfo.php?username=plhwin&#39;;SHOW TABLES– hack 的时候，此时我们程序实际执行的SQL语句变成了： 1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos;;SHOW TABLES-- hack&apos; 注意：在MySQL中，最后连续的两个减号表示忽略此SQL减号后面的语句，我本机的MySQL版本号为5.6.12，目前几乎所有SQL注入实例都是直接采用两个减号结尾，但是实际测试，这个版本号的MySQL要求两个减号后面必须要有空格才能正常注入，而浏览器是会自动删除掉URL尾部空格的，所以我们的注入会在两个减号后面统一添加任意一个字符或单词，本篇文章的SQL注入实例统一以 – hack 结尾。经过上面的SQL注入后，原本想要执行查询会员详情的SQL语句，此时还额外执行了 SHOW TABLES; 语句，这显然不是开发者的本意，此时可以在浏览器里看到页面的输出： 123456789101112Array( [0] =&gt; Array ( [uid] =&gt; 1 [username] =&gt; plhwin ) [1] =&gt; Array ( [Tables_in_demo] =&gt; user )) 你能清晰的看到，除了会员的信息，数据库表的名字user也被打印在了页面上，如果作恶的黑客此时将参数换成 plhwin’;DROP TABLE user– hack，那将产生灾难性的严重结果，当你在浏览器中执行 http://localhost/test/userinfo.php?username=plhwin&#39;;DROP TABLE user– hack 这个URL后，你会发现整个 user 数据表都消失不见了。通过上面的例子，大家已经认识到SQL注入攻击的危害性，但是仍然会有人心存疑问，MySQL默认驱动的mysql_query方法现在已经不支持多条语句同时执行了，大部分开发者怎么可能像上面的演示程序那样又麻烦又不安全。是的，在PHP程序中，MySQL是不允许在一个mysql_query中使用分号执行多SQL语句的，这使得很多开发者都认为MySQL本身就不允许多语句执行了，但实际上MySQL早在4.1版本就允许多语句执行，通过PHP的源代码，我们发现其实只是PHP语言自身限制了这种用法，具体情况大家可以看看这篇文章「PHP+MySQL多语句执行」。实例二如果系统不允许同时执行多条SQL语句，那么SQL注入攻击是不是就不再这么可怕呢？答案是否定的，我们仍然以上面的user数据表，用Web网站中常用的会员登录系统来做另外一个场景实例，编写程序login.php，代码如下：1234567891011121314151617181920212223242526272829303132&lt;?phpif($_POST)&#123; $link = mysql_connect(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;); mysql_select_db(&apos;demo&apos;, $link); $username = empty($_POST[&apos;username&apos;]) ? &apos;&apos; : $_POST[&apos;username&apos;]; $password = empty($_POST[&apos;password&apos;]) ? &apos;&apos; : $_POST[&apos;password&apos;]; $md5password = md5($password); $sql = &quot;SELECT uid,username FROM user WHERE username=&apos;&#123;$username&#125;&apos; AND password=&apos;&#123;$md5password&#125;&apos;&quot;; $query = mysql_query($sql, $link); $userinfo = mysql_fetch_array($query, MYSQL_ASSOC); if(!empty($userinfo))&#123; //登录成功，打印出会员信息 echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;; &#125; else &#123; echo &quot;用户名不存在或密码错误！&quot;; &#125;&#125;?&gt;&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt; &lt;meta charset=&quot;utf-8&quot;&gt; &lt;title&gt;Web登录系统SQL注入实例&lt;/title&gt;&lt;/head&gt;&lt;body&gt; &lt;form name=&quot;LOGIN_FORM&quot; method=&quot;post&quot; action=&quot;&quot;&gt; 登录帐号: &lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;&quot; size=30 /&gt;&lt;br /&gt;&lt;br /&gt; 登录密码: &lt;input type=&quot;text&quot; name=&quot;password&quot; value=&quot;&quot; size=30 /&gt;&lt;br /&gt;&lt;br /&gt; &lt;input type=&quot;submit&quot; value=&quot;登录&quot; /&gt; &lt;/form&gt;&lt;/body&gt;&lt;/html&gt; 此时如果输入正确的用户名 plhwin 和密码 123456，执行的SQL语句为：1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; AND password=&apos;e10adc3949ba59abbe56e057f20f883e&apos; 上面语句没有任何问题，可以看到页面打印出了登录成功后的会员信息，但如果有捣蛋鬼输入的用户名为 plhwin’ AND 1=1– hack，密码随意输入，比如 aaaaaa，那么拼接之后的SQL查询语句就变成了如下内容：1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; AND 1=1-- hack&apos; AND password=&apos;0b4e7a0e5fe84ad35fb5f95b9ceeac79&apos; 执行上面的SQL语句，因为 1=1 是永远成立的条件，这意味着黑客只需要知道别人的会员名，无需知道密码就能顺利登录到系统。如何确定SQL注入漏洞通过以上的实例，我们仍然还会有疑问：黑客并不知道我们程序代码的逻辑和SQL语句的写法，他是如何确定一个网站是否存在SQL注入漏洞呢？一般说来有以下2种途径：1、错误提示如果目标Web网站开启了错误显示，攻击者就可以通过反复调整发送的参数、查看页面打印的错误信息，推测出Web网站使用的数据库和开发语言等重要信息。2、盲注除非运维人员疏忽，否则大部分的Web运营网站应该都关闭了错误提示信息，此时攻击者一般会采用盲注的技巧来进行反复的尝试判断。 仍然以上面的数据表user为例，我们之前的查看会员详情页面的url地址为 userinfo.php?username=plhwin，此时黑客分别访问 userinfo.php?username=plhwin’ AND 1=1– hack 和 userinfo.php?username=plhwin’ AND 1=2– hack，如果前者访问能返回正常的信息而后者不能，就基本可以判断此网站存在SQL注入漏洞，因为后者的 1=2 这个表达式永远不成立，所以即使username传入了正确的参数也无法通过，由此可以推断这个页面存在SQL注入漏洞，并且可以通过username参数进行注入。如何防御SQL注入对于服务器配置层面的防范，应该保证生产环境的Webserver是关闭错误信息的，比如PHP在生产环境的配置文件php.ini中的display_errors应该设置为Off，这样就关闭了错误提示，下面我们更多的从编码的角度来看看如何防范SQL注入。 上面用两个实例分析了SQL注入攻击的技巧，可以看到，但凡有SQL注入漏洞的程序，都是因为程序要接受来自客户端用户输入的变量或URL传递的参数，并且这个变量或参数是组成SQL语句的一部分，对于用户输入的内容或传递的参数，我们应该要时刻保持警惕，这是安全领域里的「外部数据不可信任」的原则，纵观Web安全领域的各种攻击方式，大多数都是因为开发者违反了这个原则而导致的，所以自然能想到的，就是从变量的检测、过滤、验证下手，确保变量是开发者所预想的 1、检查变量数据类型和格式如果你的SQL语句是类似where id={$id}这种形式，数据库里所有的id都是数字，那么就应该在SQL被执行前，检查确保变量id是int类型；如果是接受邮箱，那就应该检查并严格确保变量一定是邮箱的格式，其他的类型比如日期、时间等也是一个道理。总结起来：只要是有固定格式的变量，在SQL语句执行前，应该严格按照固定格式去检查，确保变量是我们预想的格式，这样很大程度上可以避免SQL注入攻击。比如，我们前面接受username参数例子中，我们的产品设计应该是在用户注册的一开始，就有一个用户名的规则，比如5-20个字符，只能由大小写字母、数字以及一些安全的符号组成，不包含特殊字符。 此时我们应该有一个check_username的函数来进行统一的检查。不过，仍然有很多例外情况并不能应用到这一准则，比如文章发布系统，评论系统等必须要允许用户提交任意字符串的场景，这就需要采用过滤等其他方案了。2、过滤特殊符号对于无法确定固定格式的变量，一定要进行特殊符号过滤或转义处理。以PHP为例，通常是采用addslashes函数，它会在指定的预定义字符前添加反斜杠转义，这些预定义的字符是：单引号 (‘) 双引号 (“) 反斜杠 () NULL。来看2条SQL语句：123$uid = isset($_GET[&apos;uid&apos;]) ? $_GET[&apos;uid&apos;] : 0;$uid = addslashes(uid);$sql = &quot;SELECT uid,username FROM user WHERE uid=&apos;&#123;$uid&#125;&apos;&quot;; 以及123$uid = isset($_GET[&apos;uid&apos;]) ? $_GET[&apos;uid&apos;] : 0;$uid = addslashes(uid);$sql = &quot;SELECT uid,username FROM user WHERE uid=&#123;$uid&#125;&quot;; 上面两个查询语句都经过了php的addslashes函数过滤转义，但在安全性上却大不相同，在MySQL中，对于int类型字段的条件查询，上面个语句的查询效果完全一样，由于第一句SQL的变量被单引号包含起来，SQL注入的时候，黑客面临的首要问题是必须要先闭合前面的单引号，这样才能使后面的语句作为SQL执行，并且还要注释掉原SQL语句中的后面的单引号，这样才可以成功注入，由于代码里使用了addslashes函数，黑客的攻击会无从下手，但第二句没有用引号包含变量，那黑客也不用考虑去闭合、注释，所以即便同样采用addslashes转义，也还是存在SQL攻击漏洞。对于PHP程序+MySQL构架的程序，在动态的SQL语句中，使用单引号把变量包含起来配合addslashes函数是应对SQL注入攻击的有效手段，但这做的还不够，像上面的2条SQL语句，根据「检查数据类型」的原则，uid都应该经过intval函数格式为int型，这样不仅能有效避免第二条语句的SQL注入漏洞，还能使得程序看起来更自然，尤其是在NoSQL(如MongoDB)中，变量类型一定要与字段类型相匹配才可以。 从上面可以看出，第二个SQL语句是有漏洞的，不过由于使用了addslashes函数，你会发现黑客的攻击语句也存在不能使用特殊符号的条件限制，类似where username=’plhwin’这样的攻击语句是没法执行的，但是黑客可以将字符串转为16进制编码数据或使用char函数进行转化，同样能达到相同的目的，如果对这部分内容感兴趣，可以点击这里查看。而且由于SQL保留关键字，如「HAVING」、「ORDER BY」的存在，即使是基于黑白名单的过滤方法仍然会有或多或少问题，那么是否还有其他方法来防御SQL注入呢？3、绑定变量，使用预编译语句MySQL的mysqli驱动提供了预编译语句的支持，不同的程序语言，都分别有使用预编译语句的方法，我们这里仍然以PHP为例，编写userinfo2.php代码：12345678910111213141516171819202122&lt;?phpheader(&apos;Content-type:text/html; charset=UTF-8&apos;);$username = isset($_GET[&apos;username&apos;]) ? $_GET[&apos;username&apos;] : &apos;&apos;;$userinfo = array();if($username)&#123; //使用mysqli驱动连接demo数据库 $mysqli = new mysqli(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;, &apos;demo&apos;); //使用问号替代变量位置 $sql = &quot;SELECT uid,username FROM user WHERE username=?&quot;; $stmt = $mysqli-&gt;prepare($sql); //绑定变量 $stmt-&gt;bind_param(&quot;s&quot;, $username); $stmt-&gt;execute(); $stmt-&gt;bind_result($uid, $username); while ($stmt-&gt;fetch()) &#123; $row = array(); $row[&apos;uid&apos;] = $uid; $row[&apos;username&apos;] = $username; $userinfo[] = $row; &#125;&#125;echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;; 从上面的代码可以看到，我们程序里并没有使用addslashes函数，但是浏览器里运行 http://localhost/test/userinfo2.php?username=plhwin&#39; AND 1=1– hack 里得不到任何结果，说明SQL漏洞在这个程序里并不存在。实际上，绑定变量使用预编译语句是预防SQL注入的最佳方式，使用预编译的SQL语句语义不会发生改变，在SQL语句中，变量用问号?表示，黑客即使本事再大，也无法改变SQL语句的结构，像上面例子中，username变量传递的 plhwin’ AND 1=1– hack 参数，也只会当作username字符串来解释查询，从根本上杜绝了SQL注入攻击的发生。]]></content>
-      <categories>
-        <category>前端安全</category>
-      </categories>
-      <tags>
-        <tag>安全</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[常用的性能优化手段]]></title>
     <url>%2F2018%2F05%2F23%2F%E5%B8%B8%E7%94%A8%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5%2F</url>
     <content type="text"><![CDATA[DOM优化高效使用HTML标签描述：HTML是一门标记语言，使用合理的HTML标签前你必须了解其属性，比如Flow Elements，Metadata Elements ，Phrasing Elements。比较基础的就是得知道块级元素和内联元素、盒模型、SEO方面的知识。 减少对DOM的操作描述：对DOM操作的代价是高昂的，这在网页应用中的通常是一个性能瓶颈。 天生就慢。在《高性能JavaScript》中这么比喻：“把DOM看成一个岛屿，把JavaScript(ECMAScript)看成另一个岛屿，两者之间以一座收费桥连接”。所以每次访问DOM都会教一个过桥费，而访问的次数越多，交的费用也就越多。所以一般建议尽量减少过桥次数。 解决方法：修改和访问DOM元素会造成页面的Repaint和Reflow，循环对DOM操作更是罪恶的行为。所以请合理的使用JavaScript变量储存内容，考虑大量DOM元素中循环的性能开销，在循环结束时一次性写入。 减少对DOM元素的查询和修改，查询时可将其赋值给局部变量。 注：在IE中:hover会降低响应速度。 BOM优化js优化css优化把CSS资源引用放到HTML文件顶部这样浏览器可以优先下载CSS并尽快完成页面渲染 有效的使用css选择器CSS是用来渲染页面的，也是存在渲染效率的问题。CSS选择符是从右向左进行匹配的，这里对css选择符按照开销从小到大的顺序梳理一下： ID选择符 #box 类选择符 .box 标签 div 伪类和伪元素 a:hover 当页面被触发引起回流（reflow）的时候，低效的选择符依然会引发更高的开销，所以请避免低效。 Repaint 和 Reflow描述：Repaint(重绘)就是在一个元素的外观被改变，但没有改变布局(宽高)的情况下发生，如改变visibility、outline、背景色等等。 Reflow(重排)就是DOM的变化影响到了元素的几何属性（宽和高），浏览器会重新计算元素的几何属性，会使渲染树中受到影响的部分失效，浏览器会验证DOM树上的所有其它结点的visibility属性，这也是Reflow低效的原因。如：改变窗囗大小、改变文字大小、内容的改变、浏览器窗口变化，style属性的改变等等。如果Reflow的过于频繁，CPU使用率就会噌噌的往上涨，所以前端也就有必要知道 Repaint 和 Reflow的知识。 解决方法：上面提到通过设置style属性改变结点样式的话，每设置一次都会导致一次reflow，所以最好通过设置class的方式； 有动画效果的元素，它的position属性应当设为fixed或absolute，这样不会影响其它元素的布局；如果功能需求上不能设置position为fixed或absolute，那么就权衡速度的平滑性。 总之，因为 Reflow 有时确实不可避免，所以只能尽可能限制Reflow的影响范围。 网络优化减少HTTP请求基本原理描述：在浏览器(客户端)和服务器发生通信时，就已经消耗了大量的时间，尤其是在网络情况比较糟糕的时候，这个问题尤其的突出。 一个正常HTTP请求的流程简述：如在浏览器中输入”www.xxxxxx.com&quot;并按下回车，浏览器再与这个URL指向的服务器建立连接，然后浏览器才能向服务器发送请求信息，服务器在接受到请求的信息后再返回相应的信息，浏览器接收到来自服务器的应答信息后，对这些数据解释执行。 解决方法：合并图片（css sprites），合并CSS和JS文件；图片较多的页面也可以使用 lazyLoad等技术进行优化。 使用CDN加速描述：”其基本思路是尽可能避开互联网上有可能影响数据传输速度和稳定性的瓶颈和环节，使内容传输的更快、更稳定。通过在网络各处放置节点服务器所构成的在现有的互联网基础之上的一层智能虚拟网络，CDN系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。” 使用可缓存的AJAX对于内容相同的请求，有时候没必要每次都从服务器拉取，合理的使用ajax缓存能加快ajax响应速度并减少服务器的压力 123456$.ajax(&#123; url : url, dataType : &quot;json&quot;, cache: true, success: function(data)&#123; // to do something... &#125;&#125;); 使用get请求POST请求会首先发送文件头，然后发送HTTP正文的数据。而使用GET只发送头部，所以在拉取数据时使用GET请求效率更高 其他优化JSON格式来进行数据交换描述：JSON是一种轻量级的数据交换格式，采用完全独立于语言的文本格式，是理想的数据交换格式。同时，JSON是 JavaScript原生格式，这意味着在 JavaScript 中处理 JSON数据不需要任何特殊的 API 或工具包。 与XML序列化相比，JSON序列化后产生的数据一般要比XML序列化后数据体积小，所以在Facebook等知名网站中都采用了JSON作为数据交换方式。 图片压缩注意控制Cookie大小和污染描述：因为Cookie是本地的磁盘文件，每次浏览器都会去读取相应的Cookie，所以建议去除不必要的Coockie，使Coockie体积尽量小以减少对用户响应的影响；使用Cookie跨域操作时注意在适应级别的域名上设置coockie以便使子域名不受其影响；Cookie是有生命周期的，所以请注意设置合理的过期时间，合理地Expire时间和不要过早去清除coockie，都会改善用户的响应时间。]]></content>
@@ -188,6 +165,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[防sql注入]]></title>
+    <url>%2F2018%2F05%2F23%2F%E9%98%B2sql%E6%B3%A8%E5%85%A5%2F</url>
+    <content type="text"><![CDATA[Web安全简史在Web1.0时代，人们更多是关注服务器端动态脚本语言的安全问题，比如将一个可执行脚本（俗称Webshell）通过脚本语言的漏洞上传到服务器上，从而获得服务器权限。 在Web发展初期，随着动态脚本语言的发展和普及，以及早期工程师对安全问题认知不足导致很多”安全血案”的发生，至今仍然遗留下许多历史问题，比如PHP语言至今仍然无法从语言本身杜绝「文件包含漏洞」），只能依靠工程师良好的代码规范和安全意识。伴随着Web2.0、社交网络、微博等一系列新型互联网产品的兴起，基于Web环境的互联网应用越来越广泛，Web攻击的手段也越来越多样，Web安全史上的一个重要里程碑是大约1999年发现的SQL注入攻击，之后的XSS，CSRF等攻击手段愈发强大，Web攻击的思路也从服务端转向了客户端，转向了浏览器和用户。 在安全领域，一般用帽子的颜色来比喻黑客的善与恶，白帽子是指那些工作在反黑客领域的技术专家，这个群体是”善”的的象征；而黑帽子则是指那些利用黑客技术造成破坏甚至谋取私利造成犯罪的群体，他们是”恶”的代表。“白帽子”和”黑帽子”是两个完全对立的群体。对于黑帽子而言，他们只要找到系统的一个切入点就可以达到入侵破坏的目的，而白帽子必须将自己系统所有可能被突破的地方都设防，以保证系统的安全运行。 这看起来好像是不公平的，但是安全世界里的规则就是这样，可能我们的网站1000处都布防的很好，考虑的很周到，但是只要有一个地方疏忽了，攻击者就会利用这个点进行突破，让我们另外的1000处努力白费。常见攻击方式一般说来，在Web安全领域，常见的攻击方式大概有以下几种：1、SQL注入攻击2、跨站脚本攻击 - XSS3、跨站伪造请求攻击 - CSRF4、文件上传漏洞攻击5、分布式拒绝服务攻击 - DDOS限于篇幅，本篇只讨论SQL注入攻击的技巧与防范。SQL注入常见攻击技巧SQL注入攻击是Web安全史上的一个重要里程碑，它从1999年首次进入人们的视线，至今已经有十几年的历史了，虽然我们现在已经有了很全面的防范对策，但是它的威力仍然不容小觑，SQL注入攻击至今仍然是Web安全领域中的一个重要组成部分。以PHP+MySQL为例，让我们以一个Web网站中最基本的用户系统来做实例演示，看看SQL注入究竟是怎么发生的。 1、创建一个名为demo的数据库：1CREATE DATABASE `demo` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; 2、创建一个名为user的数据表，并插入1条演示数据：123456CREATE TABLE `demo`.`user` (`uid` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT &apos;用户uid&apos;,`username` VARCHAR( 20 ) NOT NULL COMMENT &apos;用户名&apos;,`password` VARCHAR( 32 ) NOT NULL COMMENT &apos;用户密码&apos;) ENGINE = INNODB;INSERT INTO `demo`.`user` (`uid`, `username`, `password`) VALUES (&apos;1&apos;, &apos;plhwin&apos;, MD5(&apos;123456&apos;)); 实例一通过传入username参数，在页面打印出这个会员的详细信息，编写 userinfo.php 程序代码：1234567891011121314151617181920212223&lt;?phpheader(&apos;Content-type:text/html; charset=UTF-8&apos;);$username = isset($_GET[&apos;username&apos;]) ? $_GET[&apos;username&apos;] : &apos;&apos;;$userinfo = array();if($username)&#123; //使用mysqli驱动连接demo数据库 $mysqli = new mysqli(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;, &apos;demo&apos;); $sql = &quot;SELECT uid,username FROM user WHERE username=&apos;&#123;$username&#125;&apos;&quot;; //mysqli multi_query 支持执行多条MySQL语句 $query = $mysqli-&gt;multi_query($sql); if($query)&#123; do &#123; $result = $mysqli-&gt;store_result(); while($row = $result-&gt;fetch_assoc())&#123; $userinfo[] = $row; &#125; if(!$mysqli-&gt;more_results())&#123; break; &#125; &#125; while ($mysqli-&gt;next_result()); &#125;&#125;echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;; 上面这个程序要实现的功能是根据浏览器传入的用户名参数，在页面上打印出这个用户的详细信息，程序写的这么复杂是因为我采用了mysqli的驱动，以便能使用到 multi_query 方法来支持同时执行多条SQL语句，这样能更好的说明SQL注入攻击的危害性。假设我们可以通过 http://localhost/test/userinfo.php?username=plhwin 这个URL来访问到具体某个会员的详情，正常情况下，如果浏览器里传入的username是合法的，那么SQL语句会执行：1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; 但是，如果用户在浏览器里把传入的username参数变为 plhwin’;SHOW TABLES– hack，也就是当URL变为 http://localhost/test/userinfo.php?username=plhwin&#39;;SHOW TABLES– hack 的时候，此时我们程序实际执行的SQL语句变成了： 1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos;;SHOW TABLES-- hack&apos; 注意：在MySQL中，最后连续的两个减号表示忽略此SQL减号后面的语句，我本机的MySQL版本号为5.6.12，目前几乎所有SQL注入实例都是直接采用两个减号结尾，但是实际测试，这个版本号的MySQL要求两个减号后面必须要有空格才能正常注入，而浏览器是会自动删除掉URL尾部空格的，所以我们的注入会在两个减号后面统一添加任意一个字符或单词，本篇文章的SQL注入实例统一以 – hack 结尾。经过上面的SQL注入后，原本想要执行查询会员详情的SQL语句，此时还额外执行了 SHOW TABLES; 语句，这显然不是开发者的本意，此时可以在浏览器里看到页面的输出： 123456789101112Array( [0] =&gt; Array ( [uid] =&gt; 1 [username] =&gt; plhwin ) [1] =&gt; Array ( [Tables_in_demo] =&gt; user )) 你能清晰的看到，除了会员的信息，数据库表的名字user也被打印在了页面上，如果作恶的黑客此时将参数换成 plhwin’;DROP TABLE user– hack，那将产生灾难性的严重结果，当你在浏览器中执行 http://localhost/test/userinfo.php?username=plhwin&#39;;DROP TABLE user– hack 这个URL后，你会发现整个 user 数据表都消失不见了。通过上面的例子，大家已经认识到SQL注入攻击的危害性，但是仍然会有人心存疑问，MySQL默认驱动的mysql_query方法现在已经不支持多条语句同时执行了，大部分开发者怎么可能像上面的演示程序那样又麻烦又不安全。是的，在PHP程序中，MySQL是不允许在一个mysql_query中使用分号执行多SQL语句的，这使得很多开发者都认为MySQL本身就不允许多语句执行了，但实际上MySQL早在4.1版本就允许多语句执行，通过PHP的源代码，我们发现其实只是PHP语言自身限制了这种用法，具体情况大家可以看看这篇文章「PHP+MySQL多语句执行」。实例二如果系统不允许同时执行多条SQL语句，那么SQL注入攻击是不是就不再这么可怕呢？答案是否定的，我们仍然以上面的user数据表，用Web网站中常用的会员登录系统来做另外一个场景实例，编写程序login.php，代码如下：1234567891011121314151617181920212223242526272829303132&lt;?phpif($_POST)&#123; $link = mysql_connect(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;); mysql_select_db(&apos;demo&apos;, $link); $username = empty($_POST[&apos;username&apos;]) ? &apos;&apos; : $_POST[&apos;username&apos;]; $password = empty($_POST[&apos;password&apos;]) ? &apos;&apos; : $_POST[&apos;password&apos;]; $md5password = md5($password); $sql = &quot;SELECT uid,username FROM user WHERE username=&apos;&#123;$username&#125;&apos; AND password=&apos;&#123;$md5password&#125;&apos;&quot;; $query = mysql_query($sql, $link); $userinfo = mysql_fetch_array($query, MYSQL_ASSOC); if(!empty($userinfo))&#123; //登录成功，打印出会员信息 echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;; &#125; else &#123; echo &quot;用户名不存在或密码错误！&quot;; &#125;&#125;?&gt;&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt; &lt;meta charset=&quot;utf-8&quot;&gt; &lt;title&gt;Web登录系统SQL注入实例&lt;/title&gt;&lt;/head&gt;&lt;body&gt; &lt;form name=&quot;LOGIN_FORM&quot; method=&quot;post&quot; action=&quot;&quot;&gt; 登录帐号: &lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;&quot; size=30 /&gt;&lt;br /&gt;&lt;br /&gt; 登录密码: &lt;input type=&quot;text&quot; name=&quot;password&quot; value=&quot;&quot; size=30 /&gt;&lt;br /&gt;&lt;br /&gt; &lt;input type=&quot;submit&quot; value=&quot;登录&quot; /&gt; &lt;/form&gt;&lt;/body&gt;&lt;/html&gt; 此时如果输入正确的用户名 plhwin 和密码 123456，执行的SQL语句为：1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; AND password=&apos;e10adc3949ba59abbe56e057f20f883e&apos; 上面语句没有任何问题，可以看到页面打印出了登录成功后的会员信息，但如果有捣蛋鬼输入的用户名为 plhwin’ AND 1=1– hack，密码随意输入，比如 aaaaaa，那么拼接之后的SQL查询语句就变成了如下内容：1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; AND 1=1-- hack&apos; AND password=&apos;0b4e7a0e5fe84ad35fb5f95b9ceeac79&apos; 执行上面的SQL语句，因为 1=1 是永远成立的条件，这意味着黑客只需要知道别人的会员名，无需知道密码就能顺利登录到系统。如何确定SQL注入漏洞通过以上的实例，我们仍然还会有疑问：黑客并不知道我们程序代码的逻辑和SQL语句的写法，他是如何确定一个网站是否存在SQL注入漏洞呢？一般说来有以下2种途径：1、错误提示如果目标Web网站开启了错误显示，攻击者就可以通过反复调整发送的参数、查看页面打印的错误信息，推测出Web网站使用的数据库和开发语言等重要信息。2、盲注除非运维人员疏忽，否则大部分的Web运营网站应该都关闭了错误提示信息，此时攻击者一般会采用盲注的技巧来进行反复的尝试判断。 仍然以上面的数据表user为例，我们之前的查看会员详情页面的url地址为 userinfo.php?username=plhwin，此时黑客分别访问 userinfo.php?username=plhwin’ AND 1=1– hack 和 userinfo.php?username=plhwin’ AND 1=2– hack，如果前者访问能返回正常的信息而后者不能，就基本可以判断此网站存在SQL注入漏洞，因为后者的 1=2 这个表达式永远不成立，所以即使username传入了正确的参数也无法通过，由此可以推断这个页面存在SQL注入漏洞，并且可以通过username参数进行注入。如何防御SQL注入对于服务器配置层面的防范，应该保证生产环境的Webserver是关闭错误信息的，比如PHP在生产环境的配置文件php.ini中的display_errors应该设置为Off，这样就关闭了错误提示，下面我们更多的从编码的角度来看看如何防范SQL注入。 上面用两个实例分析了SQL注入攻击的技巧，可以看到，但凡有SQL注入漏洞的程序，都是因为程序要接受来自客户端用户输入的变量或URL传递的参数，并且这个变量或参数是组成SQL语句的一部分，对于用户输入的内容或传递的参数，我们应该要时刻保持警惕，这是安全领域里的「外部数据不可信任」的原则，纵观Web安全领域的各种攻击方式，大多数都是因为开发者违反了这个原则而导致的，所以自然能想到的，就是从变量的检测、过滤、验证下手，确保变量是开发者所预想的 1、检查变量数据类型和格式如果你的SQL语句是类似where id={$id}这种形式，数据库里所有的id都是数字，那么就应该在SQL被执行前，检查确保变量id是int类型；如果是接受邮箱，那就应该检查并严格确保变量一定是邮箱的格式，其他的类型比如日期、时间等也是一个道理。总结起来：只要是有固定格式的变量，在SQL语句执行前，应该严格按照固定格式去检查，确保变量是我们预想的格式，这样很大程度上可以避免SQL注入攻击。比如，我们前面接受username参数例子中，我们的产品设计应该是在用户注册的一开始，就有一个用户名的规则，比如5-20个字符，只能由大小写字母、数字以及一些安全的符号组成，不包含特殊字符。 此时我们应该有一个check_username的函数来进行统一的检查。不过，仍然有很多例外情况并不能应用到这一准则，比如文章发布系统，评论系统等必须要允许用户提交任意字符串的场景，这就需要采用过滤等其他方案了。2、过滤特殊符号对于无法确定固定格式的变量，一定要进行特殊符号过滤或转义处理。以PHP为例，通常是采用addslashes函数，它会在指定的预定义字符前添加反斜杠转义，这些预定义的字符是：单引号 (‘) 双引号 (“) 反斜杠 () NULL。来看2条SQL语句：123$uid = isset($_GET[&apos;uid&apos;]) ? $_GET[&apos;uid&apos;] : 0;$uid = addslashes(uid);$sql = &quot;SELECT uid,username FROM user WHERE uid=&apos;&#123;$uid&#125;&apos;&quot;; 以及123$uid = isset($_GET[&apos;uid&apos;]) ? $_GET[&apos;uid&apos;] : 0;$uid = addslashes(uid);$sql = &quot;SELECT uid,username FROM user WHERE uid=&#123;$uid&#125;&quot;; 上面两个查询语句都经过了php的addslashes函数过滤转义，但在安全性上却大不相同，在MySQL中，对于int类型字段的条件查询，上面个语句的查询效果完全一样，由于第一句SQL的变量被单引号包含起来，SQL注入的时候，黑客面临的首要问题是必须要先闭合前面的单引号，这样才能使后面的语句作为SQL执行，并且还要注释掉原SQL语句中的后面的单引号，这样才可以成功注入，由于代码里使用了addslashes函数，黑客的攻击会无从下手，但第二句没有用引号包含变量，那黑客也不用考虑去闭合、注释，所以即便同样采用addslashes转义，也还是存在SQL攻击漏洞。对于PHP程序+MySQL构架的程序，在动态的SQL语句中，使用单引号把变量包含起来配合addslashes函数是应对SQL注入攻击的有效手段，但这做的还不够，像上面的2条SQL语句，根据「检查数据类型」的原则，uid都应该经过intval函数格式为int型，这样不仅能有效避免第二条语句的SQL注入漏洞，还能使得程序看起来更自然，尤其是在NoSQL(如MongoDB)中，变量类型一定要与字段类型相匹配才可以。 从上面可以看出，第二个SQL语句是有漏洞的，不过由于使用了addslashes函数，你会发现黑客的攻击语句也存在不能使用特殊符号的条件限制，类似where username=’plhwin’这样的攻击语句是没法执行的，但是黑客可以将字符串转为16进制编码数据或使用char函数进行转化，同样能达到相同的目的，如果对这部分内容感兴趣，可以点击这里查看。而且由于SQL保留关键字，如「HAVING」、「ORDER BY」的存在，即使是基于黑白名单的过滤方法仍然会有或多或少问题，那么是否还有其他方法来防御SQL注入呢？3、绑定变量，使用预编译语句MySQL的mysqli驱动提供了预编译语句的支持，不同的程序语言，都分别有使用预编译语句的方法，我们这里仍然以PHP为例，编写userinfo2.php代码：12345678910111213141516171819202122&lt;?phpheader(&apos;Content-type:text/html; charset=UTF-8&apos;);$username = isset($_GET[&apos;username&apos;]) ? $_GET[&apos;username&apos;] : &apos;&apos;;$userinfo = array();if($username)&#123; //使用mysqli驱动连接demo数据库 $mysqli = new mysqli(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;, &apos;demo&apos;); //使用问号替代变量位置 $sql = &quot;SELECT uid,username FROM user WHERE username=?&quot;; $stmt = $mysqli-&gt;prepare($sql); //绑定变量 $stmt-&gt;bind_param(&quot;s&quot;, $username); $stmt-&gt;execute(); $stmt-&gt;bind_result($uid, $username); while ($stmt-&gt;fetch()) &#123; $row = array(); $row[&apos;uid&apos;] = $uid; $row[&apos;username&apos;] = $username; $userinfo[] = $row; &#125;&#125;echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;; 从上面的代码可以看到，我们程序里并没有使用addslashes函数，但是浏览器里运行 http://localhost/test/userinfo2.php?username=plhwin&#39; AND 1=1– hack 里得不到任何结果，说明SQL漏洞在这个程序里并不存在。实际上，绑定变量使用预编译语句是预防SQL注入的最佳方式，使用预编译的SQL语句语义不会发生改变，在SQL语句中，变量用问号?表示，黑客即使本事再大，也无法改变SQL语句的结构，像上面例子中，username变量传递的 plhwin’ AND 1=1– hack 参数，也只会当作username字符串来解释查询，从根本上杜绝了SQL注入攻击的发生。]]></content>
+      <categories>
+        <category>前端安全</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[回流和重绘]]></title>
     <url>%2F2018%2F05%2F17%2F%E5%9B%9E%E6%B5%81%E5%92%8C%E9%87%8D%E7%BB%98%2F</url>
     <content type="text"><![CDATA[1234567891011回流必将引起重绘，而重绘不一定会引起回流。当render tree中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不会影响布局的，比如background-color。则就叫称为重绘。当页面布局和几何属性改变时就需要回流。下述情况会发生浏览器回流：1、添加或者删除可见的DOM元素；2、元素位置改变；3、元素尺寸改变——边距、填充、边框、宽度和高度4、内容改变——比如文本改变或者图片大小改变而引起的计算值宽度和高度改变；5、页面渲染初始化；6、浏览器窗口尺寸改变——resize事件发生时；]]></content>
@@ -196,6 +184,17 @@
       </categories>
       <tags>
         <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[内存泄漏]]></title>
+    <url>%2F2018%2F05%2F10%2F%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%2F</url>
+    <content type="text"><![CDATA[前言在说明内存泄漏之前，先说明一下为什么会有内存泄漏吧，那就是js垃圾回收机制 js的垃圾回收机制概述JS的垃圾回收机制是为了以防内存泄漏，内存泄漏的含义就是当已经不需要某块内存时这块内存还存在着，垃圾回收机制就是间歇的不定期的寻找到不再使用的变量，并释放掉它们所指向的内存。 引用计数 IE 6, 7 对DOM对象进行引用计数回收 这是最简单的垃圾收集算法。此算法把“对象是否不再需要”简化定义为“对象有没有其他对象引用到它”。 工作原理：跟踪记录每个值被引用的次数。 工作流程： 声明了一个变量并将一个引用类型的值赋值给这个变量，这个引用类型值的引用次数就是1。 同一个值又被赋值给另一个变量，这个引用类型值的引用次数加1. 当包含这个引用类型值的变量又被赋值成另一个值了，那么这个引用类型值的引用次数减1. 当引用次数变成0时，说明没办法访问这个值了 当垃圾收集器下一次运行时，它就会释放引用次数是0的值所占的内存。 标记清楚 到2008年为止，IE,Firefox,Opera,Chrome和Safari的javascript实现使用的都是标记清除式的垃圾收集策略 工作原理：是当变量进入环境时，将这个变量标记为“进入环境”。当变量离开环境时，则将其标记为“离开环境”。标记“离开环境”的就回收内存。 工作流程： 垃圾回收器，在运行的时候会给存储在内存中的所有变量都加上标记。 去掉环境中的变量以及被环境中的变量引用的变量的标记。 再被加上标记的会被视为准备删除的变量。 垃圾回收器完成内存清除工作，销毁那些带标记的值并回收他们所占用的内存空间。 常见的内存泄漏和解决办法 意外的全局变量引起的内存泄漏。 原因：全局变量，不会被回收。 解决：使用严格模式避免。 闭包引起的内存泄漏 原因：闭包可以维持函数内局部变量，使其得不到释放。 解决：将事件处理函数定义在外部，解除闭包,或者在定义事件处理函数的外部函数中，删除对dom的引用。 没有清理的DOM元素引用 原因：虽然别的地方删除了，但是对象中还存在对dom的引用 解决：手动删除。 被遗忘的定时器或者回调 原因：定时器中有dom的引用，即使dom删除了，但是定时器还在，所以内存中还是有这个dom。 解决：手动删除定时器和dom。 子元素存在引用引起的内存泄漏 原因：div中的ul li 得到这个div，会间接引用某个得到的li，那么此时因为div间接引用li，即使li被清空，也还是在内存中，并且只要li不被删除，他的父元素都不会被删除。 解决：手动删除清空。 总结内存泄漏就只是对于内存分配的不恰当的使用，在使用的时候注意是否会回收就好了]]></content>
+      <categories>
+        <category>前端安全</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
       </tags>
   </entry>
   <entry>
@@ -323,6 +322,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[前端开发工具篇(2)——安装git和乌龟tortoiseGit]]></title>
+    <url>%2F2017%2F01%2F10%2F%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%AF%87(2)%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85git%E5%92%8C%E4%B9%8C%E9%BE%9FtortoiseGit%2F</url>
+    <content type="text"><![CDATA[作为一个前端开发人员，开发工具先是非常重要的，俗话说”欲力其工必先利其器” git是每个程序员必须要学会的技能，但是git命令输入比较还是比较繁琐，有桌面端肯定更好。 附：安装git和乌龟git教程 在安装tortoiseGit的时候可能会出现,2503,2502错误。 按照网上的说法是要进入cmd管理员身份,然后输入mriexec \package”路径”(例如mrexec \package”F:\text.msi”) 但是我在输入的时候发现提示另外的错误： “无法打开该修补程序包，请与应用供应商联系”… 这时候，发现了，mriexec应该是安装exe文件的，然后我在cmd(以管理员身份)直接打开msi文件就可以直接安装了(例如:F:\test.msi)。]]></content>
+      <categories>
+        <category>前端开发工具</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>tortoiseGit</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[前端开发工具篇(1)——汇总篇]]></title>
     <url>%2F2017%2F01%2F10%2F%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%AF%87(1)%E2%80%94%E2%80%94%E6%B1%87%E6%80%BB%E7%AF%87%2F</url>
     <content type="text"><![CDATA[作为一个前端开发人员，开发工具先是非常重要的，俗话说”欲力其工必先利其器 在这里主要介绍几个软件给大家: git(mygit)和tortoiseGit，强大的git工具。 vs code，前端开发的主要工具另外也有其他的(例如sublime等,这里就不一一介绍了)。 Node.js,这是一个Javascript运行环境(runtime),用于方便地搭建响应速度快、易于扩展的网络应用。 有道云笔记，一个用来记录的文件，写博客会用到 具体安装和下载见其他文章]]></content>
@@ -333,18 +344,6 @@
         <tag>git</tag>
         <tag>vscode</tag>
         <tag>node.js</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[前端开发工具篇(2)——安装git和乌龟tortoiseGit]]></title>
-    <url>%2F2017%2F01%2F10%2F%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%AF%87(2)%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85git%E5%92%8C%E4%B9%8C%E9%BE%9FtortoiseGit%2F</url>
-    <content type="text"><![CDATA[作为一个前端开发人员，开发工具先是非常重要的，俗话说”欲力其工必先利其器” git是每个程序员必须要学会的技能，但是git命令输入比较还是比较繁琐，有桌面端肯定更好。 附：安装git和乌龟git教程 在安装tortoiseGit的时候可能会出现,2503,2502错误。 按照网上的说法是要进入cmd管理员身份,然后输入mriexec \package”路径”(例如mrexec \package”F:\text.msi”) 但是我在输入的时候发现提示另外的错误： “无法打开该修补程序包，请与应用供应商联系”… 这时候，发现了，mriexec应该是安装exe文件的，然后我在cmd(以管理员身份)直接打开msi文件就可以直接安装了(例如:F:\test.msi)。]]></content>
-      <categories>
-        <category>前端开发工具</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>tortoiseGit</tag>
       </tags>
   </entry>
 </search>

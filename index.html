@@ -260,156 +260,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/21/Function里面的aguments/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="广工小成">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/头像.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/21/Function里面的aguments/" itemprop="url">Function里面的aguments</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-21T00:00:00+08:00">
-                2018-06-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/js/" itemprop="url" rel="index">
-                    <span itemprop="name">js</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>1.在JS里Array是一个类 slice是此类里的一个方法 ，那么使用此方法应该Array.prototype.slice这么去用<br>slice从字面上的意思很容易理解就是截取（当然你不是英肓的话） 这方法如何使用呢? </p>
-<p>slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var animals = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;elephant&apos;];</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2, 4));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(1, 5));</span><br><span class="line">// expected output: Array [&quot;bison&quot;, &quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br><span class="line"></span><br><span class="line">/* 用法 */</span><br><span class="line">arr.slice();</span><br><span class="line">// [0, end]</span><br><span class="line"></span><br><span class="line">arr.slice(begin);</span><br><span class="line">// [begin, end]</span><br><span class="line"></span><br><span class="line">arr.slice(begin, end);</span><br><span class="line">// [begin, end)</span><br></pre></td></tr></table></figure></p>
-<p>slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组。你只需将该方法绑定到这个对象上。 一个函数中的 arguments 就是一个类数组对象的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function list() &#123;</span><br><span class="line">  return Array.prototype.slice.call(arguments);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var list1 = list(1, 2, 3); // [1, 2, 3]</span><br></pre></td></tr></table></figure></p>
-<p>arrayObj.slice(start, [end]) 很显然是截取数组的一部分。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function test(a,b,c,d) </span><br><span class="line">  &#123; </span><br><span class="line">     var arg = Array.prototype.slice.call(arguments,1); </span><br><span class="line">     alert(arg); </span><br><span class="line">  &#125; </span><br><span class="line">  test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;); //b,c,d</span><br></pre></td></tr></table></figure>
-<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>先给个例子，这是jqFloat插件里的代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (element.data(&apos;jDefined&apos;)) &#123;</span><br><span class="line">    if (options &amp;&amp; typeof options === &apos;object&apos;) &#123;</span><br><span class="line">        methods.update.apply(this, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    methods.init.apply(this, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>因为arguments并不是真正的数组对象，只是与数组类似而已，所以它并没有slice这个方法，而Array.prototype.slice.call(arguments, 1)可以理解成是让arguments转换成一个数组对象，让arguments具有slice()方法。要是直接写arguments.slice(1)会报错。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Array.prototype.slice.call(arguments)能将具有length属性的对象转成数组，除了IE下的节点集合（因为ie下的dom对象是以com对象的形式实现的，js对象与com对象不能进行转换） </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;//类数组,有length属性，长度为2，第0个是first，第1个是second</span><br><span class="line">console.log(Array.prototype.slice.call(a,0));// [&quot;first&quot;, &quot;second&quot;],调用数组的slice(0);</span><br><span class="line"></span><br><span class="line">var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;</span><br><span class="line">console.log(Array.prototype.slice.call(a,1));//[&quot;second&quot;]，调用数组的slice(1);</span><br><span class="line"></span><br><span class="line">var a=&#123;0:&apos;first&apos;,1:&apos;second&apos;&#125;;//去掉length属性，返回一个空数组</span><br><span class="line">console.log(Array.prototype.slice.call(a,0));//[]</span><br><span class="line"></span><br><span class="line">function test()&#123;</span><br><span class="line">  console.log(Array.prototype.slice.call(arguments,0));//[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]，slice(0)</span><br><span class="line">  console.log(Array.prototype.slice.call(arguments,1));//[&quot;b&quot;, &quot;c&quot;],slice(1)</span><br><span class="line">&#125;</span><br><span class="line">test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;);</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/21/带有延时的promise，封装函数延时执行/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -551,7 +401,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/内存泄漏/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/21/Function里面的aguments/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="广工小成">
@@ -570,7 +420,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/08/内存泄漏/" itemprop="url">内存泄漏</a></h1>
+                <a class="post-title-link" href="/2018/06/21/Function里面的aguments/" itemprop="url">Function里面的aguments</a></h1>
         
 
         <div class="post-meta">
@@ -582,8 +432,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T00:00:00+08:00">
-                2018-06-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-21T00:00:00+08:00">
+                2018-06-21
               </time>
             
 
@@ -605,8 +455,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端资源/" itemprop="url" rel="index">
-                    <span itemprop="name">前端资源</span>
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
                   </a>
                 </span>
 
@@ -644,7 +494,16 @@
       
         
           
-            
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>1.在JS里Array是一个类 slice是此类里的一个方法 ，那么使用此方法应该Array.prototype.slice这么去用<br>slice从字面上的意思很容易理解就是截取（当然你不是英肓的话） 这方法如何使用呢? </p>
+<p>slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var animals = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;elephant&apos;];</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2, 4));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(1, 5));</span><br><span class="line">// expected output: Array [&quot;bison&quot;, &quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br><span class="line"></span><br><span class="line">/* 用法 */</span><br><span class="line">arr.slice();</span><br><span class="line">// [0, end]</span><br><span class="line"></span><br><span class="line">arr.slice(begin);</span><br><span class="line">// [begin, end]</span><br><span class="line"></span><br><span class="line">arr.slice(begin, end);</span><br><span class="line">// [begin, end)</span><br></pre></td></tr></table></figure></p>
+<p>slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组。你只需将该方法绑定到这个对象上。 一个函数中的 arguments 就是一个类数组对象的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function list() &#123;</span><br><span class="line">  return Array.prototype.slice.call(arguments);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var list1 = list(1, 2, 3); // [1, 2, 3]</span><br></pre></td></tr></table></figure></p>
+<p>arrayObj.slice(start, [end]) 很显然是截取数组的一部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function test(a,b,c,d) </span><br><span class="line">  &#123; </span><br><span class="line">     var arg = Array.prototype.slice.call(arguments,1); </span><br><span class="line">     alert(arg); </span><br><span class="line">  &#125; </span><br><span class="line">  test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;); //b,c,d</span><br></pre></td></tr></table></figure>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>先给个例子，这是jqFloat插件里的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (element.data(&apos;jDefined&apos;)) &#123;</span><br><span class="line">    if (options &amp;&amp; typeof options === &apos;object&apos;) &#123;</span><br><span class="line">        methods.update.apply(this, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    methods.init.apply(this, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为arguments并不是真正的数组对象，只是与数组类似而已，所以它并没有slice这个方法，而Array.prototype.slice.call(arguments, 1)可以理解成是让arguments转换成一个数组对象，让arguments具有slice()方法。要是直接写arguments.slice(1)会报错。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Array.prototype.slice.call(arguments)能将具有length属性的对象转成数组，除了IE下的节点集合（因为ie下的dom对象是以com对象的形式实现的，js对象与com对象不能进行转换） </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;//类数组,有length属性，长度为2，第0个是first，第1个是second</span><br><span class="line">console.log(Array.prototype.slice.call(a,0));// [&quot;first&quot;, &quot;second&quot;],调用数组的slice(0);</span><br><span class="line"></span><br><span class="line">var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;</span><br><span class="line">console.log(Array.prototype.slice.call(a,1));//[&quot;second&quot;]，调用数组的slice(1);</span><br><span class="line"></span><br><span class="line">var a=&#123;0:&apos;first&apos;,1:&apos;second&apos;&#125;;//去掉length属性，返回一个空数组</span><br><span class="line">console.log(Array.prototype.slice.call(a,0));//[]</span><br><span class="line"></span><br><span class="line">function test()&#123;</span><br><span class="line">  console.log(Array.prototype.slice.call(arguments,0));//[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]，slice(0)</span><br><span class="line">  console.log(Array.prototype.slice.call(arguments,1));//[&quot;b&quot;, &quot;c&quot;],slice(1)</span><br><span class="line">&#125;</span><br><span class="line">test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;);</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1129,6 +988,158 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/核心（1）Events/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/28/核心（1）Events/" itemprop="url">核心（1）Events</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">
+                2018-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Events API是node的最主要的核心，node的events类似DOM事件的Event事件。node主要通过一个类EventEmitter来进行模拟实现</p>
+<h2 id="EventEmitter"><a href="#EventEmitter" class="headerlink" title="EventEmitter"></a>EventEmitter</h2><p>EventEmitter提供了不少方法，但是最主要的是两个方法on和emit，其中我们如果使用过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var http = require(&apos;http&apos;)</span><br><span class="line">var net = requere(&apos;net&apos;)</span><br><span class="line"></span><br><span class="line">var server = http.createServer(...)</span><br></pre></td></tr></table></figure></p>
+<p>就明白，其实http和net也是继承了EventEmitter的实例方法</p>
+<blockquote>
+<p>on方法接受两个参数，监听事件名称，及事件触发调用的函数</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.on(&apos;eventName&apos;, function()&#123;</span><br><span class="line">    // 执行相应的操作</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>emit方法主要是针对某个对象进行触发事件，接受多个参数即事件名，第一个参数为事件名，另外的为参数</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server.emit(&apos;eventName&apos;)</span><br></pre></td></tr></table></figure>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/组合式继承/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1224,6 +1235,150 @@
           
             <p>利用Object.create(prototype)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function Parent(name) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Parent.prototype.play = function() &#123;</span><br><span class="line">    console.log(this.name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function Child(name, age) &#123;</span><br><span class="line">    Parent.call(this, name);</span><br><span class="line">    this.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Child.prototype = Object.create(Parent.prototype);</span><br><span class="line"></span><br><span class="line">// 多态</span><br><span class="line">Child.prototype.play = function() &#123;</span><br><span class="line">    Parent.prototype.play.call(this);</span><br><span class="line">    console.log(this.age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/核心（2）Http/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/28/核心（2）Http/" itemprop="url">核心（2）Http</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">
+                2018-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>http是node的核心不为过，毕竟node说实在，就是为了搭建服务器而使用的一门语言，具体还是得看看官网API</p>
+<h2 id="服务端实例"><a href="#服务端实例" class="headerlink" title="服务端实例"></a>服务端实例</h2><p>简单一个实例吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 创建一个server</span><br><span class="line">var http = require(&apos;http&apos;)</span><br><span class="line">var server = http.createServer()</span><br><span class="line"></span><br><span class="line">var handler = function(req, res) &#123;</span><br><span class="line">    res.write(200, &#123;&#125;)</span><br><span class="line">    res.end(&apos;hello world&apos;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 对server的请求事件进行监听</span><br><span class="line">server.on(&apos;request&apos;, handler)</span><br><span class="line"></span><br><span class="line">// 将server运行在8080端口</span><br><span class="line">server.listen(8080)</span><br></pre></td></tr></table></figure></p>
+<h2 id="客户端实例"><a href="#客户端实例" class="headerlink" title="客户端实例"></a>客户端实例</h2><p>简单创建一个客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var http = require(&apos;http&apos;)</span><br><span class="line"></span><br><span class="line">var opts = &#123;</span><br><span class="line">    host: &apos;127.0.0.1&apos;,</span><br><span class="line">    port: &apos;8080&apos;,</span><br><span class="line">    path: &apos;/&apos;,</span><br><span class="line">    method: &apos;GET&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 创建客户端实例</span><br><span class="line">var req = http.request(opts, function(res) &#123;</span><br><span class="line">    console.log(res)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 发送消息</span><br><span class="line">req.end()</span><br></pre></td></tr></table></figure>
           
         
       
@@ -1381,158 +1536,6 @@
 <li>Buffer()：用于操作二进制数据。</li>
 </ol>
 
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/核心（1）Events/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="广工小成">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/头像.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/28/核心（1）Events/" itemprop="url">核心（1）Events</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">
-                2018-05-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/node/" itemprop="url" rel="index">
-                    <span itemprop="name">node</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Events API是node的最主要的核心，node的events类似DOM事件的Event事件。node主要通过一个类EventEmitter来进行模拟实现</p>
-<h2 id="EventEmitter"><a href="#EventEmitter" class="headerlink" title="EventEmitter"></a>EventEmitter</h2><p>EventEmitter提供了不少方法，但是最主要的是两个方法on和emit，其中我们如果使用过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var http = require(&apos;http&apos;)</span><br><span class="line">var net = requere(&apos;net&apos;)</span><br><span class="line"></span><br><span class="line">var server = http.createServer(...)</span><br></pre></td></tr></table></figure></p>
-<p>就明白，其实http和net也是继承了EventEmitter的实例方法</p>
-<blockquote>
-<p>on方法接受两个参数，监听事件名称，及事件触发调用的函数</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.on(&apos;eventName&apos;, function()&#123;</span><br><span class="line">    // 执行相应的操作</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>emit方法主要是针对某个对象进行触发事件，接受多个参数即事件名，第一个参数为事件名，另外的为参数</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server.emit(&apos;eventName&apos;)</span><br></pre></td></tr></table></figure>
-<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2>
           
         
       
