@@ -1,6 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Function里面的aguments]]></title>
+    <url>%2F2018%2F06%2F21%2FFunction%E9%87%8C%E9%9D%A2%E7%9A%84aguments%2F</url>
+    <content type="text"><![CDATA[前言1.在JS里Array是一个类 slice是此类里的一个方法 ，那么使用此方法应该Array.prototype.slice这么去用slice从字面上的意思很容易理解就是截取（当然你不是英肓的话） 这方法如何使用呢? slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。1234567891011121314151617181920var animals = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;elephant&apos;];console.log(animals.slice(2));// expected output: Array [&quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]console.log(animals.slice(2, 4));// expected output: Array [&quot;camel&quot;, &quot;duck&quot;]console.log(animals.slice(1, 5));// expected output: Array [&quot;bison&quot;, &quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]/* 用法 */arr.slice();// [0, end]arr.slice(begin);// [begin, end]arr.slice(begin, end);// [begin, end) slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组。你只需将该方法绑定到这个对象上。 一个函数中的 arguments 就是一个类数组对象的例子。12345function list() &#123; return Array.prototype.slice.call(arguments);&#125;var list1 = list(1, 2, 3); // [1, 2, 3] arrayObj.slice(start, [end]) 很显然是截取数组的一部分。 123456function test(a,b,c,d) &#123; var arg = Array.prototype.slice.call(arguments,1); alert(arg); &#125; test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;); //b,c,d 解释先给个例子，这是jqFloat插件里的代码： 1234567if (element.data(&apos;jDefined&apos;)) &#123; if (options &amp;&amp; typeof options === &apos;object&apos;) &#123; methods.update.apply(this, Array.prototype.slice.call(arguments, 1)); &#125;&#125; else &#123; methods.init.apply(this, Array.prototype.slice.call(arguments, 1));&#125; 因为arguments并不是真正的数组对象，只是与数组类似而已，所以它并没有slice这个方法，而Array.prototype.slice.call(arguments, 1)可以理解成是让arguments转换成一个数组对象，让arguments具有slice()方法。要是直接写arguments.slice(1)会报错。 原理Array.prototype.slice.call(arguments)能将具有length属性的对象转成数组，除了IE下的节点集合（因为ie下的dom对象是以com对象的形式实现的，js对象与com对象不能进行转换） 1234567891011121314var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;//类数组,有length属性，长度为2，第0个是first，第1个是secondconsole.log(Array.prototype.slice.call(a,0));// [&quot;first&quot;, &quot;second&quot;],调用数组的slice(0);var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;console.log(Array.prototype.slice.call(a,1));//[&quot;second&quot;]，调用数组的slice(1);var a=&#123;0:&apos;first&apos;,1:&apos;second&apos;&#125;;//去掉length属性，返回一个空数组console.log(Array.prototype.slice.call(a,0));//[]function test()&#123; console.log(Array.prototype.slice.call(arguments,0));//[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]，slice(0) console.log(Array.prototype.slice.call(arguments,1));//[&quot;b&quot;, &quot;c&quot;],slice(1)&#125;test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;);]]></content>
+      <categories>
+        <category>js</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[带有延时的promise，封装函数延时执行]]></title>
+    <url>%2F2018%2F06%2F21%2F%E5%B8%A6%E6%9C%89%E5%BB%B6%E6%97%B6%E7%9A%84promise%EF%BC%8C%E5%B0%81%E8%A3%85%E5%87%BD%E6%95%B0%E5%BB%B6%E6%97%B6%E6%89%A7%E8%A1%8C%2F</url>
+    <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334// 1) 调用方式new People(&apos;whr&apos;).sleep(3).eat(&apos;apple&apos;).sleep(5).eat(&apos;durian&apos;);// 2) 打印结果&apos;hello, whr&apos; -(等待3s)--&gt; &apos;whr eat apple&apos; -(等待5s)--&gt; &apos;whr eat durian&apos;// 3) 以下是代码实现class People &#123; constructor(name) &#123; this.name = name; this.sayHello(); this.queue = Promise.resolve(); &#125; sayHello() &#123; console.log(`hello, $&#123;this.name&#125;`); &#125; sleep(time) &#123; // 这里对queue进行动态改变 this.queue = this.queue.then(() =&gt; &#123; return new Promise(res =&gt; &#123; setTimeout(() =&gt; &#123; res(); &#125;, time * 1000) &#125;) &#125;) return this; &#125; eat(food) &#123; this.queue = this.queue.then(() =&gt; &#123; console.log(`$&#123;this.name&#125; eat $&#123;food&#125;`); &#125;) return this; &#125;&#125;]]></content>
+      <categories>
+        <category>es6</category>
+      </categories>
+      <tags>
+        <tag>es6</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[内存泄漏]]></title>
+    <url>%2F2018%2F06%2F08%2F%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>前端资源</category>
+      </categories>
+      <tags>
+        <tag>es6</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[前端学习网站]]></title>
+    <url>%2F2018%2F06%2F08%2F%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0%E7%BD%91%E7%AB%99%2F</url>
+    <content type="text"><![CDATA[用 MDN 查 JavaScript 和 CSS 基础知识 用 Caniuse 查浏览器兼容性 用 jsfeeds 获取前端最新资讯（英文） 用 github 查询代码最新变化 用 HackerNews 获取编程最新资讯 去 v2ex 水技术 在 开发者头条 学习新的知识 当然，还有 segmentfault 我的文章都是写在这里的 div.io 不得不说，这里的发现里面有很多平时可以学习的demo hexo搭建个人博客 node学习网址 node中文网 git中文官网]]></content>
+      <categories>
+        <category>前端资源</category>
+      </categories>
+      <tags>
+        <tag>es6</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[js的Event Loop机制解析]]></title>
+    <url>%2F2018%2F06%2F08%2Fjs%E7%9A%84Event-Loop%E6%9C%BA%E5%88%B6%E8%A7%A3%E6%9E%90%2F</url>
+    <content type="text"></content>
+      <categories>
+        <category>前端资源</category>
+      </categories>
+      <tags>
+        <tag>es6</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Git常用命令]]></title>
+    <url>%2F2018%2F06%2F07%2FGit%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%2F</url>
+    <content type="text"><![CDATA[git 常用命令1234567891011121314151617181920212223242526272829303132初始化新版本库：git init全局设置：git config --global user.name &quot;xzavier&quot; git config --global user.email &quot;xzavier.xxx.com&quot;克隆版本库：git clone &quot;url&quot;查看分支：git branch创建分支：git branch branch_name切换分支：git checkout branch_name创建+切换分支：git checkout -b branch_name合并某分支到当前分支：git merge branch_name重命名分支：git branch -m branch_name branch_new_name //不会覆盖已经存在的分支重命名分支：git branch -M branch_name branch_new_name //会覆盖已经存在的分支删除分支：git branch -d branch_name 强制删除分支： git branch -D branch_name删除远程分支： git push origin : branch_name 拉取代码：git pull origin branch_name查看更改：git status 查看更改细节： git diff file_name查看谁修改过代码： git blame filename回到上次修改： git reset --hard添加单个文件：git add filename.js 添加所有js文件：git add *.js添加所有文件：git add .提交添加的文件：git commit -m &quot;your description about this branch&quot;提交单个文件：git commit -m &quot;your description about it&quot; filename.jspush分支：git push origin your_branch_name备份当前分支内容：git stash //在后面再讲讲这个查看历史记录：git log创建标签：git tag 1.0.0 //标签无法重命名显示标签列表：git tag 切出标签：git checkout 1.0.0删除标签：git tag -d 1.0.0查看git远程网址：git remote -v更改git远程网址：git remote set-url origin https://github.com/USERNAME/OTHERREPOSITORY.git]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[组合式继承]]></title>
+    <url>%2F2018%2F05%2F28%2F%E7%BB%84%E5%90%88%E5%BC%8F%E7%BB%A7%E6%89%BF%2F</url>
+    <content type="text"><![CDATA[利用Object.create(prototype) 123456789101112131415161718192021function Parent(name) &#123; this.name = name;&#125;Parent.prototype.play = function() &#123; console.log(this.name);&#125;function Child(name, age) &#123; Parent.call(this, name); this.age = age;&#125;Child.prototype = Object.create(Parent.prototype);// 多态Child.prototype.play = function() &#123; Parent.prototype.play.call(this); console.log(this.age);&#125;]]></content>
+      <categories>
+        <category>js</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Global对象]]></title>
+    <url>%2F2018%2F05%2F28%2FGlobal%E5%AF%B9%E8%B1%A1%2F</url>
+    <content type="text"><![CDATA[所有属性都可以在程序的任何地方访问，即全局变量。在javascript中，通常window是全局对象，而node.js的全局对象是global，所有全局变量都是global对象的属性，如：console、process等。 全局对象 global：表示Node所在的全局环境，类似于浏览器的window对象。需要注意的是，如果在浏览器中声明一个全局变量，实际上是声明了一个全局对象的属性，比如var x = 1等同于设置window.x = 1，但是Node不是这样，至少在模块中不是这样（REPL环境的行为与浏览器一致）。在模块文件中，声明var x = 1，该变量不是global对象的属性，global.x等于undefined。这是因为模块的全局变量都是该模块私有的，其他模块无法取到。 process：该对象表示Node所处的当前进程，允许开发者与该进程互动。 console：指向Node内置的console模块，提供命令行环境中的标准输入、标准输出功能。 _filename：指向当前运行的脚本文件名。 _dirname：指向当前运行的脚本所在的目录。 除此之外，还有一些对象实际上是模块内部的局部变量，指向的对象根据模块不同而不同，但是所有模块都适用，可以看作是伪全局变量，主要为module, module.exports, exports等。 全局函数 setTimeout()：用于在指定毫秒之后，运行回调函数。实际的调用间隔，还取决于系统因素。间隔的毫秒数在1毫秒到2,147,483,647毫秒（约24.8天）之间。如果超过这个范围，会被自动改为1毫秒。该方法返回一个整数，代表这个新建定时器的编号。 clearTimeout()：用于终止一个setTimeout方法新建的定时器。 setInterval()：用于每隔一定毫秒调用回调函数。由于系统因素，可能无法保证每次调用之间正好间隔指定的毫秒数，但只会多于这个间隔，而不会少于它。指定的毫秒数必须是1到2,147,483,647（大约24.8天）之间的整数，如果超过这个范围，会被自动改为1毫秒。该方法返回一个整数，代表这个新建定时器的编号。 clearInterval()：终止一个用setInterval方法新建的定时器。 require()：用于加载模块。 Buffer()：用于操作二进制数据。]]></content>
+      <categories>
+        <category>node</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>node</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[核心（1）Events]]></title>
+    <url>%2F2018%2F05%2F28%2F%E6%A0%B8%E5%BF%83%EF%BC%881%EF%BC%89Events%2F</url>
+    <content type="text"><![CDATA[简介Events API是node的最主要的核心，node的events类似DOM事件的Event事件。node主要通过一个类EventEmitter来进行模拟实现 EventEmitterEventEmitter提供了不少方法，但是最主要的是两个方法on和emit，其中我们如果使用过1234var http = require(&apos;http&apos;)var net = requere(&apos;net&apos;)var server = http.createServer(...) 就明白，其实http和net也是继承了EventEmitter的实例方法 on方法接受两个参数，监听事件名称，及事件触发调用的函数 123server.on(&apos;eventName&apos;, function()&#123; // 执行相应的操作&#125;) emit方法主要是针对某个对象进行触发事件，接受多个参数即事件名，第一个参数为事件名，另外的为参数 1server.emit(&apos;eventName&apos;) 具体实现]]></content>
+      <categories>
+        <category>node</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>node</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Node.js体系结构]]></title>
+    <url>%2F2018%2F05%2F28%2FNode-js%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%2F</url>
+    <content type="text"><![CDATA[Node架构Node.js主要分为四大部分，Node Standard Library，Node Bindings，V8，Libuv，架构图如下: Node Standard Library 是我们每天都在用的标准库，如Http, Buffer 模块。 Node Bindings 是沟通JS和C++的桥梁，封装V8和Libuv的细节，向上层提供基础API服务。这一层是支撑 Node.js 运行的关键，由 C/C++ 实现。 V8 是Google开发的JavaScript引擎，提供JavaScript运行环境，可以说它就是 Node.js 的发动机。 Libuv 是专门为Node.js开发的一个封装库，提供跨平台的异步I/O能力. C-ares：提供了异步处理 DNS 相关的能力。 http_parser、OpenSSL、zlib 等：提供包括 http 解析、SSL、数据压缩等其他的能力。 简单实例12345678910const http = require(&apos;http&apos;); // 加载node的http模块const hostname = &apos;127.0.0.1&apos;;const port = 1337;http.createServer((req, res) =&gt; &#123; res.writeHead(200, &#123; &apos;Content-Type&apos;: &apos;text/plain&apos; &#125;); res.end(&apos;Hello World\n&apos;); // 创建成功结束返回的数据&#125;).listen(port, hostname, () =&gt; &#123; console.log(`Server running at http://$&#123;hostname&#125;:$&#123;port&#125;/`);&#125;); 首先了解一下HTTP Server的继承关系，有利于更好的理解代码 最后一句1console.log(`Server running at http://$&#123;hostname&#125;:$&#123;port&#125;/`); 但却没有通过 require 获取，这就要说到global对象了，Node.js的顶层对象]]></content>
+      <categories>
+        <category>node</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>node</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[核心（2）Http]]></title>
+    <url>%2F2018%2F05%2F28%2F%E6%A0%B8%E5%BF%83%EF%BC%882%EF%BC%89Http%2F</url>
+    <content type="text"><![CDATA[简介http是node的核心不为过，毕竟node说实在，就是为了搭建服务器而使用的一门语言，具体还是得看看官网API 服务端实例简单一个实例吧1234567891011121314// 创建一个servervar http = require(&apos;http&apos;)var server = http.createServer()var handler = function(req, res) &#123; res.write(200, &#123;&#125;) res.end(&apos;hello world&apos;)&#125;// 对server的请求事件进行监听server.on(&apos;request&apos;, handler)// 将server运行在8080端口server.listen(8080) 客户端实例简单创建一个客户端 12345678910111213141516var http = require(&apos;http&apos;)var opts = &#123; host: &apos;127.0.0.1&apos;, port: &apos;8080&apos;, path: &apos;/&apos;, method: &apos;GET&apos;&#125;// 创建客户端实例var req = http.request(opts, function(res) &#123; console.log(res)&#125;)// 发送消息req.end()]]></content>
+      <categories>
+        <category>node</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>node</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[v-model详解]]></title>
+    <url>%2F2018%2F05%2F24%2Fv-model%E8%AF%A6%E8%A7%A3%2F</url>
+    <content type="text"><![CDATA[v-model基础给组件添加 v-model 属性时，默认会把 value 作为组件的属性，然后把 ‘input’ 值作为给组件绑定事件时的事件名 123456789101112131415161718192021222324252627&lt;div id=&quot;demo&quot;&gt; &lt;currency-input v-model=&quot;price&quot;&gt;&lt;/currentcy-input&gt; &lt;span&gt;&#123;&#123;price&#125;&#125;&lt;/span&gt;&lt;/div&gt;&lt;script src=&quot;https://cdn.bootcss.com/vue/2.3.0/vue.js&quot;&gt;&lt;/script&gt;&lt;script&gt;Vue.component(&apos;currency-input&apos;, &#123; template: ` &lt;span&gt; &lt;input ref=&quot;input&quot; :value=&quot;value&quot; &lt;!--为什么这里把 &apos;input&apos; 作为触发事件的事件名？`input` 在哪定义的？--&gt; @input=&quot;$emit(&apos;input&apos;, $event.target.value)&quot; &gt; &lt;/span&gt; `, props: [&apos;value&apos;],// 为什么这里要用 value 属性，value在哪里定义的？貌似没找到啊？&#125;)var demo = new Vue(&#123; el: &apos;#demo&apos;, data: &#123; price: 100, &#125;&#125;)&lt;/script&gt; 1234&lt;currency-input v-model=&quot;price&quot;&gt;&lt;/currentcy-input&gt;&lt;!--上行代码是下行的语法糖 &lt;currency-input :value=&quot;price&quot; @input=&quot;price = arguments[0]&quot;&gt;&lt;/currency-input&gt;--&gt; v-model 的缺点和解决办法1&lt;input type=&quot;checkbox&quot; v-model=&quot;sth&quot; /&gt; v-model 给我们提供好了 value 属性和 oninput 事件，但是，我们需要的不是 value 属性，而是 checked 属性，并且当你点击这个单选框的时候不会触发 oninput 事件，它只会触发 onchange 事件。这就尴尬 因为 v-model 只是用到了 input 元素上，所以这种情况好解决：↓ 1&lt;input type=&quot;checkbox&quot; :checked=&quot;status&quot; @change=&quot;status = $event.target.checked&quot; /&gt; 当 v-model 用到组件上时：↓12345678910&lt;my-checkbox v-model=&quot;foo&quot;&gt;&lt;/my-checkbox&gt;Vue.component(&apos;my-checkbox&apos;, &#123; tempalte: `&lt;input type=&quot;checkbox&quot; @change=&quot;$emit(&apos;input&apos;, $event.target.checked)&quot; :checked=&quot;value&quot; /&gt;` props: [&apos;value&apos;],&#125;) 在 Vue 2.2 版本，你可以在定义组件时通过 model 选项的方式来定制 prop/event：↓123456789101112131415&lt;my-checkbox v-model=&quot;foo&quot;&gt;&lt;/my-checkbox&gt;Vue.component(&apos;my-checkbox&apos;, &#123; tempalte: `&lt;input type=&quot;checkbox&quot; &lt;!--这里就不用 input 了，而是 balabala--&gt; @change=&quot;$emit(&apos;balabala&apos;, $event.target.checked)&quot; :checked=&quot;checked&quot; /&gt;` props: [&apos;checked&apos;], //这里就不用 value 了，而是 checked model: &#123; prop: &apos;checked&apos;, event: &apos;balabala&apos; &#125;,&#125;)]]></content>
+      <categories>
+        <category>vue</category>
+      </categories>
+      <tags>
+        <tag>js</tag>
+        <tag>vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Promise详解]]></title>
+    <url>%2F2018%2F05%2F24%2FPromise%E8%AF%A6%E8%A7%A3%2F</url>
+    <content type="text"><![CDATA[定义Promise是一个构造函数，构造参数为一个函数 构造成功后，函数立即执行；其中回调的异步操作加入异步队列，例如 1234567891011121314let promise = new Promise(function(resolve, reject) &#123; console.log(&apos;Promise&apos;); resolve();&#125;);promise.then(function() &#123; console.log(&apos;resolved.&apos;);&#125;);console.log(&apos;Hi!&apos;);// Promise// Hi!// resolved 在构造参数这个函数里面，若没有return，所有语句都执行 Promise.prototype的thenPromise函数有三种状态，pending变为resolved和从pending变为rejected then函数接受两个参数，第二个参数可选，例如 1234567var promise = new Promise(function()&#123; // do something() // resolved or rejected&#125;)// 这里的resloved和rejected都是函数，而且rejected可不填promise.then(resloved, rejected) then的链式调用then方法返回的是一个新的Promise实例（注意，不是原来那个Promise实例）。因此可以采用链式写法，即then方法后面再调用另一个then方法。 12345getJSON(&quot;/posts.json&quot;).then(function(json) &#123; return new Promise(...);&#125;).then(function(post) &#123; // ...&#125;); Promise.prototype的catchPromise.prototype.catch方法是.then(null, rejection)的别名，用于指定发生错误时的回调函数。 12345678getJSON(&quot;/posts.json&quot;).then(function(json) &#123; return new Promise(...);&#125;).then(function(post) &#123; // ...&#125;).catch(function(err)&#123; // 处理上面两个promise返回的错误信息&#125;); Promise.all()和Promise.race()Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。 1234const p = Promise.all([p1, p2, p3]);// p1，p2，p3都返回resolved，p才可以resolvedp.then(resolved,rejected) Promise.race方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。 1234const p = Promise.race([p1, p2, p3]);// p1，p2，p3哪个先改变状态，p就是什么状态p.then(resolved,rejected)]]></content>
+      <categories>
+        <category>js</category>
+      </categories>
+      <tags>
+        <tag>es6</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ES6的Proxy和Reflect]]></title>
+    <url>%2F2018%2F05%2F24%2FES6%E7%9A%84Proxy%E5%92%8CReflect%2F</url>
+    <content type="text"><![CDATA[Proxy Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。 Proxy就是一种代理，外界对该对象的访问，必须经过它，可以对外界的访问进行过滤和改写。 1234567891011121314151617var obj = new Proxy(&#123;&#125;, &#123; get: function (target, key, receiver) &#123; console.log(`getting $&#123;key&#125;!`); return Reflect.get(target, key, receiver); &#125;, set: function (target, key, value, receiver) &#123; console.log(`setting $&#123;key&#125;!`); return Reflect.set(target, key, value, receiver); &#125;&#125;);obj.count = 1// setting count!++obj.count// getting count!// setting count!// 2 上面的代码里面，new Proxy()返回了一个{}，这个{}里面属性的set和get已经被重写。 Proxy构造函数 12// target为目标对象，handler为对对象的代理var proxy = new Proxy(target, handler); Proxy的get1234567891011121314151617var person = &#123; name: &quot;张三&quot;&#125;;var proxy = new Proxy(person, &#123; // get接受两个参数，一个是目标对象，一个是访问的属性 get: function(target, property) &#123; if (property in target) &#123; return target[property]; &#125; else &#123; throw new ReferenceError(&quot;Property \&quot;&quot; + property + &quot;\&quot; does not exist.&quot;); &#125; &#125;&#125;);proxy.name // &quot;张三&quot;proxy.age // 抛出一个错误 Proxy的setset方法用来拦截某个属性的赋值操作，可以接受四个参数，依次为目标对象、属性名、属性值和 Proxy 实例本身，其中最后一个参数可选。1234567891011121314151617181920212223let validator = &#123; set: function(obj, prop, value) &#123; if (prop === &apos;age&apos;) &#123; if (!Number.isInteger(value)) &#123; throw new TypeError(&apos;The age is not an integer&apos;); &#125; if (value &gt; 200) &#123; throw new RangeError(&apos;The age seems invalid&apos;); &#125; &#125; // 对于满足条件的 age 属性以及其他属性，直接保存 obj[prop] = value; &#125;&#125;;let person = new Proxy(&#123;&#125;, validator);person.age = 100;person.age // 100person.age = &apos;young&apos; // 报错person.age = 300 // 报错 Reflect Reflect对象与Proxy对象一样，也是 ES6 为了操作对象而提供的新 API。Reflect对象的设计目的有这样几个。 将Object对象的一些明显属于语言内部的方法（比如Object.defineProperty），放到Reflect对象上。现阶段，某些方法同时在Object和Reflect对象上部署，未来的新方法将只部署在Reflect对象上。也就是说，从Reflect对象上可以拿到语言内部的方法。 修改某些Object方法的返回结果，让其变得更合理。比如，Object.defineProperty(obj, name, desc)在无法定义属性时，会抛出一个错误，而Reflect.defineProperty(obj, name, desc)则会返回false。 Reflect对象一共有 13 个静态方法。 Reflect.apply(target, thisArg, args)Reflect.construct(target, args)Reflect.get(target, name, receiver)Reflect.set(target, name, value, receiver)Reflect.defineProperty(target, name, desc)Reflect.deleteProperty(target, name)Reflect.has(target, name)Reflect.ownKeys(target)Reflect.isExtensible(target)Reflect.preventExtensions(target)Reflect.getOwnPropertyDescriptor(target, name)Reflect.getPrototypeOf(target)Reflect.setPrototypeOf(target, prototype)上面这些方法的作用，大部分与Object对象的同名方法的作用都是相同的，而且它与Proxy对象的方法是一一对应的。 两者的应用Reflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。这就让Proxy对象可以方便地调用对应的Reflect方法，完成默认行为，作为修改行为的基础。也就是说，不管Proxy怎么修改默认行为，你总可以在Reflect上获取默认行为。 123456789Proxy(target, &#123; set: function(target, name, value, receiver) &#123; var success = Reflect.set(target,name, value, receiver); if (success) &#123; log(&apos;property &apos; + name + &apos; on &apos; + target + &apos; set to &apos; + value); &#125; return success; &#125;&#125;); 上面代码中，Proxy方法拦截target对象的属性赋值行为。它采用Reflect.set方法将值赋值给对象的属性，确保完成原有的行为，然后再部署额外的功能。 1234567891011121314var loggedObj = new Proxy(obj, &#123; get(target, name) &#123; console.log(&apos;get&apos;, target, name); return Reflect.get(target, name); &#125;, deleteProperty(target, name) &#123; console.log(&apos;delete&apos; + name); return Reflect.deleteProperty(target, name); &#125;, has(target, name) &#123; console.log(&apos;has&apos; + name); return Reflect.has(target, name); &#125;&#125;); 上面代码中，每一个Proxy对象的拦截操作（get、delete、has），内部都调用对应的Reflect方法，保证原生行为能够正常执行。添加的工作，就是将每一个操作输出一行日志。]]></content>
+      <categories>
+        <category>js</category>
+      </categories>
+      <tags>
+        <tag>es6</tag>
+        <tag>js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[防sql注入]]></title>
+    <url>%2F2018%2F05%2F23%2F%E9%98%B2sql%E6%B3%A8%E5%85%A5%2F</url>
+    <content type="text"><![CDATA[Web安全简史在Web1.0时代，人们更多是关注服务器端动态脚本语言的安全问题，比如将一个可执行脚本（俗称Webshell）通过脚本语言的漏洞上传到服务器上，从而获得服务器权限。 在Web发展初期，随着动态脚本语言的发展和普及，以及早期工程师对安全问题认知不足导致很多”安全血案”的发生，至今仍然遗留下许多历史问题，比如PHP语言至今仍然无法从语言本身杜绝「文件包含漏洞」），只能依靠工程师良好的代码规范和安全意识。伴随着Web2.0、社交网络、微博等一系列新型互联网产品的兴起，基于Web环境的互联网应用越来越广泛，Web攻击的手段也越来越多样，Web安全史上的一个重要里程碑是大约1999年发现的SQL注入攻击，之后的XSS，CSRF等攻击手段愈发强大，Web攻击的思路也从服务端转向了客户端，转向了浏览器和用户。 在安全领域，一般用帽子的颜色来比喻黑客的善与恶，白帽子是指那些工作在反黑客领域的技术专家，这个群体是”善”的的象征；而黑帽子则是指那些利用黑客技术造成破坏甚至谋取私利造成犯罪的群体，他们是”恶”的代表。“白帽子”和”黑帽子”是两个完全对立的群体。对于黑帽子而言，他们只要找到系统的一个切入点就可以达到入侵破坏的目的，而白帽子必须将自己系统所有可能被突破的地方都设防，以保证系统的安全运行。 这看起来好像是不公平的，但是安全世界里的规则就是这样，可能我们的网站1000处都布防的很好，考虑的很周到，但是只要有一个地方疏忽了，攻击者就会利用这个点进行突破，让我们另外的1000处努力白费。常见攻击方式一般说来，在Web安全领域，常见的攻击方式大概有以下几种：1、SQL注入攻击2、跨站脚本攻击 - XSS3、跨站伪造请求攻击 - CSRF4、文件上传漏洞攻击5、分布式拒绝服务攻击 - DDOS限于篇幅，本篇只讨论SQL注入攻击的技巧与防范。SQL注入常见攻击技巧SQL注入攻击是Web安全史上的一个重要里程碑，它从1999年首次进入人们的视线，至今已经有十几年的历史了，虽然我们现在已经有了很全面的防范对策，但是它的威力仍然不容小觑，SQL注入攻击至今仍然是Web安全领域中的一个重要组成部分。以PHP+MySQL为例，让我们以一个Web网站中最基本的用户系统来做实例演示，看看SQL注入究竟是怎么发生的。 1、创建一个名为demo的数据库：1CREATE DATABASE `demo` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci; 2、创建一个名为user的数据表，并插入1条演示数据：123456CREATE TABLE `demo`.`user` (`uid` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT &apos;用户uid&apos;,`username` VARCHAR( 20 ) NOT NULL COMMENT &apos;用户名&apos;,`password` VARCHAR( 32 ) NOT NULL COMMENT &apos;用户密码&apos;) ENGINE = INNODB;INSERT INTO `demo`.`user` (`uid`, `username`, `password`) VALUES (&apos;1&apos;, &apos;plhwin&apos;, MD5(&apos;123456&apos;)); 实例一通过传入username参数，在页面打印出这个会员的详细信息，编写 userinfo.php 程序代码：1234567891011121314151617181920212223&lt;?phpheader(&apos;Content-type:text/html; charset=UTF-8&apos;);$username = isset($_GET[&apos;username&apos;]) ? $_GET[&apos;username&apos;] : &apos;&apos;;$userinfo = array();if($username)&#123; //使用mysqli驱动连接demo数据库 $mysqli = new mysqli(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;, &apos;demo&apos;); $sql = &quot;SELECT uid,username FROM user WHERE username=&apos;&#123;$username&#125;&apos;&quot;; //mysqli multi_query 支持执行多条MySQL语句 $query = $mysqli-&gt;multi_query($sql); if($query)&#123; do &#123; $result = $mysqli-&gt;store_result(); while($row = $result-&gt;fetch_assoc())&#123; $userinfo[] = $row; &#125; if(!$mysqli-&gt;more_results())&#123; break; &#125; &#125; while ($mysqli-&gt;next_result()); &#125;&#125;echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;; 上面这个程序要实现的功能是根据浏览器传入的用户名参数，在页面上打印出这个用户的详细信息，程序写的这么复杂是因为我采用了mysqli的驱动，以便能使用到 multi_query 方法来支持同时执行多条SQL语句，这样能更好的说明SQL注入攻击的危害性。假设我们可以通过 http://localhost/test/userinfo.php?username=plhwin 这个URL来访问到具体某个会员的详情，正常情况下，如果浏览器里传入的username是合法的，那么SQL语句会执行：1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; 但是，如果用户在浏览器里把传入的username参数变为 plhwin’;SHOW TABLES– hack，也就是当URL变为 http://localhost/test/userinfo.php?username=plhwin&#39;;SHOW TABLES– hack 的时候，此时我们程序实际执行的SQL语句变成了： 1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos;;SHOW TABLES-- hack&apos; 注意：在MySQL中，最后连续的两个减号表示忽略此SQL减号后面的语句，我本机的MySQL版本号为5.6.12，目前几乎所有SQL注入实例都是直接采用两个减号结尾，但是实际测试，这个版本号的MySQL要求两个减号后面必须要有空格才能正常注入，而浏览器是会自动删除掉URL尾部空格的，所以我们的注入会在两个减号后面统一添加任意一个字符或单词，本篇文章的SQL注入实例统一以 – hack 结尾。经过上面的SQL注入后，原本想要执行查询会员详情的SQL语句，此时还额外执行了 SHOW TABLES; 语句，这显然不是开发者的本意，此时可以在浏览器里看到页面的输出： 123456789101112Array( [0] =&gt; Array ( [uid] =&gt; 1 [username] =&gt; plhwin ) [1] =&gt; Array ( [Tables_in_demo] =&gt; user )) 你能清晰的看到，除了会员的信息，数据库表的名字user也被打印在了页面上，如果作恶的黑客此时将参数换成 plhwin’;DROP TABLE user– hack，那将产生灾难性的严重结果，当你在浏览器中执行 http://localhost/test/userinfo.php?username=plhwin&#39;;DROP TABLE user– hack 这个URL后，你会发现整个 user 数据表都消失不见了。通过上面的例子，大家已经认识到SQL注入攻击的危害性，但是仍然会有人心存疑问，MySQL默认驱动的mysql_query方法现在已经不支持多条语句同时执行了，大部分开发者怎么可能像上面的演示程序那样又麻烦又不安全。是的，在PHP程序中，MySQL是不允许在一个mysql_query中使用分号执行多SQL语句的，这使得很多开发者都认为MySQL本身就不允许多语句执行了，但实际上MySQL早在4.1版本就允许多语句执行，通过PHP的源代码，我们发现其实只是PHP语言自身限制了这种用法，具体情况大家可以看看这篇文章「PHP+MySQL多语句执行」。实例二如果系统不允许同时执行多条SQL语句，那么SQL注入攻击是不是就不再这么可怕呢？答案是否定的，我们仍然以上面的user数据表，用Web网站中常用的会员登录系统来做另外一个场景实例，编写程序login.php，代码如下：1234567891011121314151617181920212223242526272829303132&lt;?phpif($_POST)&#123; $link = mysql_connect(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;); mysql_select_db(&apos;demo&apos;, $link); $username = empty($_POST[&apos;username&apos;]) ? &apos;&apos; : $_POST[&apos;username&apos;]; $password = empty($_POST[&apos;password&apos;]) ? &apos;&apos; : $_POST[&apos;password&apos;]; $md5password = md5($password); $sql = &quot;SELECT uid,username FROM user WHERE username=&apos;&#123;$username&#125;&apos; AND password=&apos;&#123;$md5password&#125;&apos;&quot;; $query = mysql_query($sql, $link); $userinfo = mysql_fetch_array($query, MYSQL_ASSOC); if(!empty($userinfo))&#123; //登录成功，打印出会员信息 echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;; &#125; else &#123; echo &quot;用户名不存在或密码错误！&quot;; &#125;&#125;?&gt;&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt; &lt;meta charset=&quot;utf-8&quot;&gt; &lt;title&gt;Web登录系统SQL注入实例&lt;/title&gt;&lt;/head&gt;&lt;body&gt; &lt;form name=&quot;LOGIN_FORM&quot; method=&quot;post&quot; action=&quot;&quot;&gt; 登录帐号: &lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;&quot; size=30 /&gt;&lt;br /&gt;&lt;br /&gt; 登录密码: &lt;input type=&quot;text&quot; name=&quot;password&quot; value=&quot;&quot; size=30 /&gt;&lt;br /&gt;&lt;br /&gt; &lt;input type=&quot;submit&quot; value=&quot;登录&quot; /&gt; &lt;/form&gt;&lt;/body&gt;&lt;/html&gt; 此时如果输入正确的用户名 plhwin 和密码 123456，执行的SQL语句为：1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; AND password=&apos;e10adc3949ba59abbe56e057f20f883e&apos; 上面语句没有任何问题，可以看到页面打印出了登录成功后的会员信息，但如果有捣蛋鬼输入的用户名为 plhwin’ AND 1=1– hack，密码随意输入，比如 aaaaaa，那么拼接之后的SQL查询语句就变成了如下内容：1SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; AND 1=1-- hack&apos; AND password=&apos;0b4e7a0e5fe84ad35fb5f95b9ceeac79&apos; 执行上面的SQL语句，因为 1=1 是永远成立的条件，这意味着黑客只需要知道别人的会员名，无需知道密码就能顺利登录到系统。如何确定SQL注入漏洞通过以上的实例，我们仍然还会有疑问：黑客并不知道我们程序代码的逻辑和SQL语句的写法，他是如何确定一个网站是否存在SQL注入漏洞呢？一般说来有以下2种途径：1、错误提示如果目标Web网站开启了错误显示，攻击者就可以通过反复调整发送的参数、查看页面打印的错误信息，推测出Web网站使用的数据库和开发语言等重要信息。2、盲注除非运维人员疏忽，否则大部分的Web运营网站应该都关闭了错误提示信息，此时攻击者一般会采用盲注的技巧来进行反复的尝试判断。 仍然以上面的数据表user为例，我们之前的查看会员详情页面的url地址为 userinfo.php?username=plhwin，此时黑客分别访问 userinfo.php?username=plhwin’ AND 1=1– hack 和 userinfo.php?username=plhwin’ AND 1=2– hack，如果前者访问能返回正常的信息而后者不能，就基本可以判断此网站存在SQL注入漏洞，因为后者的 1=2 这个表达式永远不成立，所以即使username传入了正确的参数也无法通过，由此可以推断这个页面存在SQL注入漏洞，并且可以通过username参数进行注入。如何防御SQL注入对于服务器配置层面的防范，应该保证生产环境的Webserver是关闭错误信息的，比如PHP在生产环境的配置文件php.ini中的display_errors应该设置为Off，这样就关闭了错误提示，下面我们更多的从编码的角度来看看如何防范SQL注入。 上面用两个实例分析了SQL注入攻击的技巧，可以看到，但凡有SQL注入漏洞的程序，都是因为程序要接受来自客户端用户输入的变量或URL传递的参数，并且这个变量或参数是组成SQL语句的一部分，对于用户输入的内容或传递的参数，我们应该要时刻保持警惕，这是安全领域里的「外部数据不可信任」的原则，纵观Web安全领域的各种攻击方式，大多数都是因为开发者违反了这个原则而导致的，所以自然能想到的，就是从变量的检测、过滤、验证下手，确保变量是开发者所预想的 1、检查变量数据类型和格式如果你的SQL语句是类似where id={$id}这种形式，数据库里所有的id都是数字，那么就应该在SQL被执行前，检查确保变量id是int类型；如果是接受邮箱，那就应该检查并严格确保变量一定是邮箱的格式，其他的类型比如日期、时间等也是一个道理。总结起来：只要是有固定格式的变量，在SQL语句执行前，应该严格按照固定格式去检查，确保变量是我们预想的格式，这样很大程度上可以避免SQL注入攻击。比如，我们前面接受username参数例子中，我们的产品设计应该是在用户注册的一开始，就有一个用户名的规则，比如5-20个字符，只能由大小写字母、数字以及一些安全的符号组成，不包含特殊字符。 此时我们应该有一个check_username的函数来进行统一的检查。不过，仍然有很多例外情况并不能应用到这一准则，比如文章发布系统，评论系统等必须要允许用户提交任意字符串的场景，这就需要采用过滤等其他方案了。2、过滤特殊符号对于无法确定固定格式的变量，一定要进行特殊符号过滤或转义处理。以PHP为例，通常是采用addslashes函数，它会在指定的预定义字符前添加反斜杠转义，这些预定义的字符是：单引号 (‘) 双引号 (“) 反斜杠 () NULL。来看2条SQL语句：123$uid = isset($_GET[&apos;uid&apos;]) ? $_GET[&apos;uid&apos;] : 0;$uid = addslashes(uid);$sql = &quot;SELECT uid,username FROM user WHERE uid=&apos;&#123;$uid&#125;&apos;&quot;; 以及123$uid = isset($_GET[&apos;uid&apos;]) ? $_GET[&apos;uid&apos;] : 0;$uid = addslashes(uid);$sql = &quot;SELECT uid,username FROM user WHERE uid=&#123;$uid&#125;&quot;; 上面两个查询语句都经过了php的addslashes函数过滤转义，但在安全性上却大不相同，在MySQL中，对于int类型字段的条件查询，上面个语句的查询效果完全一样，由于第一句SQL的变量被单引号包含起来，SQL注入的时候，黑客面临的首要问题是必须要先闭合前面的单引号，这样才能使后面的语句作为SQL执行，并且还要注释掉原SQL语句中的后面的单引号，这样才可以成功注入，由于代码里使用了addslashes函数，黑客的攻击会无从下手，但第二句没有用引号包含变量，那黑客也不用考虑去闭合、注释，所以即便同样采用addslashes转义，也还是存在SQL攻击漏洞。对于PHP程序+MySQL构架的程序，在动态的SQL语句中，使用单引号把变量包含起来配合addslashes函数是应对SQL注入攻击的有效手段，但这做的还不够，像上面的2条SQL语句，根据「检查数据类型」的原则，uid都应该经过intval函数格式为int型，这样不仅能有效避免第二条语句的SQL注入漏洞，还能使得程序看起来更自然，尤其是在NoSQL(如MongoDB)中，变量类型一定要与字段类型相匹配才可以。 从上面可以看出，第二个SQL语句是有漏洞的，不过由于使用了addslashes函数，你会发现黑客的攻击语句也存在不能使用特殊符号的条件限制，类似where username=’plhwin’这样的攻击语句是没法执行的，但是黑客可以将字符串转为16进制编码数据或使用char函数进行转化，同样能达到相同的目的，如果对这部分内容感兴趣，可以点击这里查看。而且由于SQL保留关键字，如「HAVING」、「ORDER BY」的存在，即使是基于黑白名单的过滤方法仍然会有或多或少问题，那么是否还有其他方法来防御SQL注入呢？3、绑定变量，使用预编译语句MySQL的mysqli驱动提供了预编译语句的支持，不同的程序语言，都分别有使用预编译语句的方法，我们这里仍然以PHP为例，编写userinfo2.php代码：12345678910111213141516171819202122&lt;?phpheader(&apos;Content-type:text/html; charset=UTF-8&apos;);$username = isset($_GET[&apos;username&apos;]) ? $_GET[&apos;username&apos;] : &apos;&apos;;$userinfo = array();if($username)&#123; //使用mysqli驱动连接demo数据库 $mysqli = new mysqli(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;, &apos;demo&apos;); //使用问号替代变量位置 $sql = &quot;SELECT uid,username FROM user WHERE username=?&quot;; $stmt = $mysqli-&gt;prepare($sql); //绑定变量 $stmt-&gt;bind_param(&quot;s&quot;, $username); $stmt-&gt;execute(); $stmt-&gt;bind_result($uid, $username); while ($stmt-&gt;fetch()) &#123; $row = array(); $row[&apos;uid&apos;] = $uid; $row[&apos;username&apos;] = $username; $userinfo[] = $row; &#125;&#125;echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;; 从上面的代码可以看到，我们程序里并没有使用addslashes函数，但是浏览器里运行 http://localhost/test/userinfo2.php?username=plhwin&#39; AND 1=1– hack 里得不到任何结果，说明SQL漏洞在这个程序里并不存在。实际上，绑定变量使用预编译语句是预防SQL注入的最佳方式，使用预编译的SQL语句语义不会发生改变，在SQL语句中，变量用问号?表示，黑客即使本事再大，也无法改变SQL语句的结构，像上面例子中，username变量传递的 plhwin’ AND 1=1– hack 参数，也只会当作username字符串来解释查询，从根本上杜绝了SQL注入攻击的发生。]]></content>
+      <categories>
+        <category>前端安全</category>
+      </categories>
+      <tags>
+        <tag>安全</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[常用的性能优化手段]]></title>
+    <url>%2F2018%2F05%2F23%2F%E5%B8%B8%E7%94%A8%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%89%8B%E6%AE%B5%2F</url>
+    <content type="text"><![CDATA[DOM优化高效使用HTML标签描述：HTML是一门标记语言，使用合理的HTML标签前你必须了解其属性，比如Flow Elements，Metadata Elements ，Phrasing Elements。比较基础的就是得知道块级元素和内联元素、盒模型、SEO方面的知识。 减少对DOM的操作描述：对DOM操作的代价是高昂的，这在网页应用中的通常是一个性能瓶颈。 天生就慢。在《高性能JavaScript》中这么比喻：“把DOM看成一个岛屿，把JavaScript(ECMAScript)看成另一个岛屿，两者之间以一座收费桥连接”。所以每次访问DOM都会教一个过桥费，而访问的次数越多，交的费用也就越多。所以一般建议尽量减少过桥次数。 解决方法：修改和访问DOM元素会造成页面的Repaint和Reflow，循环对DOM操作更是罪恶的行为。所以请合理的使用JavaScript变量储存内容，考虑大量DOM元素中循环的性能开销，在循环结束时一次性写入。 减少对DOM元素的查询和修改，查询时可将其赋值给局部变量。 注：在IE中:hover会降低响应速度。 BOM优化js优化css优化把CSS资源引用放到HTML文件顶部这样浏览器可以优先下载CSS并尽快完成页面渲染 有效的使用css选择器CSS是用来渲染页面的，也是存在渲染效率的问题。CSS选择符是从右向左进行匹配的，这里对css选择符按照开销从小到大的顺序梳理一下： ID选择符 #box 类选择符 .box 标签 div 伪类和伪元素 a:hover 当页面被触发引起回流（reflow）的时候，低效的选择符依然会引发更高的开销，所以请避免低效。 Repaint 和 Reflow描述：Repaint(重绘)就是在一个元素的外观被改变，但没有改变布局(宽高)的情况下发生，如改变visibility、outline、背景色等等。 Reflow(重排)就是DOM的变化影响到了元素的几何属性（宽和高），浏览器会重新计算元素的几何属性，会使渲染树中受到影响的部分失效，浏览器会验证DOM树上的所有其它结点的visibility属性，这也是Reflow低效的原因。如：改变窗囗大小、改变文字大小、内容的改变、浏览器窗口变化，style属性的改变等等。如果Reflow的过于频繁，CPU使用率就会噌噌的往上涨，所以前端也就有必要知道 Repaint 和 Reflow的知识。 解决方法：上面提到通过设置style属性改变结点样式的话，每设置一次都会导致一次reflow，所以最好通过设置class的方式； 有动画效果的元素，它的position属性应当设为fixed或absolute，这样不会影响其它元素的布局；如果功能需求上不能设置position为fixed或absolute，那么就权衡速度的平滑性。 总之，因为 Reflow 有时确实不可避免，所以只能尽可能限制Reflow的影响范围。 网络优化减少HTTP请求基本原理描述：在浏览器(客户端)和服务器发生通信时，就已经消耗了大量的时间，尤其是在网络情况比较糟糕的时候，这个问题尤其的突出。 一个正常HTTP请求的流程简述：如在浏览器中输入”www.xxxxxx.com&quot;并按下回车，浏览器再与这个URL指向的服务器建立连接，然后浏览器才能向服务器发送请求信息，服务器在接受到请求的信息后再返回相应的信息，浏览器接收到来自服务器的应答信息后，对这些数据解释执行。 解决方法：合并图片（css sprites），合并CSS和JS文件；图片较多的页面也可以使用 lazyLoad等技术进行优化。 使用CDN加速描述：”其基本思路是尽可能避开互联网上有可能影响数据传输速度和稳定性的瓶颈和环节，使内容传输的更快、更稳定。通过在网络各处放置节点服务器所构成的在现有的互联网基础之上的一层智能虚拟网络，CDN系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。” 使用可缓存的AJAX对于内容相同的请求，有时候没必要每次都从服务器拉取，合理的使用ajax缓存能加快ajax响应速度并减少服务器的压力 123456$.ajax(&#123; url : url, dataType : &quot;json&quot;, cache: true, success: function(data)&#123; // to do something... &#125;&#125;); 使用get请求POST请求会首先发送文件头，然后发送HTTP正文的数据。而使用GET只发送头部，所以在拉取数据时使用GET请求效率更高 其他优化JSON格式来进行数据交换描述：JSON是一种轻量级的数据交换格式，采用完全独立于语言的文本格式，是理想的数据交换格式。同时，JSON是 JavaScript原生格式，这意味着在 JavaScript 中处理 JSON数据不需要任何特殊的 API 或工具包。 与XML序列化相比，JSON序列化后产生的数据一般要比XML序列化后数据体积小，所以在Facebook等知名网站中都采用了JSON作为数据交换方式。 图片压缩注意控制Cookie大小和污染描述：因为Cookie是本地的磁盘文件，每次浏览器都会去读取相应的Cookie，所以建议去除不必要的Coockie，使Coockie体积尽量小以减少对用户响应的影响；使用Cookie跨域操作时注意在适应级别的域名上设置coockie以便使子域名不受其影响；Cookie是有生命周期的，所以请注意设置合理的过期时间，合理地Expire时间和不要过早去清除coockie，都会改善用户的响应时间。]]></content>
+      <categories>
+        <category>前端性能优化</category>
+      </categories>
+      <tags>
+        <tag>性能优化</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[回流和重绘]]></title>
+    <url>%2F2018%2F05%2F17%2F%E5%9B%9E%E6%B5%81%E5%92%8C%E9%87%8D%E7%BB%98%2F</url>
+    <content type="text"><![CDATA[1234567891011回流必将引起重绘，而重绘不一定会引起回流。当render tree中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不会影响布局的，比如background-color。则就叫称为重绘。当页面布局和几何属性改变时就需要回流。下述情况会发生浏览器回流：1、添加或者删除可见的DOM元素；2、元素位置改变；3、元素尺寸改变——边距、填充、边框、宽度和高度4、内容改变——比如文本改变或者图片大小改变而引起的计算值宽度和高度改变；5、页面渲染初始化；6、浏览器窗口尺寸改变——resize事件发生时；]]></content>
+      <categories>
+        <category>css</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[BFC]]></title>
+    <url>%2F2018%2F05%2F08%2FBFC%2F</url>
+    <content type="text"><![CDATA[BFC概念具有 BFC 特性的元素可以看作是隔离了的独立容器，容器里面的元素不会在布局上影响到外面的元素，并且 BFC 具有普通容器所没有的一些特性。 通俗一点来讲，可以把 BFC 理解为一个封闭的大箱子，箱子内部的元素无论如何翻江倒海，都不会影响到外部。 BFC触发条件 body 根元素 浮动元素：float 除 none 以外的值 绝对定位元素：position (absolute、fixed) display 为 inline-block、table-cells、flex overflow 除了 visible 以外的值 (hidden、auto、scroll) BFC示例同一个 BFC 下外边距会发生折叠123456789101112&lt;head&gt;div&#123; width: 100px; height: 100px; background: lightblue; margin: 100px;&#125;&lt;/head&gt;&lt;body&gt; &lt;div&gt;&lt;/div&gt; &lt;div&gt;&lt;/div&gt;&lt;/body&gt; 从效果上看，因为两个 div 元素都处于同一个 BFC 容器下 (这里指 body 元素) 所以第一个 div 的下边距和第二个 div 的上边距发生了重叠，所以两个盒子之间距离只有 100px，而不是 200px。 首先这不是 CSS 的 bug，我们可以理解为一种规范，如果想要避免外边距的重叠，可以将其放在不同的 BFC 容器中。 1234567891011121314151617&lt;style&gt;.container &#123; overflow: hidden;&#125;p &#123; width: 100px; height: 100px; background: lightblue; margin: 100px;&#125;&lt;/style&gt;&lt;div class=&quot;container&quot;&gt; &lt;p&gt;&lt;/p&gt;&lt;/div&gt;&lt;div class=&quot;container&quot;&gt; &lt;p&gt;&lt;/p&gt;&lt;/div&gt; BFC 可以包含浮动的元素（清除浮动）我们都知道，浮动的元素会脱离普通文档流，来看下下面一个例子 123&lt;div style=&quot;border: 1px solid #000;&quot;&gt; &lt;div style=&quot;width: 100px;height: 100px;background: #eee;float: left;&quot;&gt;&lt;/div&gt;&lt;/div&gt; 由于容器内元素浮动，脱离了文档流，所以容器只剩下 2px 的边距高度。如果使触发容器的 BFC，那么容器将会包裹着浮动元素。 123&lt;div style=&quot;border: 1px solid #000;overflow: hidden&quot;&gt; &lt;div style=&quot;width: 100px;height: 100px;background: #eee;float: left;&quot;&gt;&lt;/div&gt;&lt;/div&gt; BFC 可以阻止元素被浮动元素覆盖123&lt;div style=&quot;height: 100px;width: 100px;float: left;background: lightblue&quot;&gt;我是一个左浮动的元素&lt;/div&gt;&lt;div style=&quot;width: 200px; height: 200px;background: #eee&quot;&gt;我是一个没有设置浮动, 也没有触发 BFC 元素, width: 200px; height:200px; background: #eee;&lt;/div&gt; 这时候其实第二个元素有部分被浮动元素所覆盖，(但是文本信息不会被浮动元素所覆盖) 如果想避免元素被覆盖，可触第二个元素的 BFC 特性，在第二个元素中加入 overflow: hidden，就会变成：]]></content>
+      <categories>
+        <category>css</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Vue学习日记（四）——Vue状态管理vuex]]></title>
     <url>%2F2018%2F02%2F02%2FVue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0%EF%BC%88%E5%9B%9B%EF%BC%89%E2%80%94%E2%80%94Vue%E7%8A%B6%E6%80%81%E7%AE%A1%E7%90%86vuex%2F</url>
     <content type="text"><![CDATA[前言先说句前话，如果不是接触大型项目，不需要有多个子页面，不使用vuex也是完全可以的。 说实在话，我在阅读vuex文档的时候，也很难以去理解vuex，甚至觉得没有使用它我也可以。但是直到我在项目碰到下面这些问题： 当路由切换的时候，原本路由的数据太多，传递过去太麻烦。 有些数据是多个路由需要用到的，那我就需要从后台获取多次数据 当然，这些问题都可以解决，就是在实例化vue对象的时候，就将这些数据绑定在window对象上面。但是我们也不得不设想： 万一数据太多了，那么可阅读性是不是会下降 如果只是修改单独的数据，是不是所有的页面都可以更新 对于第一个问题，答案是肯定的，虽然说，我们现在也可以用模块化的思想去使可阅读性更加好，但是没有一个规范，对于刚入手项目的总是难以理解。 对于第二个问题，当你页面少的时候，是不会出现这样的问题的，但是如果页面多了，你就会发现，当你把window.$data里面的数据更新的时候，所有页面的计算属性都会失效，就是你无论怎么修改数据，页面都不会更新数据。 这时候，就需要用到我们的vuex了。 vuex介绍 那么vuex 到底是什么？ 引用官网的说法就是Vuex是一个专为Vue.js应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。 是不是还是有点难以理解，其实简单的说vuex就是把这个项目的所有数据都存储在一个地方，方便修改和获取数据。 例如，我们从下面这张图给大家先简单的分析一下 在这张图片里面我们很明显可以看到三个部分 Vue Components 表示vue里面的组件 Backend API 后台API vuex 组件里面的数据管理 我们可以生动形象的理解，如果说Vuex是一个仓库，那么么Vue Components就就是售货者，负责把仓库里面的东西展现出来，Backend API就相当于入货的人，负责将货物买进来（也就是后台返回数据给前端，保存在vuex里面）。而vuex就是仓库，这个仓库里面有货物state，有管理货物进出的Muations 引用vuex在说state之前，我们可以先在我们vue项目引用vuex1npm install vuex 然后在我们的src目录下新建一个store的文件夹，在store文件夹里面新建一个index.js的文件1234567891011// ~/src/store/index.jsimport Vue from &apos;Vue&apos;import Vuex from &apos;Vuex&apos;// 在这里声明实例一个Vue 去引用Vuex状态管理插件// 这样就可以减少在main.js里面的代码量了Vue.use(Vuex)// 返回store实例对象export default new Vuex.Store(&#123;&#125;) 这里说一下吧，这里Store其实就是相当vuex实例化的一个仓库。 data替代者state 为什么说state是data的替代者呢？ 很容易理解，就是讲组件里面的局部参数，改成了一个可以全局使用的参数state，例如，我们在me.vue组件引用的数据todo。 那么我们可以在store里面这样实例化它出来12345678// ~/src/store/index.js// ...export default new Vuex.Store(&#123; state: &#123; todo: [] &#125;&#125;) 那么，我们在组件里面怎么使用这个数据呢？1234567891011// me.vue组件文件// ...&lt;script type=&quot;text/ecmascript-6&quot;&gt;export default &#123; data() &#123; meTodo: [] // 然后在方法里面引用this.meTodo = this.$store.state.todo &#125;&#125;&lt;/script&gt;// ... 是不是很简单，但是我们不可能每次使用这个值都要获取一次吧，这些vue团队也都想好了，我们可以通过计算属性来获取state里面的数据。12345678910111213// ...&lt;script type=&quot;text/ecmascript-6&quot;&gt;// 在单独构建的版本中辅助函数为 Vuex.mapStateimport &#123; mapState &#125; from &apos;vuex&apos;export default &#123; computed: mapState([ // 映射 this.todo 为 store.state.todo &apos;todo&apos;])&#125;&lt;/script&gt;// ... 相当于1234567891011// ...&lt;script type=&quot;text/ecmascript-6&quot;&gt;export default &#123; computed: todo () &#123; return this.$store.state.todo &#125;])&#125;&lt;/script&gt;// ... 计算属性Getter有时候我们会需要对state的数据进行一些过滤操作，例如我们只要在todo里面大于10的数字，如果是用computed的话，我们就需要使用filter函数，为了更加简便，vuex也给我们提供了计算属性getter。 我们可以修改我们的~/src/store/index文件123456789// ...export default new Vuex.Store(&#123; state: &#123; todo: [] &#125;, getters: &#123; todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10) &#125;&#125;) 然后在me.vue里面引用123456789101112131415// ...&lt;script type=&quot;text/ecmascript-6&quot;&gt;// 在单独构建的版本中辅助函数为 Vuex.mapGettersimport &#123; mapGetters &#125; from &apos;vuex&apos;export default &#123; computed: &#123; ...mapGetters([ // 映射 this.todo 为 store.state.todo &apos;todo&apos; ]) &#125;&#125;&lt;/script&gt;// ... 这样就可以简单拿到大于10的todo数据了 修改state的Mutation 我们说了怎么获取数据，但是我们应该怎么修改数据呢，是不是直接赋值给数据就可以了呢？ 答案当然不是，vuex规定了，我们只能用Mutation来进行修改数据，那么，我们怎么进行修改数据呢？修改我们的~/src/store/index.js123456789101112// ...export default new Vuex.Store(&#123; state: &#123; todo: [] &#125;, getters: &#123; todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10) &#125;, mutations: &#123; revsiseTode: (state, oneTodo) =&gt; (state.todo = oneTodo) // 修改state的值 &#125;&#125;) 然后在我们的me.vue组件里面修改123456789101112131415161718192021222324// ...// 在单独构建的版本中辅助函数为 Vuex.mapGettersimport &#123; mapGetters &#125; from &apos;vuex&apos;// 在单独构建的版本中辅助函数为 Vuex.mapMutationsimport &#123; mapMutations &#125; from &apos;vuex&apos;export default &#123; computed: &#123; ...mapGetters([ // 映射 this.todo 为 store.state.todo &apos;todo&apos; ]) &#125;, method: &#123; ...mapMutations( [ // 将 `this.revsiseTode()` 映射为 `this.$store.commit(&apos;revsiseTode&apos;)` // 如果想传递参数可以使用this.$store.commit(&apos;revsiseTode&apos;, oneTode) // 或者Action &apos;revsiseTode&apos; ] ) &#125;&#125; Action的使用写了这么久，终于到了Action的出场了，其实不管怎么说，Action主要是为了与后台交互而使用的属性，这里，我就假设todo的数据在路由/me/gettodo里面能够获取，因此，修改~/store/index.js1234567891011121314151617// ...export default new Vuex.Store(&#123; state: &#123; todo: [] &#125;, getters: &#123; todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10) &#125;, mutations: &#123; revsiseTode: (state, oneTodo) =&gt; (state.todo = oneTodo) // 修改state的值 &#125;, actions: &#123; getTodo: context =&gt; Vue.http.get(&apos;/me/gettodo&apos;, (res) =&gt; &#123; context.commit(&apos;revsiseTode&apos;, res.body.todo) &#125;) &#125;&#125;) 然后就可以通过触发我们的actions来提交mutations去修改state的数据了，在me.vue修改12345678910111213141516171819202122// ...// 在单独构建的版本中辅助函数为 Vuex.mapGettersimport &#123; mapGetters &#125; from &apos;vuex&apos;// 在单独构建的版本中辅助函数为 Vuex.mapMutationsimport &#123; mapActions &#125; from &apos;vuex&apos;export default &#123; computed: &#123; ...mapGetters([ // 映射 this.todo 为 store.state.todo &apos;todo&apos; ]) &#125;, method: &#123; ...mapActions( [ &apos;reviseTodo&apos;, // 将 `this.reviseTodo()` 映射为 `this.$store.dispatch(&apos;reviseTodo&apos;) ] ) &#125;&#125;// ... vuex目录结构上面主要只是简单的讲了一下vuex的使用，也只是讲了一部分，不过相信看了这里之后再去官网就会有更深的理解。当然这些都是简单的使用，如果想把vuex运用到项目，必须把他们模块化更加好看，vuex官网也为我们提供了规范的项目目录结构，我这里就不多啰嗦几句了。 总结vuex其实不难，我一开始也以为很难一直学不会，只要多使用就会觉得，其实也就只是别人都封装好了的方法，我们去使用这个简便的仓库就行了。]]></content>
@@ -114,18 +323,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[前端开发工具篇(2)——安装git和乌龟tortoiseGit]]></title>
-    <url>%2F2017%2F01%2F10%2F%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%AF%87(2)%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85git%E5%92%8C%E4%B9%8C%E9%BE%9FtortoiseGit%2F</url>
-    <content type="text"><![CDATA[作为一个前端开发人员，开发工具先是非常重要的，俗话说”欲力其工必先利其器” git是每个程序员必须要学会的技能，但是git命令输入比较还是比较繁琐，有桌面端肯定更好。 附：安装git和乌龟git教程 在安装tortoiseGit的时候可能会出现,2503,2502错误。 按照网上的说法是要进入cmd管理员身份,然后输入mriexec \package”路径”(例如mrexec \package”F:\text.msi”) 但是我在输入的时候发现提示另外的错误： “无法打开该修补程序包，请与应用供应商联系”… 这时候，发现了，mriexec应该是安装exe文件的，然后我在cmd(以管理员身份)直接打开msi文件就可以直接安装了(例如:F:\test.msi)。]]></content>
-      <categories>
-        <category>前端开发工具</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-        <tag>tortoiseGit</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[前端开发工具篇(1)——汇总篇]]></title>
     <url>%2F2017%2F01%2F10%2F%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%AF%87(1)%E2%80%94%E2%80%94%E6%B1%87%E6%80%BB%E7%AF%87%2F</url>
     <content type="text"><![CDATA[作为一个前端开发人员，开发工具先是非常重要的，俗话说”欲力其工必先利其器 在这里主要介绍几个软件给大家: git(mygit)和tortoiseGit，强大的git工具。 vs code，前端开发的主要工具另外也有其他的(例如sublime等,这里就不一一介绍了)。 Node.js,这是一个Javascript运行环境(runtime),用于方便地搭建响应速度快、易于扩展的网络应用。 有道云笔记，一个用来记录的文件，写博客会用到 具体安装和下载见其他文章]]></content>
@@ -136,6 +333,18 @@
         <tag>git</tag>
         <tag>vscode</tag>
         <tag>node.js</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[前端开发工具篇(2)——安装git和乌龟tortoiseGit]]></title>
+    <url>%2F2017%2F01%2F10%2F%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7%E7%AF%87(2)%E2%80%94%E2%80%94%E5%AE%89%E8%A3%85git%E5%92%8C%E4%B9%8C%E9%BE%9FtortoiseGit%2F</url>
+    <content type="text"><![CDATA[作为一个前端开发人员，开发工具先是非常重要的，俗话说”欲力其工必先利其器” git是每个程序员必须要学会的技能，但是git命令输入比较还是比较繁琐，有桌面端肯定更好。 附：安装git和乌龟git教程 在安装tortoiseGit的时候可能会出现,2503,2502错误。 按照网上的说法是要进入cmd管理员身份,然后输入mriexec \package”路径”(例如mrexec \package”F:\text.msi”) 但是我在输入的时候发现提示另外的错误： “无法打开该修补程序包，请与应用供应商联系”… 这时候，发现了，mriexec应该是安装exe文件的，然后我在cmd(以管理员身份)直接打开msi文件就可以直接安装了(例如:F:\test.msi)。]]></content>
+      <categories>
+        <category>前端开发工具</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>tortoiseGit</tag>
       </tags>
   </entry>
 </search>

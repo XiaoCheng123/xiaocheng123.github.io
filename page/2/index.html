@@ -260,7 +260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/10/前端开发工具篇(2)——安装git和乌龟tortoiseGit/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/核心（2）Http/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="广工小成">
@@ -279,7 +279,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/01/10/前端开发工具篇(2)——安装git和乌龟tortoiseGit/" itemprop="url">前端开发工具篇(2)——安装git和乌龟tortoiseGit</a></h1>
+                <a class="post-title-link" href="/2018/05/28/核心（2）Http/" itemprop="url">核心（2）Http</a></h1>
         
 
         <div class="post-meta">
@@ -291,8 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-10T00:00:00+08:00">
-                2017-01-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">
+                2018-05-28
               </time>
             
 
@@ -314,8 +314,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端开发工具/" itemprop="url" rel="index">
-                    <span itemprop="name">前端开发工具</span>
+                  <a href="/categories/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
                   </a>
                 </span>
 
@@ -353,17 +353,159 @@
       
         
           
-            <blockquote>
-<p>作为一个前端开发人员，开发工具先是非常重要的，俗话说”欲力其工必先利其器”</p>
-</blockquote>
-<p>git是每个程序员必须要学会的技能，但是git命令输入比较还是比较繁琐，有桌面端肯定更好。</p>
-<p>附：<a href="http://www.cnblogs.com/xijin-wu/p/5899056.html" target="_blank" rel="noopener">安装git和乌龟git教程</a></p>
-<hr>
-<p>在安装tortoiseGit的时候可能会出现,2503,2502错误。<img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/12.png?raw=true" alt="image"><br><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/13.png?raw=true" alt="image"></p>
-<p>按照网上的说法是要进入cmd管理员身份,然后输入mriexec \package”路径”(例如mrexec \package”F:\text.msi”)</p>
-<p>但是我在输入的时候发现提示另外的错误：</p>
-<p><strong>“无法打开该修补程序包，请与应用供应商联系”…</strong><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/14.jpg?raw=true" alt="image"></p>
-<p>这时候，发现了，mriexec应该是安装exe文件的，然后我在cmd(以管理员身份)直接打开msi文件就可以直接安装了(例如:F:\test.msi)。</p>
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>http是node的核心不为过，毕竟node说实在，就是为了搭建服务器而使用的一门语言，具体还是得看看官网API</p>
+<h2 id="服务端实例"><a href="#服务端实例" class="headerlink" title="服务端实例"></a>服务端实例</h2><p>简单一个实例吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 创建一个server</span><br><span class="line">var http = require(&apos;http&apos;)</span><br><span class="line">var server = http.createServer()</span><br><span class="line"></span><br><span class="line">var handler = function(req, res) &#123;</span><br><span class="line">    res.write(200, &#123;&#125;)</span><br><span class="line">    res.end(&apos;hello world&apos;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 对server的请求事件进行监听</span><br><span class="line">server.on(&apos;request&apos;, handler)</span><br><span class="line"></span><br><span class="line">// 将server运行在8080端口</span><br><span class="line">server.listen(8080)</span><br></pre></td></tr></table></figure></p>
+<h2 id="客户端实例"><a href="#客户端实例" class="headerlink" title="客户端实例"></a>客户端实例</h2><p>简单创建一个客户端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var http = require(&apos;http&apos;)</span><br><span class="line"></span><br><span class="line">var opts = &#123;</span><br><span class="line">    host: &apos;127.0.0.1&apos;,</span><br><span class="line">    port: &apos;8080&apos;,</span><br><span class="line">    path: &apos;/&apos;,</span><br><span class="line">    method: &apos;GET&apos;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 创建客户端实例</span><br><span class="line">var req = http.request(opts, function(res) &#123;</span><br><span class="line">    console.log(res)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 发送消息</span><br><span class="line">req.end()</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/24/v-model详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/24/v-model详解/" itemprop="url">v-model详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T00:00:00+08:00">
+                2018-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="v-model基础"><a href="#v-model基础" class="headerlink" title="v-model基础"></a>v-model基础</h2><p>给组件添加 v-model 属性时，默认会把 value 作为组件的属性，然后把 ‘input’ 值作为给组件绑定事件时的事件名</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;demo&quot;&gt;</span><br><span class="line">  &lt;currency-input v-model=&quot;price&quot;&gt;&lt;/currentcy-input&gt;</span><br><span class="line">  &lt;span&gt;&#123;&#123;price&#125;&#125;&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;script src=&quot;https://cdn.bootcss.com/vue/2.3.0/vue.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">Vue.component(&apos;currency-input&apos;, &#123;</span><br><span class="line">  template: `</span><br><span class="line">    &lt;span&gt;</span><br><span class="line">      &lt;input</span><br><span class="line">        ref=&quot;input&quot;</span><br><span class="line">        :value=&quot;value&quot;</span><br><span class="line">        &lt;!--为什么这里把 &apos;input&apos; 作为触发事件的事件名？`input` 在哪定义的？--&gt;</span><br><span class="line">        @input=&quot;$emit(&apos;input&apos;, $event.target.value)&quot;</span><br><span class="line">      &gt;</span><br><span class="line">    &lt;/span&gt;</span><br><span class="line">  `,</span><br><span class="line">  props: [&apos;value&apos;],// 为什么这里要用 value 属性，value在哪里定义的？貌似没找到啊？</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">var demo = new Vue(&#123;</span><br><span class="line">  el: &apos;#demo&apos;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    price: 100,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;currency-input v-model=&quot;price&quot;&gt;&lt;/currentcy-input&gt;</span><br><span class="line">&lt;!--上行代码是下行的语法糖</span><br><span class="line">  &lt;currency-input :value=&quot;price&quot; @input=&quot;price = arguments[0]&quot;&gt;&lt;/currency-input&gt;</span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="v-model-的缺点和解决办法"><a href="#v-model-的缺点和解决办法" class="headerlink" title="v-model 的缺点和解决办法"></a>v-model 的缺点和解决办法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;checkbox&quot; v-model=&quot;sth&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>v-model 给我们提供好了 value 属性和 oninput 事件，但是，我们需要的不是 value 属性，而是 checked 属性，并且当你点击这个单选框的时候不会触发 oninput 事件，它只会触发 onchange 事件。这就尴尬</p>
+<p>因为 v-model 只是用到了 input 元素上，所以这种情况好解决：↓</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;checkbox&quot; :checked=&quot;status&quot; @change=&quot;status = $event.target.checked&quot; /&gt;</span><br></pre></td></tr></table></figure>
+<p>当 v-model 用到组件上时：↓<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;my-checkbox v-model=&quot;foo&quot;&gt;&lt;/my-checkbox&gt;</span><br><span class="line"></span><br><span class="line">Vue.component(&apos;my-checkbox&apos;, &#123;</span><br><span class="line">  tempalte: `&lt;input </span><br><span class="line">               type=&quot;checkbox&quot;</span><br><span class="line">               @change=&quot;$emit(&apos;input&apos;, $event.target.checked)&quot;</span><br><span class="line">               :checked=&quot;value&quot;</span><br><span class="line">             /&gt;`</span><br><span class="line">  props: [&apos;value&apos;],</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>在 Vue 2.2 版本，你可以在定义组件时通过 model 选项的方式来定制 prop/event：↓<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;my-checkbox v-model=&quot;foo&quot;&gt;&lt;/my-checkbox&gt;</span><br><span class="line"></span><br><span class="line">Vue.component(&apos;my-checkbox&apos;, &#123;</span><br><span class="line">  tempalte: `&lt;input </span><br><span class="line">               type=&quot;checkbox&quot;</span><br><span class="line">               &lt;!--这里就不用 input 了，而是 balabala--&gt;</span><br><span class="line">               @change=&quot;$emit(&apos;balabala&apos;, $event.target.checked)&quot;</span><br><span class="line">               :checked=&quot;checked&quot;</span><br><span class="line">             /&gt;`</span><br><span class="line">  props: [&apos;checked&apos;], //这里就不用 value 了，而是 checked</span><br><span class="line">  model: &#123;</span><br><span class="line">    prop: &apos;checked&apos;,</span><br><span class="line">    event: &apos;balabala&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -412,7 +554,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/10/前端开发工具篇(1)——汇总篇/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/24/Promise详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="广工小成">
@@ -431,7 +573,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/01/10/前端开发工具篇(1)——汇总篇/" itemprop="url">前端开发工具篇(1)——汇总篇</a></h1>
+                <a class="post-title-link" href="/2018/05/24/Promise详解/" itemprop="url">Promise详解</a></h1>
         
 
         <div class="post-meta">
@@ -443,8 +585,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-10T00:00:00+08:00">
-                2017-01-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T00:00:00+08:00">
+                2018-05-24
               </time>
             
 
@@ -466,8 +608,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端开发工具/" itemprop="url" rel="index">
-                    <span itemprop="name">前端开发工具</span>
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
                   </a>
                 </span>
 
@@ -505,19 +647,1181 @@
       
         
           
-            <blockquote>
-<p>作为一个前端开发人员，开发工具先是非常重要的，俗话说”欲力其工必先利其器</p>
-</blockquote>
-<p>在这里主要介绍几个软件给大家:</p>
-<ul>
-<li>git(mygit)和tortoiseGit，强大的git工具。<img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/1.png?raw=true" alt="image"></li>
-<li>vs code，前端开发的主要工具另外也有其他的(例如sublime等,这里就不一一介绍了)。<img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/2.png?raw=true" alt="image"></li>
-<li>Node.js,这是一个Javascript运行环境(runtime),用于方便地搭建响应速度快、易于扩展的网络应用。<img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/3.png?raw=true" alt="image"></li>
-<li>有道云笔记，一个用来记录的文件，写博客会用到<img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/4.png?raw=true" alt="image"></li>
-</ul>
+            <h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Promise是一个构造函数，构造参数为一个函数</p>
 <blockquote>
-<p>具体安装和下载见其他文章</p>
+<p>构造成功后，函数立即执行；其中回调的异步操作加入异步队列，例如</p>
 </blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let promise = new Promise(function(resolve, reject) &#123;</span><br><span class="line">  console.log(&apos;Promise&apos;);</span><br><span class="line">  resolve();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">promise.then(function() &#123;</span><br><span class="line">  console.log(&apos;resolved.&apos;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">console.log(&apos;Hi!&apos;);</span><br><span class="line"></span><br><span class="line">// Promise</span><br><span class="line">// Hi!</span><br><span class="line">// resolved</span><br></pre></td></tr></table></figure>
+<p>在构造参数这个函数里面，若没有return，所有语句都执行</p>
+<h2 id="Promise-prototype的then"><a href="#Promise-prototype的then" class="headerlink" title="Promise.prototype的then"></a>Promise.prototype的then</h2><p>Promise函数有三种状态，pending变为resolved和从pending变为rejected</p>
+<p>then函数接受两个参数，第二个参数可选，例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var promise = new Promise(function()&#123;</span><br><span class="line">    // do something()</span><br><span class="line">    // resolved or rejected</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 这里的resloved和rejected都是函数，而且rejected可不填</span><br><span class="line">promise.then(resloved, rejected)</span><br></pre></td></tr></table></figure>
+<h3 id="then的链式调用"><a href="#then的链式调用" class="headerlink" title="then的链式调用"></a>then的链式调用</h3><p>then方法返回的是一个新的Promise实例（注意，不是原来那个Promise实例）。因此可以采用链式写法，即then方法后面再调用另一个then方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">getJSON(&quot;/posts.json&quot;).then(function(json) &#123;</span><br><span class="line">  return new Promise(...);</span><br><span class="line">&#125;).then(function(post) &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h2 id="Promise-prototype的catch"><a href="#Promise-prototype的catch" class="headerlink" title="Promise.prototype的catch"></a>Promise.prototype的catch</h2><p>Promise.prototype.catch方法是.then(null, rejection)的别名，用于指定发生错误时的回调函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">getJSON(&quot;/posts.json&quot;).then(function(json) &#123;</span><br><span class="line">  return new Promise(...);</span><br><span class="line">&#125;).then(function(post) &#123;</span><br><span class="line">  // ...</span><br><span class="line">&#125;).catch(function(err)&#123;</span><br><span class="line">  // 处理上面两个promise返回的错误信息</span><br><span class="line">&#125;)</span><br><span class="line">;</span><br></pre></td></tr></table></figure>
+<h2 id="Promise-all-和Promise-race"><a href="#Promise-all-和Promise-race" class="headerlink" title="Promise.all()和Promise.race()"></a>Promise.all()和Promise.race()</h2><p>Promise.all方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const p = Promise.all([p1, p2, p3]);</span><br><span class="line"></span><br><span class="line">// p1，p2，p3都返回resolved，p才可以resolved</span><br><span class="line">p.then(resolved,rejected)</span><br></pre></td></tr></table></figure>
+<p>Promise.race方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const p = Promise.race([p1, p2, p3]);</span><br><span class="line"></span><br><span class="line">// p1，p2，p3哪个先改变状态，p就是什么状态</span><br><span class="line">p.then(resolved,rejected)</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/24/ES6的Proxy和Reflect/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/24/ES6的Proxy和Reflect/" itemprop="url">ES6的Proxy和Reflect</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T00:00:00+08:00">
+                2018-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Proxy"><a href="#Proxy" class="headerlink" title="Proxy"></a>Proxy</h2><blockquote>
+<p>Proxy 用于修改某些操作的默认行为，等同于在语言层面做出修改，所以属于一种“元编程”（meta programming），即对编程语言进行编程。</p>
+</blockquote>
+<p>Proxy就是一种代理，外界对该对象的访问，必须经过它，可以对外界的访问进行过滤和改写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var obj = new Proxy(&#123;&#125;, &#123;</span><br><span class="line">  get: function (target, key, receiver) &#123;</span><br><span class="line">    console.log(`getting $&#123;key&#125;!`);</span><br><span class="line">    return Reflect.get(target, key, receiver);</span><br><span class="line">  &#125;,</span><br><span class="line">  set: function (target, key, value, receiver) &#123;</span><br><span class="line">    console.log(`setting $&#123;key&#125;!`);</span><br><span class="line">    return Reflect.set(target, key, value, receiver);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">obj.count = 1</span><br><span class="line">//  setting count!</span><br><span class="line">++obj.count</span><br><span class="line">//  getting count!</span><br><span class="line">//  setting count!</span><br><span class="line">//  2</span><br></pre></td></tr></table></figure>
+<p>上面的代码里面，new Proxy()返回了一个{}，这个{}里面属性的set和get已经被重写。</p>
+<p>Proxy构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// target为目标对象，handler为对对象的代理</span><br><span class="line">var proxy = new Proxy(target, handler);</span><br></pre></td></tr></table></figure>
+<h3 id="Proxy的get"><a href="#Proxy的get" class="headerlink" title="Proxy的get"></a>Proxy的get</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var person = &#123;</span><br><span class="line">  name: &quot;张三&quot;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var proxy = new Proxy(person, &#123;</span><br><span class="line">  // get接受两个参数，一个是目标对象，一个是访问的属性</span><br><span class="line">  get: function(target, property) &#123;</span><br><span class="line">    if (property in target) &#123;</span><br><span class="line">      return target[property];</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      throw new ReferenceError(&quot;Property \&quot;&quot; + property + &quot;\&quot; does not exist.&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">proxy.name // &quot;张三&quot;</span><br><span class="line">proxy.age // 抛出一个错误</span><br></pre></td></tr></table></figure>
+<h3 id="Proxy的set"><a href="#Proxy的set" class="headerlink" title="Proxy的set"></a>Proxy的set</h3><p>set方法用来拦截某个属性的赋值操作，可以接受四个参数，依次为目标对象、属性名、属性值和 Proxy 实例本身，其中最后一个参数可选。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">let validator = &#123;</span><br><span class="line">  set: function(obj, prop, value) &#123;</span><br><span class="line">    if (prop === &apos;age&apos;) &#123;</span><br><span class="line">      if (!Number.isInteger(value)) &#123;</span><br><span class="line">        throw new TypeError(&apos;The age is not an integer&apos;);</span><br><span class="line">      &#125;</span><br><span class="line">      if (value &gt; 200) &#123;</span><br><span class="line">        throw new RangeError(&apos;The age seems invalid&apos;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    // 对于满足条件的 age 属性以及其他属性，直接保存</span><br><span class="line">    obj[prop] = value;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">let person = new Proxy(&#123;&#125;, validator);</span><br><span class="line"></span><br><span class="line">person.age = 100;</span><br><span class="line"></span><br><span class="line">person.age // 100</span><br><span class="line">person.age = &apos;young&apos; // 报错</span><br><span class="line">person.age = 300 // 报错</span><br></pre></td></tr></table></figure></p>
+<h2 id="Reflect"><a href="#Reflect" class="headerlink" title="Reflect"></a>Reflect</h2><blockquote>
+<p>Reflect对象与Proxy对象一样，也是 ES6 为了操作对象而提供的新 API。Reflect对象的设计目的有这样几个。</p>
+</blockquote>
+<ol>
+<li><p>将Object对象的一些明显属于语言内部的方法（比如Object.defineProperty），放到Reflect对象上。现阶段，某些方法同时在Object和Reflect对象上部署，未来的新方法将只部署在Reflect对象上。也就是说，从Reflect对象上可以拿到语言内部的方法。</p>
+</li>
+<li><p>修改某些Object方法的返回结果，让其变得更合理。比如，Object.defineProperty(obj, name, desc)在无法定义属性时，会抛出一个错误，而Reflect.defineProperty(obj, name, desc)则会返回false。</p>
+</li>
+</ol>
+<p>Reflect对象一共有 13 个静态方法。</p>
+<p>Reflect.apply(target, thisArg, args)<br>Reflect.construct(target, args)<br>Reflect.get(target, name, receiver)<br>Reflect.set(target, name, value, receiver)<br>Reflect.defineProperty(target, name, desc)<br>Reflect.deleteProperty(target, name)<br>Reflect.has(target, name)<br>Reflect.ownKeys(target)<br>Reflect.isExtensible(target)<br>Reflect.preventExtensions(target)<br>Reflect.getOwnPropertyDescriptor(target, name)<br>Reflect.getPrototypeOf(target)<br>Reflect.setPrototypeOf(target, prototype)<br>上面这些方法的作用，大部分与Object对象的同名方法的作用都是相同的，而且它与Proxy对象的方法是一一对应的。</p>
+<h2 id="两者的应用"><a href="#两者的应用" class="headerlink" title="两者的应用"></a>两者的应用</h2><p>Reflect对象的方法与Proxy对象的方法一一对应，只要是Proxy对象的方法，就能在Reflect对象上找到对应的方法。这就让Proxy对象可以方便地调用对应的Reflect方法，完成默认行为，作为修改行为的基础。也就是说，不管Proxy怎么修改默认行为，你总可以在Reflect上获取默认行为。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Proxy(target, &#123;</span><br><span class="line">  set: function(target, name, value, receiver) &#123;</span><br><span class="line">    var success = Reflect.set(target,name, value, receiver);</span><br><span class="line">    if (success) &#123;</span><br><span class="line">      log(&apos;property &apos; + name + &apos; on &apos; + target + &apos; set to &apos; + value);</span><br><span class="line">    &#125;</span><br><span class="line">    return success;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，Proxy方法拦截target对象的属性赋值行为。它采用Reflect.set方法将值赋值给对象的属性，确保完成原有的行为，然后再部署额外的功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var loggedObj = new Proxy(obj, &#123;</span><br><span class="line">  get(target, name) &#123;</span><br><span class="line">    console.log(&apos;get&apos;, target, name);</span><br><span class="line">    return Reflect.get(target, name);</span><br><span class="line">  &#125;,</span><br><span class="line">  deleteProperty(target, name) &#123;</span><br><span class="line">    console.log(&apos;delete&apos; + name);</span><br><span class="line">    return Reflect.deleteProperty(target, name);</span><br><span class="line">  &#125;,</span><br><span class="line">  has(target, name) &#123;</span><br><span class="line">    console.log(&apos;has&apos; + name);</span><br><span class="line">    return Reflect.has(target, name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>上面代码中，每一个Proxy对象的拦截操作（get、delete、has），内部都调用对应的Reflect方法，保证原生行为能够正常执行。添加的工作，就是将每一个操作输出一行日志。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/23/防sql注入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/23/防sql注入/" itemprop="url">防sql注入</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-23T00:00:00+08:00">
+                2018-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端安全/" itemprop="url" rel="index">
+                    <span itemprop="name">前端安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Web安全简史在Web1.0时代，人们更多是关注服务器端动态脚本语言的安全问题，比如将一个可执行脚本（俗称Webshell）通过脚本语言的漏洞上传到服务器上，从而获得服务器权限。</p>
+<p>在Web发展初期，随着动态脚本语言的发展和普及，以及早期工程师对安全问题认知不足导致很多”安全血案”的发生，至今仍然遗留下许多历史问题，比如PHP语言至今仍然无法从语言本身杜绝「文件包含漏洞」），只能依靠工程师良好的代码规范和安全意识。伴随着Web2.0、社交网络、微博等一系列新型互联网产品的兴起，基于Web环境的互联网应用越来越广泛，Web攻击的手段也越来越多样，Web安全史上的一个重要里程碑是大约1999年发现的SQL注入攻击，之后的XSS，CSRF等攻击手段愈发强大，Web攻击的思路也从服务端转向了客户端，转向了浏览器和用户。</p>
+<p>在安全领域，一般用帽子的颜色来比喻黑客的善与恶，白帽子是指那些工作在反黑客领域的技术专家，这个群体是”善”的的象征；而黑帽子则是指那些利用黑客技术造成破坏甚至谋取私利造成犯罪的群体，他们是”恶”的代表。“白帽子”和”黑帽子”是两个完全对立的群体。对于黑帽子而言，他们只要找到系统的一个切入点就可以达到入侵破坏的目的，而白帽子必须将自己系统所有可能被突破的地方都设防，以保证系统的安全运行。</p>
+<p>这看起来好像是不公平的，但是安全世界里的规则就是这样，可能我们的网站1000处都布防的很好，考虑的很周到，但是只要有一个地方疏忽了，攻击者就会利用这个点进行突破，让我们另外的1000处努力白费。常见攻击方式一般说来，在Web安全领域，常见的攻击方式大概有以下几种：1、SQL注入攻击2、跨站脚本攻击 - XSS3、跨站伪造请求攻击 - CSRF4、文件上传漏洞攻击5、分布式拒绝服务攻击 - DDOS限于篇幅，本篇只讨论SQL注入攻击的技巧与防范。SQL注入常见攻击技巧SQL注入攻击是Web安全史上的一个重要里程碑，它从1999年首次进入人们的视线，至今已经有十几年的历史了，虽然我们现在已经有了很全面的防范对策，但是它的威力仍然不容小觑，SQL注入攻击至今仍然是Web安全领域中的一个重要组成部分。以PHP+MySQL为例，让我们以一个Web网站中最基本的用户系统来做实例演示，看看SQL注入究竟是怎么发生的。</p>
+<p>1、创建一个名为demo的数据库：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE  `demo` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;</span><br></pre></td></tr></table></figure></p>
+<p>2、创建一个名为user的数据表，并插入1条演示数据：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE  `demo`.`user` (</span><br><span class="line">`uid` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  &apos;用户uid&apos;,</span><br><span class="line">`username` VARCHAR( 20 ) NOT NULL COMMENT  &apos;用户名&apos;,</span><br><span class="line">`password` VARCHAR( 32 ) NOT NULL COMMENT  &apos;用户密码&apos;</span><br><span class="line">) ENGINE = INNODB;</span><br><span class="line">INSERT INTO `demo`.`user` (`uid`, `username`, `password`) VALUES (&apos;1&apos;, &apos;plhwin&apos;, MD5(&apos;123456&apos;));</span><br></pre></td></tr></table></figure></p>
+<p>实例一通过传入username参数，在页面打印出这个会员的详细信息，编写 userinfo.php 程序代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">header(&apos;Content-type:text/html; charset=UTF-8&apos;);</span><br><span class="line">$username = isset($_GET[&apos;username&apos;]) ? $_GET[&apos;username&apos;] : &apos;&apos;;</span><br><span class="line">$userinfo = array();</span><br><span class="line">if($username)&#123;</span><br><span class="line">	//使用mysqli驱动连接demo数据库</span><br><span class="line">	$mysqli = new mysqli(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;, &apos;demo&apos;);</span><br><span class="line">	$sql = &quot;SELECT uid,username FROM user WHERE username=&apos;&#123;$username&#125;&apos;&quot;;</span><br><span class="line">	//mysqli multi_query 支持执行多条MySQL语句</span><br><span class="line">	$query = $mysqli-&gt;multi_query($sql);</span><br><span class="line">	if($query)&#123;</span><br><span class="line">		do &#123;</span><br><span class="line">			$result = $mysqli-&gt;store_result();</span><br><span class="line">			while($row = $result-&gt;fetch_assoc())&#123;</span><br><span class="line">				$userinfo[] = $row;</span><br><span class="line">			&#125;</span><br><span class="line">			if(!$mysqli-&gt;more_results())&#123;</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; while ($mysqli-&gt;next_result());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>上面这个程序要实现的功能是根据浏览器传入的用户名参数，在页面上打印出这个用户的详细信息，程序写的这么复杂是因为我采用了mysqli的驱动，以便能使用到 multi_query 方法来支持同时执行多条SQL语句，这样能更好的说明SQL注入攻击的危害性。假设我们可以通过 <a href="http://localhost/test/userinfo.php?username=plhwin" target="_blank" rel="noopener">http://localhost/test/userinfo.php?username=plhwin</a> 这个URL来访问到具体某个会员的详情，正常情况下，如果浏览器里传入的username是合法的，那么SQL语句会执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT uid,username FROM user WHERE username=&apos;plhwin&apos;</span><br></pre></td></tr></table></figure></p>
+<p>但是，如果用户在浏览器里把传入的username参数变为 plhwin’;SHOW TABLES– hack，也就是当URL变为 <a href="http://localhost/test/userinfo.php?username=plhwin&#39;;SHOW" target="_blank" rel="noopener">http://localhost/test/userinfo.php?username=plhwin&#39;;SHOW</a> TABLES– hack 的时候，此时我们程序实际执行的SQL语句变成了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT uid,username FROM user WHERE username=&apos;plhwin&apos;;SHOW TABLES-- hack&apos;</span><br></pre></td></tr></table></figure>
+<p>注意：在MySQL中，最后连续的两个减号表示忽略此SQL减号后面的语句，我本机的MySQL版本号为5.6.12，目前几乎所有SQL注入实例都是直接采用两个减号结尾，但是实际测试，这个版本号的MySQL要求两个减号后面必须要有空格才能正常注入，而浏览器是会自动删除掉URL尾部空格的，所以我们的注入会在两个减号后面统一添加任意一个字符或单词，本篇文章的SQL注入实例统一以 – hack 结尾。经过上面的SQL注入后，原本想要执行查询会员详情的SQL语句，此时还额外执行了 SHOW TABLES; 语句，这显然不是开发者的本意，此时可以在浏览器里看到页面的输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [0] =&gt; Array</span><br><span class="line">        (</span><br><span class="line">            [uid] =&gt; 1</span><br><span class="line">            [username] =&gt; plhwin</span><br><span class="line">        )</span><br><span class="line">    [1] =&gt; Array</span><br><span class="line">        (</span><br><span class="line">            [Tables_in_demo] =&gt; user</span><br><span class="line">        )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>你能清晰的看到，除了会员的信息，数据库表的名字user也被打印在了页面上，如果作恶的黑客此时将参数换成 plhwin’;DROP TABLE user– hack，那将产生灾难性的严重结果，当你在浏览器中执行 <a href="http://localhost/test/userinfo.php?username=plhwin&#39;;DROP" target="_blank" rel="noopener">http://localhost/test/userinfo.php?username=plhwin&#39;;DROP</a> TABLE user– hack 这个URL后，你会发现整个 user 数据表都消失不见了。通过上面的例子，大家已经认识到SQL注入攻击的危害性，但是仍然会有人心存疑问，MySQL默认驱动的mysql_query方法现在已经不支持多条语句同时执行了，大部分开发者怎么可能像上面的演示程序那样又麻烦又不安全。是的，在PHP程序中，MySQL是不允许在一个mysql_query中使用分号执行多SQL语句的，这使得很多开发者都认为MySQL本身就不允许多语句执行了，但实际上MySQL早在4.1版本就允许多语句执行，通过PHP的源代码，我们发现其实只是PHP语言自身限制了这种用法，具体情况大家可以看看这篇文章「PHP+MySQL多语句执行」。实例二如果系统不允许同时执行多条SQL语句，那么SQL注入攻击是不是就不再这么可怕呢？答案是否定的，我们仍然以上面的user数据表，用Web网站中常用的会员登录系统来做另外一个场景实例，编写程序login.php，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">if($_POST)&#123;</span><br><span class="line">	$link = mysql_connect(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;);</span><br><span class="line">	mysql_select_db(&apos;demo&apos;, $link);</span><br><span class="line">	$username = empty($_POST[&apos;username&apos;]) ? &apos;&apos; : $_POST[&apos;username&apos;];</span><br><span class="line">	$password = empty($_POST[&apos;password&apos;]) ? &apos;&apos; : $_POST[&apos;password&apos;];</span><br><span class="line">	$md5password = md5($password);</span><br><span class="line">	$sql = &quot;SELECT uid,username FROM user WHERE username=&apos;&#123;$username&#125;&apos; AND password=&apos;&#123;$md5password&#125;&apos;&quot;;</span><br><span class="line">	$query = mysql_query($sql, $link);</span><br><span class="line">	$userinfo = mysql_fetch_array($query, MYSQL_ASSOC);</span><br><span class="line">	if(!empty($userinfo))&#123;</span><br><span class="line">		//登录成功，打印出会员信息</span><br><span class="line">		echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;;</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">		echo &quot;用户名不存在或密码错误！&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">	&lt;meta charset=&quot;utf-8&quot;&gt;</span><br><span class="line">	&lt;title&gt;Web登录系统SQL注入实例&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">	&lt;form name=&quot;LOGIN_FORM&quot; method=&quot;post&quot; action=&quot;&quot;&gt;</span><br><span class="line">	登录帐号: &lt;input type=&quot;text&quot; name=&quot;username&quot; value=&quot;&quot; size=30 /&gt;&lt;br /&gt;&lt;br /&gt;</span><br><span class="line">	登录密码: &lt;input type=&quot;text&quot; name=&quot;password&quot; value=&quot;&quot; size=30 /&gt;&lt;br /&gt;&lt;br /&gt;</span><br><span class="line">	&lt;input type=&quot;submit&quot; value=&quot;登录&quot; /&gt;</span><br><span class="line">	&lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>此时如果输入正确的用户名 plhwin 和密码 123456，执行的SQL语句为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; AND password=&apos;e10adc3949ba59abbe56e057f20f883e&apos;</span><br></pre></td></tr></table></figure></p>
+<p>上面语句没有任何问题，可以看到页面打印出了登录成功后的会员信息，但如果有捣蛋鬼输入的用户名为 plhwin’ AND 1=1– hack，密码随意输入，比如 aaaaaa，那么拼接之后的SQL查询语句就变成了如下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT uid,username FROM user WHERE username=&apos;plhwin&apos; AND 1=1-- hack&apos; AND password=&apos;0b4e7a0e5fe84ad35fb5f95b9ceeac79&apos;</span><br></pre></td></tr></table></figure></p>
+<p>执行上面的SQL语句，因为 1=1 是永远成立的条件，这意味着黑客只需要知道别人的会员名，无需知道密码就能顺利登录到系统。如何确定SQL注入漏洞通过以上的实例，我们仍然还会有疑问：黑客并不知道我们程序代码的逻辑和SQL语句的写法，他是如何确定一个网站是否存在SQL注入漏洞呢？一般说来有以下2种途径：1、错误提示如果目标Web网站开启了错误显示，攻击者就可以通过反复调整发送的参数、查看页面打印的错误信息，推测出Web网站使用的数据库和开发语言等重要信息。2、盲注除非运维人员疏忽，否则大部分的Web运营网站应该都关闭了错误提示信息，此时攻击者一般会采用盲注的技巧来进行反复的尝试判断。 仍然以上面的数据表user为例，我们之前的查看会员详情页面的url地址为 userinfo.php?username=plhwin，此时黑客分别访问 userinfo.php?username=plhwin’ AND 1=1– hack 和 userinfo.php?username=plhwin’ AND 1=2– hack，如果前者访问能返回正常的信息而后者不能，就基本可以判断此网站存在SQL注入漏洞，因为后者的 1=2 这个表达式永远不成立，所以即使username传入了正确的参数也无法通过，由此可以推断这个页面存在SQL注入漏洞，并且可以通过username参数进行注入。如何防御SQL注入对于服务器配置层面的防范，应该保证生产环境的Webserver是关闭错误信息的，比如PHP在生产环境的配置文件php.ini中的display_errors应该设置为Off，这样就关闭了错误提示，下面我们更多的从编码的角度来看看如何防范SQL注入。</p>
+<p>上面用两个实例分析了SQL注入攻击的技巧，可以看到，但凡有SQL注入漏洞的程序，都是因为程序要接受来自客户端用户输入的变量或URL传递的参数，并且这个变量或参数是组成SQL语句的一部分，对于用户输入的内容或传递的参数，我们应该要时刻保持警惕，这是安全领域里的「外部数据不可信任」的原则，纵观Web安全领域的各种攻击方式，大多数都是因为开发者违反了这个原则而导致的，所以自然能想到的，就是从变量的检测、过滤、验证下手，确保变量是开发者所预想的</p>
+<p>1、检查变量数据类型和格式如果你的SQL语句是类似where id={$id}这种形式，数据库里所有的id都是数字，那么就应该在SQL被执行前，检查确保变量id是int类型；如果是接受邮箱，那就应该检查并严格确保变量一定是邮箱的格式，其他的类型比如日期、时间等也是一个道理。总结起来：只要是有固定格式的变量，在SQL语句执行前，应该严格按照固定格式去检查，确保变量是我们预想的格式，这样很大程度上可以避免SQL注入攻击。比如，我们前面接受username参数例子中，我们的产品设计应该是在用户注册的一开始，就有一个用户名的规则，比如5-20个字符，只能由大小写字母、数字以及一些安全的符号组成，不包含特殊字符。</p>
+<p>此时我们应该有一个check_username的函数来进行统一的检查。不过，仍然有很多例外情况并不能应用到这一准则，比如文章发布系统，评论系统等必须要允许用户提交任意字符串的场景，这就需要采用过滤等其他方案了。2、过滤特殊符号对于无法确定固定格式的变量，一定要进行特殊符号过滤或转义处理。以PHP为例，通常是采用addslashes函数，它会在指定的预定义字符前添加反斜杠转义，这些预定义的字符是：单引号 (‘) 双引号 (“) 反斜杠 () NULL。来看2条SQL语句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$uid = isset($_GET[&apos;uid&apos;]) ? $_GET[&apos;uid&apos;] : 0;</span><br><span class="line">$uid = addslashes(uid);</span><br><span class="line">$sql = &quot;SELECT uid,username FROM user WHERE uid=&apos;&#123;$uid&#125;&apos;&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>以及<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$uid = isset($_GET[&apos;uid&apos;]) ? $_GET[&apos;uid&apos;] : 0;</span><br><span class="line">$uid = addslashes(uid);</span><br><span class="line">$sql = &quot;SELECT uid,username FROM user WHERE uid=&#123;$uid&#125;&quot;;</span><br></pre></td></tr></table></figure></p>
+<p>上面两个查询语句都经过了php的addslashes函数过滤转义，但在安全性上却大不相同，在MySQL中，对于int类型字段的条件查询，上面个语句的查询效果完全一样，由于第一句SQL的变量被单引号包含起来，SQL注入的时候，黑客面临的首要问题是必须要先闭合前面的单引号，这样才能使后面的语句作为SQL执行，并且还要注释掉原SQL语句中的后面的单引号，这样才可以成功注入，由于代码里使用了addslashes函数，黑客的攻击会无从下手，但第二句没有用引号包含变量，那黑客也不用考虑去闭合、注释，所以即便同样采用addslashes转义，也还是存在SQL攻击漏洞。对于PHP程序+MySQL构架的程序，在动态的SQL语句中，使用单引号把变量包含起来配合addslashes函数是应对SQL注入攻击的有效手段，但这做的还不够，像上面的2条SQL语句，根据「检查数据类型」的原则，uid都应该经过intval函数格式为int型，这样不仅能有效避免第二条语句的SQL注入漏洞，还能使得程序看起来更自然，尤其是在NoSQL(如MongoDB)中，变量类型一定要与字段类型相匹配才可以。</p>
+<p>从上面可以看出，第二个SQL语句是有漏洞的，不过由于使用了addslashes函数，你会发现黑客的攻击语句也存在不能使用特殊符号的条件限制，类似where username=’plhwin’这样的攻击语句是没法执行的，但是黑客可以将字符串转为16进制编码数据或使用char函数进行转化，同样能达到相同的目的，如果对这部分内容感兴趣，可以点击这里查看。而且由于SQL保留关键字，如「HAVING」、「ORDER BY」的存在，即使是基于黑白名单的过滤方法仍然会有或多或少问题，那么是否还有其他方法来防御SQL注入呢？3、绑定变量，使用预编译语句MySQL的mysqli驱动提供了预编译语句的支持，不同的程序语言，都分别有使用预编译语句的方法，我们这里仍然以PHP为例，编写userinfo2.php代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">header(&apos;Content-type:text/html; charset=UTF-8&apos;);</span><br><span class="line">$username = isset($_GET[&apos;username&apos;]) ? $_GET[&apos;username&apos;] : &apos;&apos;;</span><br><span class="line">$userinfo = array();</span><br><span class="line">if($username)&#123;</span><br><span class="line">	//使用mysqli驱动连接demo数据库</span><br><span class="line">	$mysqli = new mysqli(&quot;localhost&quot;, &quot;root&quot;, &quot;root&quot;, &apos;demo&apos;);</span><br><span class="line">	//使用问号替代变量位置</span><br><span class="line">	$sql = &quot;SELECT uid,username FROM user WHERE username=?&quot;;</span><br><span class="line">	$stmt = $mysqli-&gt;prepare($sql);</span><br><span class="line">	//绑定变量</span><br><span class="line">	$stmt-&gt;bind_param(&quot;s&quot;, $username);</span><br><span class="line">	$stmt-&gt;execute();</span><br><span class="line">	$stmt-&gt;bind_result($uid, $username);</span><br><span class="line">	while ($stmt-&gt;fetch()) &#123;</span><br><span class="line">	    $row = array();</span><br><span class="line">	    $row[&apos;uid&apos;] = $uid;</span><br><span class="line">	    $row[&apos;username&apos;] = $username;</span><br><span class="line">	    $userinfo[] = $row;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">echo &apos;&lt;pre&gt;&apos;,print_r($userinfo, 1),&apos;&lt;/pre&gt;&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>从上面的代码可以看到，我们程序里并没有使用addslashes函数，但是浏览器里运行 <a href="http://localhost/test/userinfo2.php?username=plhwin&#39;" target="_blank" rel="noopener">http://localhost/test/userinfo2.php?username=plhwin&#39;</a> AND 1=1– hack 里得不到任何结果，说明SQL漏洞在这个程序里并不存在。实际上，绑定变量使用预编译语句是预防SQL注入的最佳方式，使用预编译的SQL语句语义不会发生改变，在SQL语句中，变量用问号?表示，黑客即使本事再大，也无法改变SQL语句的结构，像上面例子中，username变量传递的 plhwin’ AND 1=1– hack 参数，也只会当作username字符串来解释查询，从根本上杜绝了SQL注入攻击的发生。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/23/常用的性能优化手段/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/23/常用的性能优化手段/" itemprop="url">常用的性能优化手段</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-23T00:00:00+08:00">
+                2018-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端性能优化/" itemprop="url" rel="index">
+                    <span itemprop="name">前端性能优化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="DOM优化"><a href="#DOM优化" class="headerlink" title="DOM优化"></a>DOM优化</h2><h3 id="高效使用HTML标签"><a href="#高效使用HTML标签" class="headerlink" title="高效使用HTML标签"></a>高效使用HTML标签</h3><p>描述：HTML是一门标记语言，使用合理的HTML标签前你必须了解其属性，比如Flow Elements，Metadata Elements ，Phrasing Elements。比较基础的就是得知道块级元素和内联元素、盒模型、SEO方面的知识。</p>
+<h3 id="减少对DOM的操作"><a href="#减少对DOM的操作" class="headerlink" title="减少对DOM的操作"></a>减少对DOM的操作</h3><p>描述：对DOM操作的代价是高昂的，这在网页应用中的通常是一个性能瓶颈。</p>
+<p>天生就慢。在《高性能JavaScript》中这么比喻：“把DOM看成一个岛屿，把JavaScript(ECMAScript)看成另一个岛屿，两者之间以一座收费桥连接”。所以每次访问DOM都会教一个过桥费，而访问的次数越多，交的费用也就越多。所以一般建议尽量减少过桥次数。</p>
+<p>解决方法：修改和访问DOM元素会造成页面的Repaint和Reflow，循环对DOM操作更是罪恶的行为。所以请合理的使用JavaScript变量储存内容，考虑大量DOM元素中循环的性能开销，在循环结束时一次性写入。</p>
+<p>减少对DOM元素的查询和修改，查询时可将其赋值给局部变量。</p>
+<p>注：在IE中:hover会降低响应速度。</p>
+<h2 id="BOM优化"><a href="#BOM优化" class="headerlink" title="BOM优化"></a>BOM优化</h2><h2 id="js优化"><a href="#js优化" class="headerlink" title="js优化"></a>js优化</h2><h2 id="css优化"><a href="#css优化" class="headerlink" title="css优化"></a>css优化</h2><h3 id="把CSS资源引用放到HTML文件顶部"><a href="#把CSS资源引用放到HTML文件顶部" class="headerlink" title="把CSS资源引用放到HTML文件顶部"></a>把CSS资源引用放到HTML文件顶部</h3><p>这样浏览器可以优先下载CSS并尽快完成页面渲染</p>
+<h3 id="有效的使用css选择器"><a href="#有效的使用css选择器" class="headerlink" title="有效的使用css选择器"></a>有效的使用css选择器</h3><p>CSS是用来渲染页面的，也是存在渲染效率的问题。CSS选择符是从右向左进行匹配的，这里对css选择符按照开销从小到大的顺序梳理一下：</p>
+<ol>
+<li>ID选择符 #box</li>
+<li>类选择符 .box</li>
+<li>标签 div</li>
+<li>伪类和伪元素 a:hover</li>
+</ol>
+<p>当页面被触发引起回流（reflow）的时候，低效的选择符依然会引发更高的开销，所以请避免低效。</p>
+<h3 id="Repaint-和-Reflow"><a href="#Repaint-和-Reflow" class="headerlink" title="Repaint 和 Reflow"></a>Repaint 和 Reflow</h3><p>描述：Repaint(重绘)就是在一个元素的外观被改变，但没有改变布局(宽高)的情况下发生，如改变visibility、outline、背景色等等。</p>
+<p>Reflow(重排)就是DOM的变化影响到了元素的几何属性（宽和高），浏览器会重新计算元素的几何属性，会使渲染树中受到影响的部分失效，浏览器会验证DOM树上的所有其它结点的visibility属性，这也是Reflow低效的原因。如：改变窗囗大小、改变文字大小、内容的改变、浏览器窗口变化，style属性的改变等等。如果Reflow的过于频繁，CPU使用率就会噌噌的往上涨，所以前端也就有必要知道 Repaint 和 Reflow的知识。</p>
+<p>解决方法：上面提到通过设置style属性改变结点样式的话，每设置一次都会导致一次reflow，所以最好通过设置class的方式； 有动画效果的元素，它的position属性应当设为fixed或absolute，这样不会影响其它元素的布局；如果功能需求上不能设置position为fixed或absolute，那么就权衡速度的平滑性。</p>
+<p>总之，因为 Reflow 有时确实不可避免，所以只能尽可能限制Reflow的影响范围。</p>
+<h2 id="网络优化"><a href="#网络优化" class="headerlink" title="网络优化"></a>网络优化</h2><h3 id="减少HTTP请求基本原理"><a href="#减少HTTP请求基本原理" class="headerlink" title="减少HTTP请求基本原理"></a>减少HTTP请求基本原理</h3><p>描述：在浏览器(客户端)和服务器发生通信时，就已经消耗了大量的时间，尤其是在网络情况比较糟糕的时候，这个问题尤其的突出。</p>
+<p>一个正常HTTP请求的流程简述：如在浏览器中输入”<a href="http://www.xxxxxx.com&quot;并按下回车，浏览器再与这个URL指向的服务器建立连接，然后浏览器才能向服务器发送请求信息，服务器在接受到请求的信息后再返回相应的信息，浏览器接收到来自服务器的应答信息后，对这些数据解释执行。" target="_blank" rel="noopener">www.xxxxxx.com&quot;并按下回车，浏览器再与这个URL指向的服务器建立连接，然后浏览器才能向服务器发送请求信息，服务器在接受到请求的信息后再返回相应的信息，浏览器接收到来自服务器的应答信息后，对这些数据解释执行。</a></p>
+<p>解决方法：合并图片（css sprites），合并CSS和JS文件；图片较多的页面也可以使用 lazyLoad等技术进行优化。</p>
+<h3 id="使用CDN加速"><a href="#使用CDN加速" class="headerlink" title="使用CDN加速"></a>使用CDN加速</h3><p>描述：”其基本思路是尽可能避开互联网上有可能影响数据传输速度和稳定性的瓶颈和环节，使内容传输的更快、更稳定。通过在网络各处放置节点服务器所构成的在现有的互联网基础之上的一层智能虚拟网络，CDN系统能够实时地根据网络流量和各节点的连接、负载状况以及到用户的距离和响应时间等综合信息将用户的请求重新导向离用户最近的服务节点上。”</p>
+<h3 id="使用可缓存的AJAX"><a href="#使用可缓存的AJAX" class="headerlink" title="使用可缓存的AJAX"></a>使用可缓存的AJAX</h3><p>对于内容相同的请求，有时候没必要每次都从服务器拉取，合理的使用ajax缓存能加快ajax响应速度并减少服务器的压力</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    url : url,</span><br><span class="line">    dataType : &quot;json&quot;,</span><br><span class="line">    cache: true,</span><br><span class="line">    success: function(data)&#123; // to do something... &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="使用get请求"><a href="#使用get请求" class="headerlink" title="使用get请求"></a>使用get请求</h3><p>POST请求会首先发送文件头，然后发送HTTP正文的数据。而使用GET只发送头部，所以在拉取数据时使用GET请求效率更高</p>
+<h2 id="其他优化"><a href="#其他优化" class="headerlink" title="其他优化"></a>其他优化</h2><h3 id="JSON格式来进行数据交换"><a href="#JSON格式来进行数据交换" class="headerlink" title="JSON格式来进行数据交换"></a>JSON格式来进行数据交换</h3><p>描述：JSON是一种轻量级的数据交换格式，采用完全独立于语言的文本格式，是理想的数据交换格式。同时，JSON是 JavaScript原生格式，这意味着在 JavaScript 中处理 JSON数据不需要任何特殊的 API 或工具包。</p>
+<p>与XML序列化相比，JSON序列化后产生的数据一般要比XML序列化后数据体积小，所以在Facebook等知名网站中都采用了JSON作为数据交换方式。</p>
+<h3 id="图片压缩"><a href="#图片压缩" class="headerlink" title="图片压缩"></a>图片压缩</h3><h3 id="注意控制Cookie大小和污染"><a href="#注意控制Cookie大小和污染" class="headerlink" title="注意控制Cookie大小和污染"></a>注意控制Cookie大小和污染</h3><p>描述：因为Cookie是本地的磁盘文件，每次浏览器都会去读取相应的Cookie，所以建议去除不必要的Coockie，使Coockie体积尽量小以减少对用户响应的影响；<br>使用Cookie跨域操作时注意在适应级别的域名上设置coockie以便使子域名不受其影响；<br>Cookie是有生命周期的，所以请注意设置合理的过期时间，合理地Expire时间和不要过早去清除coockie，都会改善用户的响应时间。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/回流和重绘/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/17/回流和重绘/" itemprop="url">回流和重绘</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-17T00:00:00+08:00">
+                2018-05-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">回流必将引起重绘，而重绘不一定会引起回流。</span><br><span class="line"></span><br><span class="line">当render tree中的一些元素需要更新属性，而这些属性只是影响元素的外观，风格，而不会影响布局的，比如background-color。则就叫称为重绘。</span><br><span class="line"></span><br><span class="line">当页面布局和几何属性改变时就需要回流。下述情况会发生浏览器回流：</span><br><span class="line">1、添加或者删除可见的DOM元素；</span><br><span class="line">2、元素位置改变；</span><br><span class="line">3、元素尺寸改变——边距、填充、边框、宽度和高度</span><br><span class="line">4、内容改变——比如文本改变或者图片大小改变而引起的计算值宽度和高度改变；</span><br><span class="line">5、页面渲染初始化；</span><br><span class="line">6、浏览器窗口尺寸改变——resize事件发生时；</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/08/BFC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/08/BFC/" itemprop="url">BFC</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-08T00:00:00+08:00">
+                2018-05-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index">
+                    <span itemprop="name">css</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="BFC概念"><a href="#BFC概念" class="headerlink" title="BFC概念"></a>BFC概念</h2><p>具有 BFC 特性的元素可以看作是隔离了的独立容器，容器里面的元素不会在布局上影响到外面的元素，并且 BFC 具有普通容器所没有的一些特性。</p>
+<p><strong>通俗一点来讲，可以把 BFC 理解为一个封闭的大箱子，箱子内部的元素无论如何翻江倒海，都不会影响到外部</strong>。</p>
+<h2 id="BFC触发条件"><a href="#BFC触发条件" class="headerlink" title="BFC触发条件"></a>BFC触发条件</h2><ol>
+<li>body 根元素</li>
+<li>浮动元素：float 除 none 以外的值</li>
+<li>绝对定位元素：position (absolute、fixed)</li>
+<li>display 为 inline-block、table-cells、flex</li>
+<li>overflow 除了 visible 以外的值 (hidden、auto、scroll)</li>
+</ol>
+<h2 id="BFC示例"><a href="#BFC示例" class="headerlink" title="BFC示例"></a>BFC示例</h2><h3 id="同一个-BFC-下外边距会发生折叠"><a href="#同一个-BFC-下外边距会发生折叠" class="headerlink" title="同一个 BFC 下外边距会发生折叠"></a>同一个 BFC 下外边距会发生折叠</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;head&gt;</span><br><span class="line">div&#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    background: lightblue;</span><br><span class="line">    margin: 100px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div&gt;&lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/css%E5%9B%BE%E7%89%87/3.jpg?raw=true" alt="image"></p>
+<p>从效果上看，因为两个 div 元素都处于同一个 BFC 容器下 (这里指 body 元素) 所以第一个 div 的下边距和第二个 div 的上边距发生了重叠，所以两个盒子之间距离只有 100px，而不是 200px。</p>
+<p>首先这不是 CSS 的 bug，我们可以理解为一种规范，如果想要避免外边距的重叠，可以将其放在不同的 BFC 容器中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;style&gt;</span><br><span class="line">.container &#123;</span><br><span class="line">    overflow: hidden;</span><br><span class="line">&#125;</span><br><span class="line">p &#123;</span><br><span class="line">    width: 100px;</span><br><span class="line">    height: 100px;</span><br><span class="line">    background: lightblue;</span><br><span class="line">    margin: 100px;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">    &lt;p&gt;&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;container&quot;&gt;</span><br><span class="line">    &lt;p&gt;&lt;/p&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/css%E5%9B%BE%E7%89%87/4.jpg?raw=true" alt="image"></p>
+<h3 id="BFC-可以包含浮动的元素（清除浮动）"><a href="#BFC-可以包含浮动的元素（清除浮动）" class="headerlink" title="BFC 可以包含浮动的元素（清除浮动）"></a>BFC 可以包含浮动的元素（清除浮动）</h3><p>我们都知道，浮动的元素会脱离普通文档流，来看下下面一个例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&quot;border: 1px solid #000;&quot;&gt;</span><br><span class="line">    &lt;div style=&quot;width: 100px;height: 100px;background: #eee;float: left;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/css%E5%9B%BE%E7%89%87/5.jpg?raw=true" alt="image"></p>
+<p>由于容器内元素浮动，脱离了文档流，所以容器只剩下 2px 的边距高度。如果使触发容器的 BFC，那么容器将会包裹着浮动元素。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&quot;border: 1px solid #000;overflow: hidden&quot;&gt;</span><br><span class="line">    &lt;div style=&quot;width: 100px;height: 100px;background: #eee;float: left;&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/css%E5%9B%BE%E7%89%87/6.png?raw=true" alt="image"></p>
+<h3 id="BFC-可以阻止元素被浮动元素覆盖"><a href="#BFC-可以阻止元素被浮动元素覆盖" class="headerlink" title="BFC 可以阻止元素被浮动元素覆盖"></a>BFC 可以阻止元素被浮动元素覆盖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div style=&quot;height: 100px;width: 100px;float: left;background: lightblue&quot;&gt;我是一个左浮动的元素&lt;/div&gt;</span><br><span class="line">&lt;div style=&quot;width: 200px; height: 200px;background: #eee&quot;&gt;我是一个没有设置浮动, </span><br><span class="line">也没有触发 BFC 元素, width: 200px; height:200px; background: #eee;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/css%E5%9B%BE%E7%89%87/7.jpg?raw=true" alt="image"></p>
+<p>这时候其实第二个元素有部分被浮动元素所覆盖，(但是文本信息不会被浮动元素所覆盖) 如果想避免元素被覆盖，可触第二个元素的 BFC 特性，在第二个元素中加入 overflow: hidden，就会变成：</p>
+<p><img src="https://note.youdao.com/favicon.ico" alt="image"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/02/Vue学习日记（四）——Vue状态管理vuex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/02/Vue学习日记（四）——Vue状态管理vuex/" itemprop="url">Vue学习日记（四）——Vue状态管理vuex</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-02T00:00:00+08:00">
+                2018-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>先说句前话，如果不是接触大型项目，不需要有多个子页面，不使用vuex也是完全可以的。</p>
+<p>说实在话，我在阅读vuex文档的时候，也很难以去理解vuex，甚至觉得没有使用它我也可以。但是直到我在项目碰到下面这些问题：</p>
+<ol>
+<li>当路由切换的时候，原本路由的数据太多，传递过去太麻烦。</li>
+<li>有些数据是多个路由需要用到的，那我就需要从后台获取多次数据</li>
+</ol>
+<p>当然，这些问题都可以解决，就是在实例化vue对象的时候，就将这些数据绑定在window对象上面。但是我们也不得不设想：</p>
+<ol>
+<li>万一数据太多了，那么可阅读性是不是会下降</li>
+<li>如果只是修改单独的数据，是不是所有的页面都可以更新</li>
+</ol>
+<p>对于第一个问题，答案是肯定的，虽然说，我们现在也可以用模块化的思想去使可阅读性更加好，但是没有一个规范，对于刚入手项目的总是难以理解。</p>
+<p>对于第二个问题，当你页面少的时候，是不会出现这样的问题的，但是如果页面多了，你就会发现，当你把window.$data里面的数据更新的时候，所有页面的计算属性都会失效，就是你无论怎么修改数据，页面都不会更新数据。</p>
+<p><strong>这时候，就需要用到我们的vuex了。</strong></p>
+<h1 id="vuex介绍"><a href="#vuex介绍" class="headerlink" title="vuex介绍"></a>vuex介绍</h1><blockquote>
+<p>那么vuex 到底是什么？</p>
+</blockquote>
+<p>引用官网的说法就是Vuex是一个专为Vue.js应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
+<p>是不是还是有点难以理解，<strong>其实简单的说vuex就是把这个项目的所有数据都存储在一个地方，方便修改和获取数据</strong>。</p>
+<p>例如，我们从下面这张图给大家先简单的分析一下</p>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/12.png?raw=true" alt="image"></p>
+<p>在这张图片里面我们很明显可以看到三个部分</p>
+<ol>
+<li>Vue Components 表示vue里面的组件</li>
+<li>Backend API 后台API</li>
+<li>vuex 组件里面的数据管理</li>
+</ol>
+<p>我们可以生动形象的理解，如果说Vuex是一个仓库，那么么Vue Components就就是售货者，负责把仓库里面的东西展现出来，Backend API就相当于入货的人，负责将货物买进来（也就是后台返回数据给前端，保存在vuex里面）。而vuex就是仓库，这个仓库里面有货物state，有管理货物进出的Muations</p>
+<h2 id="引用vuex"><a href="#引用vuex" class="headerlink" title="引用vuex"></a>引用vuex</h2><p>在说state之前，我们可以先在我们vue项目引用vuex<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vuex</span><br></pre></td></tr></table></figure></p>
+<p>然后在我们的src目录下新建一个store的文件夹，在store文件夹里面新建一个index.js的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// ~/src/store/index.js</span><br><span class="line">import Vue from &apos;Vue&apos;</span><br><span class="line">import Vuex from &apos;Vuex&apos;</span><br><span class="line"></span><br><span class="line">// 在这里声明实例一个Vue 去引用Vuex状态管理插件</span><br><span class="line">// 这样就可以减少在main.js里面的代码量了</span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"></span><br><span class="line">// 返回store实例对象</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>这里说一下吧，这里Store其实就是相当vuex实例化的一个仓库。</p>
+<h2 id="data替代者state"><a href="#data替代者state" class="headerlink" title="data替代者state"></a>data替代者state</h2><blockquote>
+<p>为什么说state是data的替代者呢？</p>
+</blockquote>
+<p>很容易理解，就是讲组件里面的局部参数，改成了一个可以全局使用的参数state，例如，我们在me.vue组件引用的数据todo。</p>
+<p>那么我们可以在store里面这样实例化它出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// ~/src/store/index.js</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>那么，我们在组件里面怎么使用这个数据呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// me.vue组件文件</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    meTodo: [] // 然后在方法里面引用this.meTodo = this.$store.state.todo</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<p>是不是很简单，但是我们不可能每次使用这个值都要获取一次吧，这些vue团队也都想好了，我们可以通过计算属性来获取state里面的数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapState</span><br><span class="line">import &#123; mapState &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: mapState([</span><br><span class="line">  // 映射 this.todo 为 store.state.todo</span><br><span class="line">  &apos;todo&apos;</span><br><span class="line">])</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<p>相当于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  computed:</span><br><span class="line">  todo () &#123;</span><br><span class="line">    return this.$store.state.todo</span><br><span class="line">  &#125;</span><br><span class="line">])</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<h2 id="计算属性Getter"><a href="#计算属性Getter" class="headerlink" title="计算属性Getter"></a>计算属性Getter</h2><p>有时候我们会需要对state的数据进行一些过滤操作，例如我们只要在todo里面大于10的数字，如果是用computed的话，我们就需要使用filter函数，为了更加简便，vuex也给我们提供了计算属性getter。</p>
+<p>我们可以修改我们的~/src/store/index文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>然后在me.vue里面引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapGetters</span><br><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([</span><br><span class="line">      // 映射 this.todo 为 store.state.todo</span><br><span class="line">      &apos;todo&apos;</span><br><span class="line">    ])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<p>这样就可以简单拿到大于10的todo数据了</p>
+<h2 id="修改state的Mutation"><a href="#修改state的Mutation" class="headerlink" title="修改state的Mutation"></a>修改state的Mutation</h2><blockquote>
+<p>我们说了怎么获取数据，但是我们应该怎么修改数据呢，是不是直接赋值给数据就可以了呢？</p>
+</blockquote>
+<p>答案当然不是，vuex规定了，我们只能用Mutation来进行修改数据，那么，我们怎么进行修改数据呢？<br>修改我们的~/src/store/index.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10)</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    revsiseTode: (state, oneTodo) =&gt; (state.todo = oneTodo) // 修改state的值</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>然后在我们的me.vue组件里面修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapGetters</span><br><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapMutations</span><br><span class="line">import &#123; mapMutations &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([</span><br><span class="line">      // 映射 this.todo 为 store.state.todo</span><br><span class="line">      &apos;todo&apos;</span><br><span class="line">    ])</span><br><span class="line">  &#125;,</span><br><span class="line">  method: &#123;</span><br><span class="line">    ...mapMutations(</span><br><span class="line">      [</span><br><span class="line">        // 将 `this.revsiseTode()` 映射为 `this.$store.commit(&apos;revsiseTode&apos;)`</span><br><span class="line">        // 如果想传递参数可以使用this.$store.commit(&apos;revsiseTode&apos;, oneTode)</span><br><span class="line">        // 或者Action</span><br><span class="line">        &apos;revsiseTode&apos;</span><br><span class="line">      ]</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Action的使用"><a href="#Action的使用" class="headerlink" title="Action的使用"></a>Action的使用</h2><p>写了这么久，终于到了Action的出场了，其实不管怎么说，Action主要是为了与后台交互而使用的属性，这里，我就假设todo的数据在路由/me/gettodo里面能够获取，因此，修改~/store/index.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10)</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    revsiseTode: (state, oneTodo) =&gt; (state.todo = oneTodo) // 修改state的值</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    getTodo: context =&gt; Vue.http.get(&apos;/me/gettodo&apos;, (res) =&gt; &#123;</span><br><span class="line">      context.commit(&apos;revsiseTode&apos;, res.body.todo)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>然后就可以通过触发我们的actions来提交mutations去修改state的数据了，在me.vue修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapGetters</span><br><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapMutations</span><br><span class="line">import &#123; mapActions &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([</span><br><span class="line">      // 映射 this.todo 为 store.state.todo</span><br><span class="line">      &apos;todo&apos;</span><br><span class="line">    ])</span><br><span class="line">  &#125;,</span><br><span class="line">  method: &#123;</span><br><span class="line">    ...mapActions(</span><br><span class="line">      [</span><br><span class="line">        &apos;reviseTodo&apos;, // 将 `this.reviseTodo()` 映射为 `this.$store.dispatch(&apos;reviseTodo&apos;)</span><br><span class="line">      ]</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
+<h1 id="vuex目录结构"><a href="#vuex目录结构" class="headerlink" title="vuex目录结构"></a>vuex目录结构</h1><p>上面主要只是简单的讲了一下vuex的使用，也只是讲了一部分，不过相信看了这里之后再去官网就会有更深的理解。当然这些都是简单的使用，如果想把vuex运用到项目，必须把他们模块化更加好看，vuex官网也为我们提供了<a href="https://vuex.vuejs.org/zh-cn/structure.html" target="_blank" rel="noopener">规范的项目目录结构</a>，我这里就不多啰嗦几句了。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>vuex其实不难，我一开始也以为很难一直学不会，只要多使用就会觉得，其实也就只是别人都封装好了的方法，我们去使用这个简便的<strong>仓库</strong>就行了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/01/Vue学习日记（二）——Vue核心思想/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/01/Vue学习日记（二）——Vue核心思想/" itemprop="url">Vue学习日记（二）——Vue核心思想</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-01T00:00:00+08:00">
+                2018-02-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vue/" itemprop="url" rel="index">
+                    <span itemprop="name">vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Vue.js是一个提供MVVM数据双向绑定的库，其核心思想无非就是：</p>
+<ul>
+<li>数据驱动</li>
+<li>组件系统</li>
+</ul>
+<h1 id="数据驱动"><a href="#数据驱动" class="headerlink" title="数据驱动"></a>数据驱动</h1><p>Vue.js 的核心是一个响应的数据绑定系统，它让数据与DOM保持同步非常简单。在使用 jQuery 手工操作 DOM时，我们的代码常常是命令式的、重复的与易错的。Vue.js 拥抱数据驱动的视图概念。通俗地讲，它意味着我们在普通HTML模板中使用特殊的语法将 DOM “绑定”到底层数据。一旦创建了绑定，DOM将与数据保持同步。每当修改了数据，DOM 便相应地更新。这样我们应用中的逻辑就几乎都是直接修改数据了，不必与 DOM 更新搅在一起。这让我们的代码更容易撰写、理解与维护。</p>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/5.jpg?raw=true" alt="image"></p>
+<p>本人在阅读vue.js源码的时候，也发现了vue的数据驱动无非就是利用的是ES5Object.defineProperty和存储器属性，个人觉得也是vue比较轻便和灵活的原因之一。</p>
+<p>getter和setter（所以只兼容IE9及以上版本），可称为基于依赖收集的观测机制。核心是VM，即ViewModel，保证数据和视图的一致性。</p>
+<p>附：vue.js源码图在github上vue打包好的dist文件下面的vue.js可以找到（该图与核心技术无关，只是说明vue使用这个属性）</p>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/4.jpg?raw=true" alt="image"></p>
+<p>这个存储器属性也就是vue的核心，也是比jq好的地方之一，jq是通过绑定事件来进行操作dom，而vue和react是通过操作obj的属性来重新渲染dom</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        对入输入框input输入的内容都在output里面输出</span></span><br><span class="line"><span class="comment">     --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"input"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"output"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    // 绑定事件的做法</span></span><br><span class="line"><span class="undefined">    // 但是没有办法从控制台控制信息修改value</span></span><br><span class="line"><span class="undefined">    document.getElementById("input").addEventListener("keyup", function(e) &#123;</span></span><br><span class="line"><span class="undefined">        document.getElementById("output").innerHTML = e.target.value</span></span><br><span class="line"><span class="undefined">    &#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    // 绑定虚拟dom的做法，就是通过改变一个obj的属性值</span></span><br><span class="line"><span class="undefined">    // 进而改变dom的值</span></span><br><span class="line"><span class="undefined">    var obj = &#123;&#125;</span></span><br><span class="line"><span class="undefined">    // @obj 可以是任何一个对象</span></span><br><span class="line"><span class="undefined">    // @"string" 动态绑定的属性值</span></span><br><span class="line"><span class="undefined">    // @&#123;&#125; 构造getter和setter</span></span><br><span class="line"><span class="undefined">    Object.defineProperty(obj, "string", &#123;</span></span><br><span class="line"><span class="undefined">        get: function() &#123;</span></span><br><span class="line"><span class="undefined">            console.log("getter")</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        set: function(val) &#123;</span></span><br><span class="line"><span class="undefined">            document.getElementById("output").innerHTML = val</span></span><br><span class="line"><span class="undefined">            document.getElementById("input").value = val</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;)</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="组件系统"><a href="#组件系统" class="headerlink" title="组件系统"></a>组件系统</h1><p>组件系统，就是由于vue有比较优秀的组件系统，所以，现在很多项目也都采用了vue框架，如果你想要深入的了解组件系统，建议可以看看vue的官方文档</p>
+<p>用官方一点的话来形容，组件化就是：实现了扩展HTML元素，封装可用的代码。页面上每个独立的可视/可交互区域视为一个组件；每个组件对应一个工程目录，组件所需要的各种资源在这个目录下就近维护；页面不过是组件的容器，组件可以嵌套自由组合形成完整的页面。</p>
+<p>简单的说，其实就是把页面进行分块处理，分成多个小块，每个小块就是一个组件，这样可以形成组件的复用，而且提高开发效率。</p>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/6.jpg?raw=true" alt="image"></p>
 
           
         
@@ -557,7 +1861,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -607,7 +1911,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -618,7 +1922,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -629,7 +1933,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

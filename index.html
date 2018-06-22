@@ -260,7 +260,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/02/Vue学习日记（四）——Vue状态管理vuex/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/21/Function里面的aguments/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="广工小成">
@@ -279,7 +279,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/02/02/Vue学习日记（四）——Vue状态管理vuex/" itemprop="url">Vue学习日记（四）——Vue状态管理vuex</a></h1>
+                <a class="post-title-link" href="/2018/06/21/Function里面的aguments/" itemprop="url">Function里面的aguments</a></h1>
         
 
         <div class="post-meta">
@@ -291,747 +291,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-02T00:00:00+08:00">
-                2018-02-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>先说句前话，如果不是接触大型项目，不需要有多个子页面，不使用vuex也是完全可以的。</p>
-<p>说实在话，我在阅读vuex文档的时候，也很难以去理解vuex，甚至觉得没有使用它我也可以。但是直到我在项目碰到下面这些问题：</p>
-<ol>
-<li>当路由切换的时候，原本路由的数据太多，传递过去太麻烦。</li>
-<li>有些数据是多个路由需要用到的，那我就需要从后台获取多次数据</li>
-</ol>
-<p>当然，这些问题都可以解决，就是在实例化vue对象的时候，就将这些数据绑定在window对象上面。但是我们也不得不设想：</p>
-<ol>
-<li>万一数据太多了，那么可阅读性是不是会下降</li>
-<li>如果只是修改单独的数据，是不是所有的页面都可以更新</li>
-</ol>
-<p>对于第一个问题，答案是肯定的，虽然说，我们现在也可以用模块化的思想去使可阅读性更加好，但是没有一个规范，对于刚入手项目的总是难以理解。</p>
-<p>对于第二个问题，当你页面少的时候，是不会出现这样的问题的，但是如果页面多了，你就会发现，当你把window.$data里面的数据更新的时候，所有页面的计算属性都会失效，就是你无论怎么修改数据，页面都不会更新数据。</p>
-<p><strong>这时候，就需要用到我们的vuex了。</strong></p>
-<h1 id="vuex介绍"><a href="#vuex介绍" class="headerlink" title="vuex介绍"></a>vuex介绍</h1><blockquote>
-<p>那么vuex 到底是什么？</p>
-</blockquote>
-<p>引用官网的说法就是Vuex是一个专为Vue.js应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。</p>
-<p>是不是还是有点难以理解，<strong>其实简单的说vuex就是把这个项目的所有数据都存储在一个地方，方便修改和获取数据</strong>。</p>
-<p>例如，我们从下面这张图给大家先简单的分析一下</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/12.png?raw=true" alt="image"></p>
-<p>在这张图片里面我们很明显可以看到三个部分</p>
-<ol>
-<li>Vue Components 表示vue里面的组件</li>
-<li>Backend API 后台API</li>
-<li>vuex 组件里面的数据管理</li>
-</ol>
-<p>我们可以生动形象的理解，如果说Vuex是一个仓库，那么么Vue Components就就是售货者，负责把仓库里面的东西展现出来，Backend API就相当于入货的人，负责将货物买进来（也就是后台返回数据给前端，保存在vuex里面）。而vuex就是仓库，这个仓库里面有货物state，有管理货物进出的Muations</p>
-<h2 id="引用vuex"><a href="#引用vuex" class="headerlink" title="引用vuex"></a>引用vuex</h2><p>在说state之前，我们可以先在我们vue项目引用vuex<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install vuex</span><br></pre></td></tr></table></figure></p>
-<p>然后在我们的src目录下新建一个store的文件夹，在store文件夹里面新建一个index.js的文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// ~/src/store/index.js</span><br><span class="line">import Vue from &apos;Vue&apos;</span><br><span class="line">import Vuex from &apos;Vuex&apos;</span><br><span class="line"></span><br><span class="line">// 在这里声明实例一个Vue 去引用Vuex状态管理插件</span><br><span class="line">// 这样就可以减少在main.js里面的代码量了</span><br><span class="line">Vue.use(Vuex)</span><br><span class="line"></span><br><span class="line">// 返回store实例对象</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>这里说一下吧，这里Store其实就是相当vuex实例化的一个仓库。</p>
-<h2 id="data替代者state"><a href="#data替代者state" class="headerlink" title="data替代者state"></a>data替代者state</h2><blockquote>
-<p>为什么说state是data的替代者呢？</p>
-</blockquote>
-<p>很容易理解，就是讲组件里面的局部参数，改成了一个可以全局使用的参数state，例如，我们在me.vue组件引用的数据todo。</p>
-<p>那么我们可以在store里面这样实例化它出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// ~/src/store/index.js</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>那么，我们在组件里面怎么使用这个数据呢？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// me.vue组件文件</span><br><span class="line"></span><br><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  data() &#123;</span><br><span class="line">    meTodo: [] // 然后在方法里面引用this.meTodo = this.$store.state.todo</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
-<p>是不是很简单，但是我们不可能每次使用这个值都要获取一次吧，这些vue团队也都想好了，我们可以通过计算属性来获取state里面的数据。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapState</span><br><span class="line">import &#123; mapState &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: mapState([</span><br><span class="line">  // 映射 this.todo 为 store.state.todo</span><br><span class="line">  &apos;todo&apos;</span><br><span class="line">])</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
-<p>相当于<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">  computed:</span><br><span class="line">  todo () &#123;</span><br><span class="line">    return this.$store.state.todo</span><br><span class="line">  &#125;</span><br><span class="line">])</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
-<h2 id="计算属性Getter"><a href="#计算属性Getter" class="headerlink" title="计算属性Getter"></a>计算属性Getter</h2><p>有时候我们会需要对state的数据进行一些过滤操作，例如我们只要在todo里面大于10的数字，如果是用computed的话，我们就需要使用filter函数，为了更加简便，vuex也给我们提供了计算属性getter。</p>
-<p>我们可以修改我们的~/src/store/index文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>然后在me.vue里面引用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapGetters</span><br><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([</span><br><span class="line">      // 映射 this.todo 为 store.state.todo</span><br><span class="line">      &apos;todo&apos;</span><br><span class="line">    ])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
-<p>这样就可以简单拿到大于10的todo数据了</p>
-<h2 id="修改state的Mutation"><a href="#修改state的Mutation" class="headerlink" title="修改state的Mutation"></a>修改state的Mutation</h2><blockquote>
-<p>我们说了怎么获取数据，但是我们应该怎么修改数据呢，是不是直接赋值给数据就可以了呢？</p>
-</blockquote>
-<p>答案当然不是，vuex规定了，我们只能用Mutation来进行修改数据，那么，我们怎么进行修改数据呢？<br>修改我们的~/src/store/index.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10)</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    revsiseTode: (state, oneTodo) =&gt; (state.todo = oneTodo) // 修改state的值</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>然后在我们的me.vue组件里面修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapGetters</span><br><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapMutations</span><br><span class="line">import &#123; mapMutations &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([</span><br><span class="line">      // 映射 this.todo 为 store.state.todo</span><br><span class="line">      &apos;todo&apos;</span><br><span class="line">    ])</span><br><span class="line">  &#125;,</span><br><span class="line">  method: &#123;</span><br><span class="line">    ...mapMutations(</span><br><span class="line">      [</span><br><span class="line">        // 将 `this.revsiseTode()` 映射为 `this.$store.commit(&apos;revsiseTode&apos;)`</span><br><span class="line">        // 如果想传递参数可以使用this.$store.commit(&apos;revsiseTode&apos;, oneTode)</span><br><span class="line">        // 或者Action</span><br><span class="line">        &apos;revsiseTode&apos;</span><br><span class="line">      ]</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="Action的使用"><a href="#Action的使用" class="headerlink" title="Action的使用"></a>Action的使用</h2><p>写了这么久，终于到了Action的出场了，其实不管怎么说，Action主要是为了与后台交互而使用的属性，这里，我就假设todo的数据在路由/me/gettodo里面能够获取，因此，修改~/store/index.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">  state: &#123;</span><br><span class="line">    todo: []</span><br><span class="line">  &#125;,</span><br><span class="line">  getters: &#123;</span><br><span class="line">    todo: state =&gt; state.todo.filter(number =&gt; number &gt; 10)</span><br><span class="line">  &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    revsiseTode: (state, oneTodo) =&gt; (state.todo = oneTodo) // 修改state的值</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    getTodo: context =&gt; Vue.http.get(&apos;/me/gettodo&apos;, (res) =&gt; &#123;</span><br><span class="line">      context.commit(&apos;revsiseTode&apos;, res.body.todo)</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>然后就可以通过触发我们的actions来提交mutations去修改state的数据了，在me.vue修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapGetters</span><br><span class="line">import &#123; mapGetters &#125; from &apos;vuex&apos;</span><br><span class="line">// 在单独构建的版本中辅助函数为 Vuex.mapMutations</span><br><span class="line">import &#123; mapActions &#125; from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  computed: &#123;</span><br><span class="line">    ...mapGetters([</span><br><span class="line">      // 映射 this.todo 为 store.state.todo</span><br><span class="line">      &apos;todo&apos;</span><br><span class="line">    ])</span><br><span class="line">  &#125;,</span><br><span class="line">  method: &#123;</span><br><span class="line">    ...mapActions(</span><br><span class="line">      [</span><br><span class="line">        &apos;reviseTodo&apos;, // 将 `this.reviseTodo()` 映射为 `this.$store.dispatch(&apos;reviseTodo&apos;)</span><br><span class="line">      ]</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure></p>
-<h1 id="vuex目录结构"><a href="#vuex目录结构" class="headerlink" title="vuex目录结构"></a>vuex目录结构</h1><p>上面主要只是简单的讲了一下vuex的使用，也只是讲了一部分，不过相信看了这里之后再去官网就会有更深的理解。当然这些都是简单的使用，如果想把vuex运用到项目，必须把他们模块化更加好看，vuex官网也为我们提供了<a href="https://vuex.vuejs.org/zh-cn/structure.html" target="_blank" rel="noopener">规范的项目目录结构</a>，我这里就不多啰嗦几句了。</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>vuex其实不难，我一开始也以为很难一直学不会，只要多使用就会觉得，其实也就只是别人都封装好了的方法，我们去使用这个简便的<strong>仓库</strong>就行了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/01/Vue学习日记（二）——Vue核心思想/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="广工小成">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/头像.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/01/Vue学习日记（二）——Vue核心思想/" itemprop="url">Vue学习日记（二）——Vue核心思想</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-01T00:00:00+08:00">
-                2018-02-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>Vue.js是一个提供MVVM数据双向绑定的库，其核心思想无非就是：</p>
-<ul>
-<li>数据驱动</li>
-<li>组件系统</li>
-</ul>
-<h1 id="数据驱动"><a href="#数据驱动" class="headerlink" title="数据驱动"></a>数据驱动</h1><p>Vue.js 的核心是一个响应的数据绑定系统，它让数据与DOM保持同步非常简单。在使用 jQuery 手工操作 DOM时，我们的代码常常是命令式的、重复的与易错的。Vue.js 拥抱数据驱动的视图概念。通俗地讲，它意味着我们在普通HTML模板中使用特殊的语法将 DOM “绑定”到底层数据。一旦创建了绑定，DOM将与数据保持同步。每当修改了数据，DOM 便相应地更新。这样我们应用中的逻辑就几乎都是直接修改数据了，不必与 DOM 更新搅在一起。这让我们的代码更容易撰写、理解与维护。</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/5.jpg?raw=true" alt="image"></p>
-<p>本人在阅读vue.js源码的时候，也发现了vue的数据驱动无非就是利用的是ES5Object.defineProperty和存储器属性，个人觉得也是vue比较轻便和灵活的原因之一。</p>
-<p>getter和setter（所以只兼容IE9及以上版本），可称为基于依赖收集的观测机制。核心是VM，即ViewModel，保证数据和视图的一致性。</p>
-<p>附：vue.js源码图在github上vue打包好的dist文件下面的vue.js可以找到（该图与核心技术无关，只是说明vue使用这个属性）</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/4.jpg?raw=true" alt="image"></p>
-<p>这个存储器属性也就是vue的核心，也是比jq好的地方之一，jq是通过绑定事件来进行操作dom，而vue和react是通过操作obj的属性来重新渲染dom</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"X-UA-Compatible"</span> <span class="attr">content</span>=<span class="string">"ie=edge"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">        对入输入框input输入的内容都在output里面输出</span></span><br><span class="line"><span class="comment">     --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"input"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"output"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    // 绑定事件的做法</span></span><br><span class="line"><span class="undefined">    // 但是没有办法从控制台控制信息修改value</span></span><br><span class="line"><span class="undefined">    document.getElementById("input").addEventListener("keyup", function(e) &#123;</span></span><br><span class="line"><span class="undefined">        document.getElementById("output").innerHTML = e.target.value</span></span><br><span class="line"><span class="undefined">    &#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    // 绑定虚拟dom的做法，就是通过改变一个obj的属性值</span></span><br><span class="line"><span class="undefined">    // 进而改变dom的值</span></span><br><span class="line"><span class="undefined">    var obj = &#123;&#125;</span></span><br><span class="line"><span class="undefined">    // @obj 可以是任何一个对象</span></span><br><span class="line"><span class="undefined">    // @"string" 动态绑定的属性值</span></span><br><span class="line"><span class="undefined">    // @&#123;&#125; 构造getter和setter</span></span><br><span class="line"><span class="undefined">    Object.defineProperty(obj, "string", &#123;</span></span><br><span class="line"><span class="undefined">        get: function() &#123;</span></span><br><span class="line"><span class="undefined">            console.log("getter")</span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">        set: function(val) &#123;</span></span><br><span class="line"><span class="undefined">            document.getElementById("output").innerHTML = val</span></span><br><span class="line"><span class="undefined">            document.getElementById("input").value = val</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    &#125;)</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h1 id="组件系统"><a href="#组件系统" class="headerlink" title="组件系统"></a>组件系统</h1><p>组件系统，就是由于vue有比较优秀的组件系统，所以，现在很多项目也都采用了vue框架，如果你想要深入的了解组件系统，建议可以看看vue的官方文档</p>
-<p>用官方一点的话来形容，组件化就是：实现了扩展HTML元素，封装可用的代码。页面上每个独立的可视/可交互区域视为一个组件；每个组件对应一个工程目录，组件所需要的各种资源在这个目录下就近维护；页面不过是组件的容器，组件可以嵌套自由组合形成完整的页面。</p>
-<p>简单的说，其实就是把页面进行分块处理，分成多个小块，每个小块就是一个组件，这样可以形成组件的复用，而且提高开发效率。</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/6.jpg?raw=true" alt="image"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/01/Vue学习日记（三）——Vue路由管理vue-router/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="广工小成">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/头像.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/01/Vue学习日记（三）——Vue路由管理vue-router/" itemprop="url">Vue学习日记（三）——Vue路由管理vue-router</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-01T00:00:00+08:00">
-                2018-02-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>为了给读者更好的体验，去理解vue-router和下一篇介绍vuex，决定还是来一个实战教程来带大家更加的去深入理解vue-router，在这之前，读者先自行了解和去官网下载npm和node，附：<a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm官网</a></p>
-<h1 id="项目构建"><a href="#项目构建" class="headerlink" title="项目构建"></a>项目构建</h1><p>这里我采用vue-cli+webpack构建初始项目，在vue官网里面也有<a href="https://cn.vuejs.org/v2/guide/installation.html" target="_blank" rel="noopener">相关介绍</a>，在这里我就手把手教大家一下吧，先通过控制台进入相关的文件目录下，然后输入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 后面是注释</span><br><span class="line"># $表示当前文件目录</span><br><span class="line"></span><br><span class="line"># 全局安装 vue-cli</span><br><span class="line">$ npm install --global vue-cli</span><br><span class="line"># 创建一个基于 webpack 模板的新项目</span><br><span class="line">$ vue init webpack my-project</span><br><span class="line"># 安装依赖，走你</span><br><span class="line">$ cd my-project</span><br><span class="line">$ npm install</span><br><span class="line"># 运行项目my-preoject</span><br><span class="line">$ npm run dev</span><br></pre></td></tr></table></figure>
-<ul>
-<li>npm install –global vue-cli 下载构建工具</li>
-</ul>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/8.png?raw=true" alt="image"></p>
-<ul>
-<li><p>vue init webpack my-project 初始化项目</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/9.png?raw=true" alt="image"></p>
-</li>
-<li><p>npm install 下载相关资源到node_models</p>
-</li>
-</ul>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/10.png?raw=true" alt="image"></p>
-<ul>
-<li>npm run dev 运行项目后，在浏览器输入<a href="http://localhost:8080/#/可看到" target="_blank" rel="noopener">http://localhost:8080/#/可看到</a></li>
-</ul>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/11.jpg?raw=true" alt="image"></p>
-<h1 id="介绍vue-router"><a href="#介绍vue-router" class="headerlink" title="介绍vue-router"></a>介绍vue-router</h1><p>经过上面简单的构建之后，一个项目的初始化就完成了，这里vue-cli和webpack已经帮我们弄好了文件目录结构和基本目录</p>
-<p>在进行使用vue-router之前，我不得不也先介绍一下vue-router是什么？</p>
-<p>它是一个vue.js下的路由组件，那什么是路由呢？网上有一大堆官方的介绍，相信对于小白是难以理解的，这里我就简单的说明一下吧。</p>
-<p>其实路由也就是url，url是什么呢？url就是唯一资源定位符，简单的说，也就是标记页面的唯一存在的一个标签，就像<a href="https://www.baidu.com，这里的www.baidu.com就是唯一资源定位符，https就只是一种协议，规范计算机网络的通信协议。" target="_blank" rel="noopener">https://www.baidu.com，这里的www.baidu.com就是唯一资源定位符，https就只是一种协议，规范计算机网络的通信协议。</a></p>
-<blockquote>
-<p>介绍完这些，那么对于我们究竟该怎么用呢？</p>
-</blockquote>
-<p>其实很简单，在平时当中，我们就经常碰到在一个网站里面点击链接会弹到另外一个页面，然后就可以发现他们的url改变了，而vue-router就是这样，在同个域名下（这里的域名是<a href="http://localhost:8080），改变域名后面的字符参数，比如http://localhost:8080/me和http://localhost:8080/you是两个不同的页面就是靠vue-router进行实现的。" target="_blank" rel="noopener">http://localhost:8080），改变域名后面的字符参数，比如http://localhost:8080/me和http://localhost:8080/you是两个不同的页面就是靠vue-router进行实现的。</a></p>
-<h1 id="引用vue-router"><a href="#引用vue-router" class="headerlink" title="引用vue-router"></a>引用vue-router</h1><p>如果你在之前没有安装vue-router的话，建议可以先去官网，看着文档使用npm安装一下，这里就不多做介绍了。</p>
-<p>首先我先在项目my-project/src/components（存放组件的目录）里面添加两个文件me.vue和you.vue<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">// me.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    我是me</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">export default &#123;&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line">// you.vue</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div&gt;</span><br><span class="line">    我是you</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script type=&quot;text/ecmascript-6&quot;&gt;</span><br><span class="line">export default &#123;&#125;</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;style scoped&gt;</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></table></figure></p>
-<p>然后修改my-project/src/router（存放路由相关信息的目录）下面修改index.js成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;</span><br><span class="line">import Router from &apos;vue-router&apos;</span><br><span class="line">import HelloWorld from &apos;@/components/HelloWorld&apos;</span><br><span class="line"></span><br><span class="line">// 导入组件</span><br><span class="line">import me from &apos;../components/me&apos;</span><br><span class="line">import you from &apos;../components/you&apos;</span><br><span class="line"></span><br><span class="line">Vue.use(Router)</span><br><span class="line"></span><br><span class="line">export default new Router(&#123;</span><br><span class="line">  routes: [</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/&apos;,</span><br><span class="line">      name: &apos;HelloWorld&apos;,</span><br><span class="line">      component: HelloWorld</span><br><span class="line">    &#125;,</span><br><span class="line">    // 将组件命名到路由上，输入http://localhost:8080/#/me</span><br><span class="line">    // 即可进入不同的页面</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/me&apos;,</span><br><span class="line">      component: me</span><br><span class="line">    &#125;,</span><br><span class="line">    // 将组件命名到路由上，输入http://localhost:8080/#/you</span><br><span class="line">    // 即可进入不同的页面</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/you&apos;,</span><br><span class="line">      component: you</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>这样只会输入<a href="http://localhost:8080/#/me就会进到其他页面，是不是很简单，" target="_blank" rel="noopener">http://localhost:8080/#/me就会进到其他页面，是不是很简单，</a><br>那么我们怎么在页面里面进行跳转呢？</p>
-<p>这就运用到了更有趣的知识了就是router-link你只要在你的组件的代码下输入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;router-link :to=&quot;/me&quot;&gt;这里是跳转链接&lt;/router-link&gt;</span><br></pre></td></tr></table></figure>
-<p>网页就自动跳转到<a href="http://localhost:8080/#/me页面了，但是这样总是不好的，因为，如果由于一些原因，我们想修改路由的名字（比如me改成him）就得改两个文件的信息，因此，vue团队也早就想好了，就是name属性，将my-project/src/router（存放路由相关信息的目录）下面修改index.js成" target="_blank" rel="noopener">http://localhost:8080/#/me页面了，但是这样总是不好的，因为，如果由于一些原因，我们想修改路由的名字（比如me改成him）就得改两个文件的信息，因此，vue团队也早就想好了，就是name属性，将my-project/src/router（存放路由相关信息的目录）下面修改index.js成</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">&#123;</span><br><span class="line">  path: &apos;/me&apos;,</span><br><span class="line">  name: &apos;me&apos;,</span><br><span class="line">  component: me</span><br><span class="line">&#125;,</span><br><span class="line">// ...</span><br></pre></td></tr></table></figure>
-<p>然后跳转就改成</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;router-link :to=&quot;&#123; name: &apos;me&apos;&#125;&quot;&gt;这里是跳转链接&lt;/router-link&gt;</span><br></pre></td></tr></table></figure>
-<p>就可以进行跳转了</p>
-<h1 id="高级应用"><a href="#高级应用" class="headerlink" title="高级应用"></a>高级应用</h1><ol>
-<li>前端路由 最初级的应用，就和上面的引用一样，当然还可以通过js代码来改变，这个也很简单，就是比如添加一个按钮，点击按钮通过js跳转到其他页面，就是重定向，简单的js代码也下面这样，就可以跳转到其他页面了</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vue.$router.push(&apos;/me&apos;)</span><br></pre></td></tr></table></figure>
-<ol>
-<li>动态路由 通过router-link传递参数，例如<router-link :to="{ name: 'user', params: { userId }}">User</router-link>，传入userId这个参数，进行渲染不同的路由信息</li>
-<li>嵌套路由 嵌套路由其实简单的理解就是，子路由，例如，我想在me下面在添加几个路由him和she那上面的代码可以这样写之后输入<a href="http://localhost:8080/#/me/him就可以进入到子路由的页面" target="_blank" rel="noopener">http://localhost:8080/#/me/him就可以进入到子路由的页面</a></li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// ...</span><br><span class="line">    &#123;</span><br><span class="line">      path: &apos;/me&apos;,</span><br><span class="line">      name: &apos;me&apos;,</span><br><span class="line">      component: me，</span><br><span class="line">      children: [</span><br><span class="line">        &#123;</span><br><span class="line">            path: &apos;him&apos;</span><br><span class="line">            // ...</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            path: &apos;she&apos;</span><br><span class="line">            // ...</span><br><span class="line">        &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;,</span><br><span class="line">    // ...</span><br></pre></td></tr></table></figure>
-<ol>
-<li>懒加载 结合异步组件以及在组件的created钩子上触发获取数据的ajax请求，可以最大化的降低加载时间，减少流量消耗。这个对于没有项目的人可能接触比较少，建议先知道这个概念。</li>
-<li>重定向 可以实现某些需要根据特定逻辑改变页面原本路由的需求，例如简单的未登录状态下的页面访问“个人信息”路由时应该重定向到登录路由页面。</li>
-<li>History的控制 History是Html5的新语法，个人觉得就是对于跳转的时候，特别是微信小程序，就是控制点击回退按钮的时候不至于退出页面而跳转到自己想要的页面</li>
-</ol>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>其实还有很多高级应用场景，我就不一一列举出来了，因为这些其实最好还是上官方文档进行说明，我这里只是解释一下简单的用法，以及初学者可能对官方文档会有误解来进行说明一下，希望大家还是学会看API，附<a href="https://router.vuejs.org/zh-cn/" target="_blank" rel="noopener">官网地址</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/31/Vue学习日记（一）——Vue介绍/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="广工小成">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/头像.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/01/31/Vue学习日记（一）——Vue介绍/" itemprop="url">Vue学习日记（一）——Vue介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-31T00:00:00+08:00">
-                2018-01-31
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vue/" itemprop="url" rel="index">
-                    <span itemprop="name">vue</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>本人学习了一段时间的vue，并尝试写了一些小Demo之后，将vue投入了几个项目之后，一直在边学习边使用，经过看了vue,vuex,vue-router的官方文档和慕课网上的一些实战视频之后，深有体会，故此写下这些文章。</p>
-<h1 id="前端框架比较"><a href="#前端框架比较" class="headerlink" title="前端框架比较"></a>前端框架比较</h1><p>其实的话，前端有很多的框架，很多初学前端的人可能没有接触到框架，以为框架是很高大上的东西，就我个人而言，我是听从师姐的学习路线开始学习前端的，一开始的时候接触的就是html,css,js这些基本语言，对于框架，一直是觉得很高大上的东西。后来，经过长时间的与框架打交道之后，也明白了，基础对于前端开发者是很重要的，<strong>框架也就只是将你会复用的代码进行包装起来方便你的使用</strong>，最重要的还是基础。</p>
-<p>目前前端开发有很多的框架在市面上，其实说是框架，如果从C语言java语言那些语言来说，也就是库，一些封装好的东西，告诉你用法，就可以简单的实现一个简单的项目了。如果想更加了解前端框架，建议可以百度百度，或者看这篇<a href="https://www.zhihu.com/question/35069742" target="_blank" rel="noopener">知乎讨论</a>，点击里面的文章看看，引用一下这里的一张图片展示一下目前的前端框架。</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/1.jpg?raw=true" alt="image"></p>
-<p>是的这只是部分前端框架，就我个人觉得，目前前端框架的三大巨头也就只是<br><strong>vue,react,angular</strong>（顺序与排名无关）。</p>
-<p>各个框架都有自己擅长的一方面：</p>
-<ul>
-<li>vue擅长单页面多路由的开发</li>
-<li>react适合多页面，手机app还有一些大型的开发</li>
-<li>angular系统比较完善，适合快速搭建产品的原型</li>
-</ul>
-<p>但是也各有各的劣势：</p>
-<ul>
-<li>vue并不特别适合多页面的开发</li>
-<li>react在单页面开发性能并不比vue好，因为vue比较轻便</li>
-<li>angular不适合程序员去自我发挥很多，因为其基本配置好饿了很多东西</li>
-</ul>
-<p>当然，以上也都只是个人的见解而已，有错误还望包涵指正，关于他们的社区，就不多做介绍了，三大框架社区都比较完善。</p>
-<h1 id="Vue的优势"><a href="#Vue的优势" class="headerlink" title="Vue的优势"></a>Vue的优势</h1><p>Vue.js是一个轻巧、高性能、可组件化的MVVM库，如果你不懂什么是mvvm模式可以看一下<a href="https://www.cnblogs.com/guwei4037/p/5591183.html" target="_blank" rel="noopener">这篇文章</a>个人觉得比较容易理解，同时拥有非常容易上手的API；</p>
-<ul>
-<li>Vue.js是一个构建数据驱动的Web界面的库。</li>
-<li>Vue.js是一套构建用户界面的 渐进式框架。与其他重量级框架不同的是，Vue 采用自底向上增量开发的设计。</li>
-<li>Vue 的核心库只关注视图层，并且非常容易学习，非常容易与其它库或已有项目整合。</li>
-<li>另一方面，Vue 完全有能力驱动采用单文件组件和Vue生态系统支持的库开发的复杂单页应用。</li>
-</ul>
-<p>简单的说，Vue.js是一个构建数据驱动的 web 界面的渐进式框架。Vue.js 的目标是通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件。核心是一个响应的数据绑定系统</p>
-<p>Vue.js的特性如下：</p>
-<ol>
-<li>轻量级的框架</li>
-<li>双向数据绑定</li>
-<li>指令</li>
-<li>插件化</li>
-</ol>
-<h1 id="Vue渐进式框架"><a href="#Vue渐进式框架" class="headerlink" title="Vue渐进式框架"></a>Vue渐进式框架</h1><blockquote>
-<p>为什么说vue是渐进式框架呢？</p>
-</blockquote>
-<p>其实vue的官方首页就说了，vue,渐进式JavaScript 框架</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/2.jpg?raw=true" alt="image"></p>
-<p>其实严格的说，vue并不是一个框架，他只是一个库，和jq一样，可以操作dom的库，不同的是vue操作的是虚拟dom，至于什么是虚拟dom我会在下篇文章继续介绍。</p>
-<p>vue并不是框架，只是和他旁边的生态环境组成了一个框架，下面，贴一个官方的渐进式框架介绍图吧，方便理解。</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/vue%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/3.jpg?raw=true" alt="image"></p>
-<p>正如上图解释，一个vue渐进式框架就是由</p>
-<ol>
-<li>声明式渲染vue.js</li>
-<li>组件系统element-ui（也可以用bootstrap等，但是建议还是用这个，因为其他的还要下载其他的dom库）</li>
-<li>客户端路由vue-router</li>
-<li>大型状态管理vuex</li>
-<li>构建工具webpack</li>
-</ol>
-<h1 id="Vue全家桶"><a href="#Vue全家桶" class="headerlink" title="Vue全家桶"></a>Vue全家桶</h1><p>Vue著名的全家桶其实就是，包含了<a href="http://router.vuejs.org" target="_blank" rel="noopener">vue-router</a>，<a href="http://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>， <a href="https://github.com/pagekit/vue-resource" target="_blank" rel="noopener">vue-resource</a>（现在基本不用，而是用更为简单的axios）。再加上构建工具vue-cli，就是一个完整的vue项目的核心构成。</p>
-<p>同时，在vue调试方面，可以选择安装chrome插件vue Devtools，以及有专门的组件库elment-ui，轻轻松松就可以完成一个较大型的项目</p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>vue个人觉得是很不错的框架，特别还是国内牛人发布的，接下来还会有vue一系列的文章，以及vue+axios+mysql+node+express全栈实现一个系统的文章，去更加深入的了解vue。当然还有更加深入的理解，大家也可以看看官方文档，都介绍的很充分了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/26/你需要了解的ES6的新特性（前沿技术）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="广工小成">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/头像.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/07/26/你需要了解的ES6的新特性（前沿技术）/" itemprop="url">你需要了解的ES6的新特性（前沿技术）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-26T00:00:00+08:00">
-                2017-07-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-21T00:00:00+08:00">
+                2018-06-21
               </time>
             
 
@@ -1092,57 +353,451 @@
       
         
           
-            <h1 id="ES6新特性"><a href="#ES6新特性" class="headerlink" title="ES6新特性"></a>ES6新特性</h1><blockquote>
-<p>最近在项目中遇到了很多ES6的语法，遇到了不少坑坑洼洼，因此，在这里就简单介绍一下ES6中的一些新特性</p>
-</blockquote>
-<ul>
-<li>如果想真正的了解ES6和ES5有什么不同，这里推荐看一下阮一峰的一本<a href="http://es6.ruanyifeng.com/#README" target="_blank" rel="noopener">《ECMAScript 6 入门》</a></li>
-<li>在我下面，主要介绍一下ES6标准下的let, const, “=&gt;”, “…”的介绍和用法</li>
-</ul>
-<h2 id="ES6背景介绍"><a href="#ES6背景介绍" class="headerlink" title="ES6背景介绍"></a>ES6背景介绍</h2><p>ECMAScript 6.0（以下简称 ES6）是 JavaScript 语言的下一代标准，已经在2015年6月正式发布了。它的目标，是使得 JavaScript 语言可以用来编写复杂的大型应用程序，成为企业级开发语言。</p>
-<hr>
-<p>那么，<strong>ECMAScript</strong> 和 <strong>JavaScript</strong> 到底是什么关系？</p>
-<p>要讲清楚这个问题，需要回顾历史。1996年11月，JavaScript 的创造者 Netscape 公司，决定将 JavaScript 提交给国际标准化组织ECMA，希望这种语言能够成为国际标准。次年，ECMA 发布262号标准文件（ECMA-262）的第一版，规定了浏览器脚本语言的标准，并将这种语言称为 ECMAScript，这个版本就是1.0版</p>
-<h2 id="let命令"><a href="#let命令" class="headerlink" title="let命令"></a>let命令</h2><h3 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h3><p>ES6 新增了let命令，用来声明变量。它的用法类似于var，但是所声明的变量，只在let命令所在的代码块内有效。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  let a = 10;</span><br><span class="line">  var b = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">a // ReferenceError: a is not defined.</span><br><span class="line">b // 1</span><br></pre></td></tr></table></figure></p>
-<p>上面代码在代码块之中，分别用let和var声明了两个变量。然后在代码块之外调用这两个变量，结果let声明的变量报错，var声明的变量返回了正确的值。这表明，let声明的变量只在它所在的代码块有效。看到这里，是不是觉得let和C语言还有其他语言的语言很像了呢，确实，其实原理基本都差不多。</p>
-<h3 id="使用注意"><a href="#使用注意" class="headerlink" title="使用注意"></a>使用注意</h3><ol>
-<li><p><strong>不存在变量提升</strong>：var命令会发生”变量提升“现象，即变量可以在声明之前使用，值为undefined。这种现象多多少少是有些奇怪的，按照一般的逻辑，变量应该在声明语句之后才可以使用。为了纠正这种现象，let命令改变了语法行为，它所声明的变量一定要在声明后使用，否则报错。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// var 的情况</span><br><span class="line">console.log(foo); // 输出undefined</span><br><span class="line">var foo = 2;</span><br><span class="line"></span><br><span class="line">// let 的情况</span><br><span class="line">console.log(bar); // 报错ReferenceError</span><br><span class="line">let bar = 2;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>暂时性死区</strong>：只要块级作用域内存在let命令，它所声明的变量就“绑定”（binding）这个区域，不再受外部的影响。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var tmp = 123;</span><br><span class="line"></span><br><span class="line">if (true) &#123;</span><br><span class="line">  tmp = &apos;abc&apos;; // ReferenceError</span><br><span class="line">  let tmp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>不允许重复声明</strong>：let不允许在相同作用域内，重复声明同一个变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 报错</span><br><span class="line">function () &#123;</span><br><span class="line">  let a = 10;</span><br><span class="line">  var a = 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 报错</span><br><span class="line">function () &#123;</span><br><span class="line">  let a = 10;</span><br><span class="line">  let a = 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>快级作用域</strong>：这个特性是我觉得最奇怪的，原本javascript是作用域链的形式，为什么无缘无故要突然改变了自己之前的主意呢。不过这个也很容易理解，有过C语言和C++等语言基础的就会很了解快级作用域</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function f1() &#123;</span><br><span class="line">  let n = 5;</span><br><span class="line">  if (true) &#123;</span><br><span class="line">    let n = 10;</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(n); // 5</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>上面的函数有两个代码块，都声明了变量n，运行后输出5。这表示外层代码块不受内层代码块的影响。如果两次都使用var定义变量n，最后输出的值才是10。</p>
-<hr>
-<h2 id="const命令"><a href="#const命令" class="headerlink" title="const命令"></a>const命令</h2><h3 id="基本用法-1"><a href="#基本用法-1" class="headerlink" title="基本用法"></a>基本用法</h3><p>const声明一个只读的常量。一旦声明，常量的值就不能改变。const声明的变量不得改变值，这意味着，const一旦声明变量，就必须立即初始化，不能留到以后赋值。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const PI = 3.1415;</span><br><span class="line">PI // 3.1415</span><br><span class="line"></span><br><span class="line">PI = 3;</span><br><span class="line">// TypeError: Assignment to constant variable.</span><br></pre></td></tr></table></figure></p>
-<h3 id="使用注意-1"><a href="#使用注意-1" class="headerlink" title="使用注意"></a>使用注意</h3><ol>
-<li><strong>仅仅保证地址不变</strong>const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址不得改动。对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const a = [];</span><br><span class="line">a.push(&apos;Hello&apos;); // 可执行</span><br><span class="line">a.length = 0;    // 可执行</span><br><span class="line">a = [&apos;Dave&apos;];    // 报错</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<hr>
-<h2 id="箭头函数”-gt-”"><a href="#箭头函数”-gt-”" class="headerlink" title="箭头函数”=&gt;”"></a>箭头函数”=&gt;”</h2><h3 id="基本用法-2"><a href="#基本用法-2" class="headerlink" title="基本用法"></a>基本用法</h3><p>ES6 允许使用“箭头”（=&gt;）定义函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var f = v =&gt; v;</span><br><span class="line"></span><br><span class="line">//等同于</span><br><span class="line">var f = function(v) &#123;</span><br><span class="line">  return v;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<h3 id="使用注意-2"><a href="#使用注意-2" class="headerlink" title="使用注意"></a>使用注意</h3><ol>
-<li>函数体内的<strong>this对象</strong>，就是定义时所在的对象，而不是使用时所在的对象。</li>
-<li>不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。</li>
-<li>不可以使用<strong>arguments</strong>对象，该对象在函数体内不存在。如果要用，可以用<strong> rest </strong>参数代替。</li>
-<li>不可以使用<strong>yield</strong>命令，因此箭头函数不能用作 Generator 函数。</li>
-</ol>
-<blockquote>
-<p>这里说一下最重要的第一点吧<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function foo() &#123;</span><br><span class="line">  setTimeout(() =&gt; &#123;</span><br><span class="line">    console.log(&apos;id:&apos;, this.id);</span><br><span class="line">  &#125;, 100);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var id = 21;</span><br><span class="line"></span><br><span class="line">foo.call(&#123; id: 42 &#125;);</span><br><span class="line">// id: 42</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>上面代码中，setTimeout的参数是一个箭头函数，这个箭头函数的定义生效是在foo函数生成时，而它的真正执行要等到100毫秒后。如果是普通函数，执行时this应该指向全局对象window，这时应该输出21。但是，箭头函数导致this总是指向函数定义生效时所在的对象（本例是{id: 42}），所以输出的是42。</p>
-<hr>
-<h2 id="数组拓展运算符”…”"><a href="#数组拓展运算符”…”" class="headerlink" title="数组拓展运算符”…”"></a>数组拓展运算符”…”</h2><h3 id="基本用法-3"><a href="#基本用法-3" class="headerlink" title="基本用法"></a>基本用法</h3><p>扩展运算符（spread）是三个点（…）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">console.log(...[1, 2, 3])</span><br><span class="line">// 1 2 3</span><br><span class="line"></span><br><span class="line">console.log(1, ...[2, 3, 4], 5)</span><br><span class="line">// 1 2 3 4 5</span><br><span class="line"></span><br><span class="line">[...document.querySelectorAll(&apos;div&apos;)]</span><br><span class="line">// [&lt;div&gt;, &lt;div&gt;, &lt;div&gt;]</span><br></pre></td></tr></table></figure></p>
-<p>也可以运用于函数及其他<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function push(array, ...items) &#123;</span><br><span class="line">  array.push(...items);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function add(x, y) &#123;</span><br><span class="line">  return x + y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var numbers = [4, 38];</span><br><span class="line">add(...numbers) // 42</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>文中就简单介绍这么多，想更加了解ES6新特性的可以自寻查看一下阮一峰的一本<a href="http://es6.ruanyifeng.com/#README" target="_blank" rel="noopener">《ECMAScript 6 入门》</a></p>
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>1.在JS里Array是一个类 slice是此类里的一个方法 ，那么使用此方法应该Array.prototype.slice这么去用<br>slice从字面上的意思很容易理解就是截取（当然你不是英肓的话） 这方法如何使用呢? </p>
+<p>slice() 方法返回一个从开始到结束（不包括结束）选择的数组的一部分浅拷贝到一个新数组对象。且原始数组不会被修改。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var animals = [&apos;ant&apos;, &apos;bison&apos;, &apos;camel&apos;, &apos;duck&apos;, &apos;elephant&apos;];</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(2, 4));</span><br><span class="line">// expected output: Array [&quot;camel&quot;, &quot;duck&quot;]</span><br><span class="line"></span><br><span class="line">console.log(animals.slice(1, 5));</span><br><span class="line">// expected output: Array [&quot;bison&quot;, &quot;camel&quot;, &quot;duck&quot;, &quot;elephant&quot;]</span><br><span class="line"></span><br><span class="line">/* 用法 */</span><br><span class="line">arr.slice();</span><br><span class="line">// [0, end]</span><br><span class="line"></span><br><span class="line">arr.slice(begin);</span><br><span class="line">// [begin, end]</span><br><span class="line"></span><br><span class="line">arr.slice(begin, end);</span><br><span class="line">// [begin, end)</span><br></pre></td></tr></table></figure></p>
+<p>slice 方法可以用来将一个类数组（Array-like）对象/集合转换成一个新数组。你只需将该方法绑定到这个对象上。 一个函数中的 arguments 就是一个类数组对象的例子。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function list() &#123;</span><br><span class="line">  return Array.prototype.slice.call(arguments);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var list1 = list(1, 2, 3); // [1, 2, 3]</span><br></pre></td></tr></table></figure></p>
+<p>arrayObj.slice(start, [end]) 很显然是截取数组的一部分。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function test(a,b,c,d) </span><br><span class="line">  &#123; </span><br><span class="line">     var arg = Array.prototype.slice.call(arguments,1); </span><br><span class="line">     alert(arg); </span><br><span class="line">  &#125; </span><br><span class="line">  test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;); //b,c,d</span><br></pre></td></tr></table></figure>
+<h2 id="解释"><a href="#解释" class="headerlink" title="解释"></a>解释</h2><p>先给个例子，这是jqFloat插件里的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if (element.data(&apos;jDefined&apos;)) &#123;</span><br><span class="line">    if (options &amp;&amp; typeof options === &apos;object&apos;) &#123;</span><br><span class="line">        methods.update.apply(this, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">    &#125;</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    methods.init.apply(this, Array.prototype.slice.call(arguments, 1));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为arguments并不是真正的数组对象，只是与数组类似而已，所以它并没有slice这个方法，而Array.prototype.slice.call(arguments, 1)可以理解成是让arguments转换成一个数组对象，让arguments具有slice()方法。要是直接写arguments.slice(1)会报错。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Array.prototype.slice.call(arguments)能将具有length属性的对象转成数组，除了IE下的节点集合（因为ie下的dom对象是以com对象的形式实现的，js对象与com对象不能进行转换） </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;//类数组,有length属性，长度为2，第0个是first，第1个是second</span><br><span class="line">console.log(Array.prototype.slice.call(a,0));// [&quot;first&quot;, &quot;second&quot;],调用数组的slice(0);</span><br><span class="line"></span><br><span class="line">var a=&#123;length:2,0:&apos;first&apos;,1:&apos;second&apos;&#125;;</span><br><span class="line">console.log(Array.prototype.slice.call(a,1));//[&quot;second&quot;]，调用数组的slice(1);</span><br><span class="line"></span><br><span class="line">var a=&#123;0:&apos;first&apos;,1:&apos;second&apos;&#125;;//去掉length属性，返回一个空数组</span><br><span class="line">console.log(Array.prototype.slice.call(a,0));//[]</span><br><span class="line"></span><br><span class="line">function test()&#123;</span><br><span class="line">  console.log(Array.prototype.slice.call(arguments,0));//[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]，slice(0)</span><br><span class="line">  console.log(Array.prototype.slice.call(arguments,1));//[&quot;b&quot;, &quot;c&quot;],slice(1)</span><br><span class="line">&#125;</span><br><span class="line">test(&quot;a&quot;,&quot;b&quot;,&quot;c&quot;);</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/21/带有延时的promise，封装函数延时执行/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/21/带有延时的promise，封装函数延时执行/" itemprop="url">带有延时的promise，封装函数延时执行</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-21T00:00:00+08:00">
+                2018-06-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/es6/" itemprop="url" rel="index">
+                    <span itemprop="name">es6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// 1) 调用方式</span><br><span class="line">new People(&apos;whr&apos;).sleep(3).eat(&apos;apple&apos;).sleep(5).eat(&apos;durian&apos;);</span><br><span class="line"></span><br><span class="line">// 2) 打印结果</span><br><span class="line">&apos;hello, whr&apos; -(等待3s)--&gt; &apos;whr eat apple&apos; -(等待5s)--&gt; &apos;whr eat durian&apos;</span><br><span class="line"></span><br><span class="line">// 3) 以下是代码实现</span><br><span class="line">class People &#123;</span><br><span class="line">  constructor(name) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.sayHello();</span><br><span class="line">    this.queue = Promise.resolve();</span><br><span class="line">  &#125;</span><br><span class="line">  sayHello() &#123;</span><br><span class="line">    console.log(`hello, $&#123;this.name&#125;`);</span><br><span class="line">  &#125;</span><br><span class="line">  sleep(time) &#123;</span><br><span class="line">    // 这里对queue进行动态改变</span><br><span class="line">    this.queue = this.queue.then(() =&gt; &#123;</span><br><span class="line">      return new Promise(res =&gt; &#123;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">          res();</span><br><span class="line">        &#125;, time * 1000)</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">    return this;</span><br><span class="line">  &#125;</span><br><span class="line">  eat(food) &#123;</span><br><span class="line">    this.queue = this.queue.then(() =&gt; &#123;</span><br><span class="line">      console.log(`$&#123;this.name&#125; eat $&#123;food&#125;`);</span><br><span class="line">    &#125;)</span><br><span class="line">    return this;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/内存泄漏/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/08/内存泄漏/" itemprop="url">内存泄漏</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T00:00:00+08:00">
+                2018-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端资源/" itemprop="url" rel="index">
+                    <span itemprop="name">前端资源</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/前端学习网站/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/08/前端学习网站/" itemprop="url">前端学习网站</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T00:00:00+08:00">
+                2018-06-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端资源/" itemprop="url" rel="index">
+                    <span itemprop="name">前端资源</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>用 <a href="https://developer.mozilla.org/zh-CN/" target="_blank" rel="noopener">MDN</a> 查 JavaScript 和 CSS 基础知识</p>
+<p>用 <a href="https://caniuse.com/" target="_blank" rel="noopener">Caniuse</a> 查浏览器兼容性</p>
+<p>用 <a href="http://jsfeeds.com/" target="_blank" rel="noopener">jsfeeds</a> 获取前端最新资讯（英文）</p>
+<p>用 <a href="https://github.com/" target="_blank" rel="noopener">github</a> 查询代码最新变化</p>
+<p>用 <a href="http://hackernews.cc/" target="_blank" rel="noopener">HackerNews</a> 获取编程最新资讯</p>
+<p>去 <a href="http://v2ex.com" target="_blank" rel="noopener">v2ex</a> 水技术</p>
+<p>在 <a href="https://toutiao.io/" target="_blank" rel="noopener">开发者头条</a> 学习新的知识</p>
+<p>当然，还有 <a href="https://segmentfault.com/blogs" target="_blank" rel="noopener">segmentfault</a> 我的文章都是写在这里的</p>
+<p><a href="https://div.io" target="_blank" rel="noopener">div.io</a> 不得不说，这里的发现里面有很多平时可以学习的demo</p>
+<p><a href="https://www.cnblogs.com/fengxiongZz/p/7707219.html" target="_blank" rel="noopener">hexo</a>搭建个人博客</p>
+<p><a href="https://yjhjstz.gitbooks.io/deep-into-node" target="_blank" rel="noopener">node学习网址</a></p>
+<p><a href="https://www.nodeapp.cn/" target="_blank" rel="noopener">node中文网</a></p>
+<p><a href="https://git-scm.com/book/zh/v2" target="_blank" rel="noopener">git中文官网</a></p>
 
           
         
@@ -1191,7 +846,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/25/webpack走在前端技术的前沿（深入浅出）/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/js的Event-Loop机制解析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="广工小成">
@@ -1210,7 +865,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/07/25/webpack走在前端技术的前沿（深入浅出）/" itemprop="url">webpack走在前端技术的前沿（深入浅出）</a></h1>
+                <a class="post-title-link" href="/2018/06/08/js的Event-Loop机制解析/" itemprop="url">js的Event Loop机制解析</a></h1>
         
 
         <div class="post-meta">
@@ -1222,8 +877,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-25T00:00:00+08:00">
-                2017-07-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-08T00:00:00+08:00">
+                2018-06-08
               </time>
             
 
@@ -1245,8 +900,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/打包构建工具/" itemprop="url" rel="index">
-                    <span itemprop="name">打包构建工具</span>
+                  <a href="/categories/前端资源/" itemprop="url" rel="index">
+                    <span itemprop="name">前端资源</span>
                   </a>
                 </span>
 
@@ -1284,139 +939,148 @@
       
         
           
-            <h1 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h1><p>网上有很多webpack的介绍，也有不少的视频，但是不少人看到应该还是不是很了解webpack里面到底是讲什么，而且报错了之后也是不知所措</p>
-<blockquote>
-<p>那么这里我作为一个工具小白就阐述一下小白面前应该怎么学习webpack吧，当你看完之后，我相信对其他工具也会有更深的了解</p>
-</blockquote>
-<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>在我的文章里主要讲解：</p>
-<ol>
-<li>webpack基本<strong>介绍及安装</strong></li>
-<li>webpack基本配置和<strong>配置文件</strong></li>
-<li>webpack在项目中如何自动生成html文件</li>
-<li>强大的<strong>loader加载器</strong></li>
-</ol>
-<p>还有更多的功能我也会在文中提及到</p>
-<p>附：webpack官网地址[<a href="https://webpack.js.org/" target="_blank" rel="noopener">英文官网</a>][<a href="https://doc.webpack-china.org/" target="_blank" rel="noopener">中文官网</a>]</p>
-<h2 id="1-webpack基本介绍及安装"><a href="#1-webpack基本介绍及安装" class="headerlink" title="1.webpack基本介绍及安装"></a>1.webpack基本介绍及安装</h2><h3 id="1-1-webpac基本介绍"><a href="#1-1-webpac基本介绍" class="headerlink" title="1.1 webpac基本介绍"></a>1.1 webpac基本介绍</h3><blockquote>
-<p>Webpack是时下最流行的模块打包器</p>
-</blockquote>
-<p>它的主要任务就是将各种格式的JavaScript代码，甚至是静态文件进行分析、压缩、合并、打包，最后生成浏览器支持的代码</p>
-<p>用一张图片简单表示一下</p>
-<p><img src="http://otn2dbd8v.bkt.clouddn.com/I%29LQ4~PD%60%7DN$Q%60@%28W%7BZ6X3T.png" alt="image"></p>
-<p>特点：</p>
-<ul>
-<li>代码拆分方案：webpack可以将应用代码拆分成多个块，每个块包含一个或多个模块，块可以按需异步加载，极大提升大规模单页应用的初始加载速度</li>
-<li>智能的静态分析：webpack的智能解析器几乎可以处理任何第三方库</li>
-<li>Loader加载器：webpack只能处理原生js模块，但是loader可以将各种资源转换为js模块</li>
-<li>plugin插件：webpack有功能丰富的插件系统，满足各种开发需求</li>
-<li>快速运行：webpack 使用异步 I/O 和多级缓存提高运行效率，使得它能够快速增量编译</li>
-</ul>
-<blockquote>
-<p>综合来说webpack综合了目前网络上的打包工具的优点，但是也要合理使用，不然也会适得其反</p>
-</blockquote>
-<h3 id="1-2-webpack的安装"><a href="#1-2-webpack的安装" class="headerlink" title="1.2 webpack的安装"></a>1.2 webpack的安装</h3><ul>
-<li>第一步，首先得安装好node.js和npm</li>
-</ul>
-<p>npm是前端开发者必备的下载工具吧，如果你连这个也没有安装的话，那么你就得快点安装了，这里附一个<a href="http://www.ydcss.com/archives/18" target="_blank" rel="noopener">gulp打包工具的教程</a>，这里第一和第二步有node.js和npm的安装具体教程，如果你没有安装，那就得快点入门了。</p>
-<ul>
-<li>第二步，进入webpack世界</li>
-</ul>
-<ol>
-<li>首先，新建一个webpack-test文件夹作为你的项目目录</li>
-<li>然后，用npm初始化你的项目，进入cmd，切换到你的目录下，输入：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>然后会出现一大堆输入的东西，这里我们全部选择默认输入enter就好了</p>
-<p><img src="http://otn2dbd8v.bkt.clouddn.com/2.png" alt="image"></p>
-<p>输入完了之后，它会提示你输入的信息给你核对，按下确认之后，就会在你的项目目录下生成了package.json</p>
-<p><img src="http://otn2dbd8v.bkt.clouddn.com/3.png" alt="image"></p>
-<p>下一步，我们在我们的文件夹里面安装一下webpack吧，在项目目录下的cmd输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack --save-dev</span><br></pre></td></tr></table></figure></p>
-<p>这就安装好了，这里就给大家来一个小Demo，让大家更加了解webpack的打包方式吧，如果已经有基础的同学可以跳过这里</p>
-<h3 id="1-3-webpack几个小Demo"><a href="#1-3-webpack几个小Demo" class="headerlink" title="1.3 webpack几个小Demo"></a>1.3 webpack几个小Demo</h3><p>在webpack-test下新建一个hello.js，输入下面的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//自定义一个函数</span><br><span class="line">function hello (str) &#123;</span><br><span class="line">    alert(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后在命令行输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack hello.js hello.bundle.js</span><br></pre></td></tr></table></figure></p>
-<p>这里的意思是用webpack文件将hello.js打包成hello.bundle.js输出在根目录下，成功之后在根目录下就会出现hello.bundle.js文件</p>
-<p><img src="http://otn2dbd8v.bkt.clouddn.com/4.png" alt="image"></p>
-<p>然后介绍一下我们打包成功的各个东西的含义吧</p>
-<p><img src="http://otn2dbd8v.bkt.clouddn.com/5.png" alt="image"></p>
-<p>然后再在根目录下新建一个world.js，在文件里输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//随便自定义一个函数</span><br><span class="line">function world () &#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再去修改hello.js成为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;./world.js&apos;)   //连接到另外一个函数块</span><br><span class="line"></span><br><span class="line">//自定义一个函数</span><br><span class="line">function hello (str) &#123;</span><br><span class="line">    alert(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再输入一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack hello.js hello.bundle.js</span><br></pre></td></tr></table></figure></p>
-<p>进行打包之后就会发现，打包成功里面hello.js的chunks序列号是0，world.js的chunks序列号是1，然后在hello.bundle.js看到他们的序列号也是这样。</p>
-<blockquote>
-<p>那么如果我想也把css文件也打包进去应该怎么办呢？</p>
-</blockquote>
-<p>我们再在根目录下新建一个style.css，在里面简单输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">html, body &#123;</span><br><span class="line">    padding: 0;</span><br><span class="line">    margin: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后这里我们需要下载两个loaders加载器，为什么要下载loaders加载器呢，你也可以想一想，css文件和js文件毕竟不一样，如果在hello.js引入style.css那么肯定会报错，这个时候，我们需要一种东西帮忙加载我们的css成js</p>
-<p>接下来我们下载两个loaders加载器，后面说一下这两个的作用，在命令行输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install css-loader style-loader</span><br></pre></td></tr></table></figure></p>
-<p>然后把hello.js改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;./world.js&apos;)   //连接到另外一个函数块</span><br><span class="line">require(&apos;css-loader!./style.css&apos;)   //利用css-loader加载器解析css文件使之可读</span><br><span class="line"></span><br><span class="line">//自定义一个函数</span><br><span class="line">function hello (str) &#123;</span><br><span class="line">    alert(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再在输入一下指令，打包好了后了可以观察hello.bundle.js里面就多了css文件里面的内容</p>
-<blockquote>
-<p>这时候，你也许会觉得，我说了那么多，那么，怎么把这些东西用到我们的页面中吗？下面就会说到</p>
-</blockquote>
-<p>在我们的跟目录下新建一个index.html，加入下面内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;webpack&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script src=&quot;./hello.bundle.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>再把我们的style.css改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">html, body &#123;</span><br><span class="line">    padding: 0;</span><br><span class="line">    margin: 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">body &#123;</span><br><span class="line">    color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再把我们的hello.js改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">require(&apos;./world.js&apos;)   //连接到另外一个函数块</span><br><span class="line">require(&apos;style-loader!css-loader!./style.css&apos;)</span><br><span class="line">//利用css-loader加载器解析再用style-loader解析css文件使之可读</span><br><span class="line"></span><br><span class="line">//自定义一个函数</span><br><span class="line">function hello (str) &#123;</span><br><span class="line">    alert(str);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">hello(&apos;hello webpack&apos;);</span><br></pre></td></tr></table></figure></p>
-<p>然后我们再打包运行一下,就可以在页面看到我们的结果，这时候如果你细心，就会发现我们在css-loader前面加了个style-loader，如果你不加的话，你就会发现你的页面打开后不是红色的，因为还没经过style-loader的解析，当然这只是一种方法，还有其他方法可以自寻在官网看看文档。</p>
-<p>如果你觉得每次修改之后打包也很麻烦，这时候我们的watch就有作用了，你可以在打包后面加入，例如输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webpack hello.js hello.bundle.js --watch</span><br></pre></td></tr></table></figure></p>
-<p>然后下次修改就不用在进行输入打包代码了，这上面也就是简单的介绍了一下我们的webpack是怎么从一个文件链接到很多文件的。</p>
-<h2 id="2-webpack基本配置和配置文件"><a href="#2-webpack基本配置和配置文件" class="headerlink" title="2.webpack基本配置和配置文件"></a>2.webpack基本配置和配置文件</h2><blockquote>
-<p>这里就是我们最重要的一个部分了，如果你看过很多webpack打包后的开源项目之后，你就会发现，有些时候你不知道从哪里看起，那就从配置文件开始看起来吧</p>
-</blockquote>
-<p>相信你应该也在不少的文章中看到有关于配置文件的说法的吧，毕竟配置文件也算是最重要的一部分了，这里也可以推荐你看一篇我觉得还不错的<a href="http://www.jianshu.com/p/42e11515c10f" target="_blank" rel="noopener">webpack入门</a></p>
-<blockquote>
-<p>不过我如果你没有基础的话，建议继续看下我的再去看那一篇，收获会更大</p>
-</blockquote>
-<p>首先，我们新建一个项目webpack-demo，按照我上面教程文章里面下载安装好webpack，安装完了之后，我们需要新建几个文件以及文件夹，如下面所示</p>
-<p><img src="http://otn2dbd8v.bkt.clouddn.com/6.png" alt="image"></p>
-<p>然后在index.html输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- index.html --&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;webpack demo&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script src=&quot;./dist/js/bundle.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>在webpack.config.js也就是webpack的配置文件里面输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// webpack.config.js</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry:&apos;./src/script/main.js&apos;, //我们的入口文件，相当于前面一节webpack-test中的hello.js</span><br><span class="line">  output:&#123;</span><br><span class="line">    path: __dirname + &quot;/dist/js&quot;,</span><br><span class="line">    /*打包完了之后，把内容输出到这个文件夹上,也可以写成&quot;./dist/js&quot;，</span><br><span class="line">    但是这样放在服务器上路径可能会出错，所以加上__dirname*/</span><br><span class="line">    filename: &apos;bundle.js&apos; //输入到上面path文件夹里面的bundle.js，没有则自动新建</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再在main.js里面输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//main.js</span><br><span class="line">function helloworld () &#123;</span><br><span class="line">    alert(&apos;hello world&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">helloworld();</span><br></pre></td></tr></table></figure></p>
-<p>在命令行输入webpack,就将我们的入口文件及其链接文件（这里还没有）打包输出在dist/js目录下面的bundle.js文件了。</p>
-<p><img src="http://otn2dbd8v.bkt.clouddn.com/7.png" alt="image"></p>
-<p>这就是我们的配置文件的最简单的用法，以后我们还可以在里面配置很多loaders，甚至更复杂的打包，下面一步步说明吧。</p>
-<p>我们也可以不用在命令行里面输入webpack，因为我们可能以后会查询更多东西，因此我们可以，在package.json的script里面加入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;webpack&quot;:&quot;webpack --config webpack.config.js --progress --color&quot;</span><br></pre></td></tr></table></figure></p>
-<p>这里的–progress和–color只是为了输出进度条和color，没有实际意义，然后在命令行输入npm run webpack就可以默认使用webpack进行打包了。</p>
-<p>还有更多关于我们入口文件和输出文件的介绍，我建议看一下慕课网的这个视频会更加了解<a href="http://www.imooc.com/video/14187" target="_blank" rel="noopener">webpack配置文件</a></p>
-<h2 id="3-webpack在项目中如何自动生成html文件"><a href="#3-webpack在项目中如何自动生成html文件" class="headerlink" title="3.webpack在项目中如何自动生成html文件"></a>3.webpack在项目中如何自动生成html文件</h2><blockquote>
-<p>在说这个之前，我们为什么要自动生成html页面？我们直接用index.html不就可以了？但是实际项目往往是有多个页面的，不过这里我们就简单介绍一个页面怎么自动生成，多个也是同样的原理，我们先来安装一个插件html-webpack-plugin，我们在命令行输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install html-webpack-plugin --save-dev</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>然后把我们的webpack.config.js里面修改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">// webpack.config.js</span><br><span class="line">var htmlWebpackPlugin  = require(&apos;html-webpack-plugin&apos;)//引入我们的插件</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">      main: &apos;./src/script/main.js&apos;,</span><br><span class="line">  &#125;, //我们的入口文件，相当于前面一节webpack-test中的hello.js</span><br><span class="line">  output:&#123;</span><br><span class="line">    path: __dirname + &quot;/dist/js&quot;,</span><br><span class="line">    /*打包完了之后，把内容输出到这个文件夹上,也可以写成&quot;./dist/js&quot;，</span><br><span class="line">    但是这样放在服务器上路径可能会出错，所以加上__dirname*/</span><br><span class="line">    filename: &apos;[name]-[hash].js&apos; //输入到上面path文件夹里面的bundle.js，没有则自动新建</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins:[</span><br><span class="line">      new htmlWebpackPlugin()  //对插件进行实例化</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>然后，在我们的dist下面就有了一个项目自动生成的inex.html文件了</p>
-<p><img src="http://otn2dbd8v.bkt.clouddn.com/8.png" alt="image"></p>
-<p>但是如果你细心就可以发现这个时候的index.html和我们原来的index.html没有任何的联系，这时候我们需要修改我们配置文件中的插件实例化那里修改成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins:[</span><br><span class="line">    new htmlWebpackPlugin(&#123;</span><br><span class="line">        template: &apos;index.html&apos;</span><br><span class="line">    &#125;)  //对插件进行实例化</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<p>再打包一次之后，就会发现生成的dist目录下面的index.html文件就会绑定了其他js文件。更具体的就请查看一下官方文档了，毕竟篇幅不能太长。</p>
-<h2 id="4-强大的loader加载器"><a href="#4-强大的loader加载器" class="headerlink" title="4.强大的loader加载器"></a>4.强大的loader加载器</h2><blockquote>
-<p>前面我们也有所提到我们的loader加载器，但是实际中是怎么样的呢，这里我围绕我们项目经常利用babel-loader转换ES6</p>
-</blockquote>
-<p>Loaders需要单独安装并且需要在webpack.config.js下的modules关键字下进行配置，Loaders的配置选项包括以下几方面：</p>
-<ul>
-<li>test：一个匹配loaders所处理的文件的拓展名的正则表达式（必须）</li>
-<li>loader：loader的名称（必须）</li>
-<li>include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；</li>
-<li>query：为loaders提供额外的设置选项（可选）</li>
-</ul>
-<p>首先，新建一个工程webpack-loader吧，然后将项目用npm初始化后，再在项目下下载webpack，然后构建好下面的这些目录</p>
-<p><img src="http://otn2dbd8v.bkt.clouddn.com/9.png" alt="image"></p>
-<p>用npm下载一下html-webpack-plugin插件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install html-webpack-plugin --save-dev</span><br></pre></td></tr></table></figure></p>
-<p>修改我们的index.html成<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
-<p>layer.html<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;layer&quot;&gt;</span><br><span class="line">    &lt;div&gt;this is a layer&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
-<p>layer.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// import tpl from &apos;./layer.html&apos;</span><br><span class="line"></span><br><span class="line">function layer () &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        name: &apos;layer&apos;,</span><br><span class="line">        tpl: tpl</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default layer;</span><br></pre></td></tr></table></figure></p>
-<p>app.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//app.js</span><br><span class="line">import layer from &apos;./component/layer/layer.js&apos;;</span><br><span class="line">//导入layer</span><br><span class="line"></span><br><span class="line">//使用ES6语法</span><br><span class="line">const App = function () &#123;</span><br><span class="line">    console.log(layer);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">new App()</span><br></pre></td></tr></table></figure></p>
-<h3 id="利用babel-loader转换ES6"><a href="#利用babel-loader转换ES6" class="headerlink" title="利用babel-loader转换ES6"></a>利用babel-loader转换ES6</h3><p>Babel其实是一个编译JavaScript的平台，它的强大之处表现在可以通过编译帮你达到以下目的：</p>
-<ul>
-<li>下一代的JavaScript标准（ES6，ES7），这些标准目前并未被当前的浏览器完全的支持；</li>
-<li>使用基于JavaScript进行了拓展的语言，比如React的JSX</li>
-</ul>
-<p>首先，我们先安装Babel在命令行输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev babel-loader babel-core</span><br></pre></td></tr></table></figure></p>
-<p>再安装一下babel中的latest这里我们需要用到<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev babel-preset-latest</span><br></pre></td></tr></table></figure></p>
-<p>修改我们的配置文件webpack.config.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">var htmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#123;</span><br><span class="line">      main: &apos;./src/app.js&apos;,</span><br><span class="line">  &#125;, //我们的入口文件，相当于前面一节webpack-test中的hello.js</span><br><span class="line">  output:&#123;</span><br><span class="line">    path: __dirname + &quot;/dist/js&quot;,</span><br><span class="line">    /*打包完了之后，把内容输出到这个文件夹上,也可以写成&quot;./dist/js&quot;，</span><br><span class="line">    但是这样放在服务器上路径可能会出错，所以加上__dirname*/</span><br><span class="line">    filename: &apos;bundle.js&apos; //输入到上面path文件夹里面的bundle.js，没有则自动新建</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    loaders: [</span><br><span class="line">        &#123;</span><br><span class="line">            test: /\.js$/, //匹配所有的js文件</span><br><span class="line">            loader: &apos;babel-loader&apos;, //引用lbabel插件</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">      new htmlWebpackPlugin(&#123;</span><br><span class="line">          filename:&apos;index.html&apos;,</span><br><span class="line">          template:&apos;index.html&apos;,</span><br><span class="line">          inject:&apos;body&apos; //将script标签加载进body</span><br><span class="line">      &#125;)</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>再在我们的package.json下加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    //...</span><br><span class="line">    &quot;babel&quot;: &#123;</span><br><span class="line">        &quot;presets&quot;: [&quot;latest&quot;]</span><br><span class="line">    &#125;,</span><br><span class="line">    //...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>在命令行输入webpack，就可以在我们的dist目录下面的js里面看到我们的配置文件已经有了这些文件</p>
-<blockquote>
-<p>其他加载器css,less,sass等的原理也是一样，这里就不一一介绍了</p>
-</blockquote>
-<p>有兴趣的话，可以继续看看<a href="http://www.imooc.com/video/14194" target="_blank" rel="noopener">慕课网的视频</a>，在下也是受人启发。</p>
-<p>还有更多的加载器可以在我们的webpack官网进行查询，这里我就不进行多解释了</p>
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/07/Git常用命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/07/Git常用命令/" itemprop="url">Git常用命令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-07T00:00:00+08:00">
+                2018-06-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>git 常用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">初始化新版本库：git init</span><br><span class="line">全局设置：git config --global user.name &quot;xzavier&quot;  git config --global user.email &quot;xzavier.xxx.com&quot;</span><br><span class="line">克隆版本库：git clone &quot;url&quot;</span><br><span class="line">查看分支：git branch</span><br><span class="line">创建分支：git branch branch_name</span><br><span class="line">切换分支：git checkout branch_name</span><br><span class="line">创建+切换分支：git checkout -b branch_name</span><br><span class="line">合并某分支到当前分支：git merge branch_name</span><br><span class="line">重命名分支：git branch -m branch_name branch_new_name //不会覆盖已经存在的分支</span><br><span class="line">重命名分支：git branch -M branch_name branch_new_name //会覆盖已经存在的分支</span><br><span class="line">删除分支：git branch -d branch_name </span><br><span class="line">强制删除分支： git branch -D branch_name</span><br><span class="line">删除远程分支： git push origin : branch_name </span><br><span class="line">拉取代码：git pull origin branch_name</span><br><span class="line">查看更改：git status </span><br><span class="line">查看更改细节： git diff file_name</span><br><span class="line">查看谁修改过代码： git blame filename</span><br><span class="line">回到上次修改： git reset --hard</span><br><span class="line">添加单个文件：git add filename.js </span><br><span class="line">添加所有js文件：git add *.js</span><br><span class="line">添加所有文件：git add .</span><br><span class="line">提交添加的文件：git commit -m &quot;your description about this branch&quot;</span><br><span class="line">提交单个文件：git commit -m &quot;your description about it&quot; filename.js</span><br><span class="line">push分支：git push origin your_branch_name</span><br><span class="line">备份当前分支内容：git stash //在后面再讲讲这个</span><br><span class="line">查看历史记录：git log</span><br><span class="line">创建标签：git tag 1.0.0  //标签无法重命名</span><br><span class="line">显示标签列表：git tag </span><br><span class="line">切出标签：git checkout 1.0.0</span><br><span class="line">删除标签：git tag -d 1.0.0</span><br><span class="line">查看git远程网址：git remote -v</span><br><span class="line">更改git远程网址：git remote set-url origin https://github.com/USERNAME/OTHERREPOSITORY.git</span><br></pre></td></tr></table></figure></p>
 
           
         
@@ -1465,7 +1129,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/15/小白gulp开发——gulp安装，介绍及less自动编译成css篇/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/组合式继承/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="广工小成">
@@ -1484,7 +1148,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/03/15/小白gulp开发——gulp安装，介绍及less自动编译成css篇/" itemprop="url">小白gulp开发——gulp安装，介绍及less自动编译成css篇</a></h1>
+                <a class="post-title-link" href="/2018/05/28/组合式继承/" itemprop="url">组合式继承</a></h1>
         
 
         <div class="post-meta">
@@ -1496,8 +1160,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-15T00:00:00+08:00">
-                2017-03-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">
+                2018-05-28
               </time>
             
 
@@ -1519,8 +1183,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/打包构建工具/" itemprop="url" rel="index">
-                    <span itemprop="name">打包构建工具</span>
+                  <a href="/categories/js/" itemprop="url" rel="index">
+                    <span itemprop="name">js</span>
                   </a>
                 </span>
 
@@ -1558,21 +1222,164 @@
       
         
           
-            <blockquote>
-<p>小白gulp开发，哈哈，为什么说是小白呢，因为作者我本人也只会html,css,js其他任何框架，工具几乎后没怎么用过。但是现在前端趋向工程化了，再也不想以前一样一个文件夹文件夹的，而是逐渐有了打包，编译等等出现。因此也学习一下gulp开发。</p>
-</blockquote>
-<ol>
-<li><strong>说了那么多，那么，到底什么是gulp，以及怎么安装gulp呢？</strong></li>
+            <p>利用Object.create(prototype)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">function Parent(name) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Parent.prototype.play = function() &#123;</span><br><span class="line">    console.log(this.name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function Child(name, age) &#123;</span><br><span class="line">    Parent.call(this, name);</span><br><span class="line">    this.age = age;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Child.prototype = Object.create(Parent.prototype);</span><br><span class="line"></span><br><span class="line">// 多态</span><br><span class="line">Child.prototype.play = function() &#123;</span><br><span class="line">    Parent.prototype.play.call(this);</span><br><span class="line">    console.log(this.age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/Global对象/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="广工小成">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/头像.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端学习博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/28/Global对象/" itemprop="url">Global对象</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">
+                2018-05-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>所有属性都可以在程序的任何地方访问，即全局变量。在javascript中，通常window是全局对象，而node.js的全局对象是global，所有全局变量都是global对象的属性，如：console、process等。</p>
+<h2 id="全局对象"><a href="#全局对象" class="headerlink" title="全局对象"></a>全局对象</h2><ol>
+<li>global：表示Node所在的全局环境，类似于浏览器的window对象。需要注意的是，如果在浏览器中声明一个全局变量，实际上是声明了一个全局对象的属性，比如var x = 1等同于设置window.x = 1，但是Node不是这样，至少在模块中不是这样（REPL环境的行为与浏览器一致）。在模块文件中，声明var x = 1，该变量不是global对象的属性，global.x等于undefined。这是因为模块的全局变量都是该模块私有的，其他模块无法取到。</li>
+<li>process：该对象表示Node所处的当前进程，允许开发者与该进程互动。</li>
+<li>console：指向Node内置的console模块，提供命令行环境中的标准输入、标准输出功能。</li>
+<li>_filename：指向当前运行的脚本文件名。</li>
+<li>_dirname：指向当前运行的脚本所在的目录。 除此之外，还有一些对象实际上是模块内部的局部变量，指向的对象根据模块不同而不同，但是所有模块都适用，可以看作是伪全局变量，主要为module, module.exports, exports等。</li>
 </ol>
-<p>附：<a href="http://www.ydcss.com/archives/18" target="_blank" rel="noopener">gulp介绍</a></p>
-<ol>
-<li><strong>安装gulp的过程，是不是感觉有些奇怪，node.js是什么，npm又是什么？</strong></li>
+<h2 id="全局函数"><a href="#全局函数" class="headerlink" title="全局函数"></a>全局函数</h2><ol>
+<li>setTimeout()：用于在指定毫秒之后，运行回调函数。实际的调用间隔，还取决于系统因素。间隔的毫秒数在1毫秒到2,147,483,647毫秒（约24.8天）之间。如果超过这个范围，会被自动改为1毫秒。该方法返回一个整数，代表这个新建定时器的编号。</li>
+<li>clearTimeout()：用于终止一个setTimeout方法新建的定时器。</li>
+<li>setInterval()：用于每隔一定毫秒调用回调函数。由于系统因素，可能无法保证每次调用之间正好间隔指定的毫秒数，但只会多于这个间隔，而不会少于它。指定的毫秒数必须是1到2,147,483,647（大约24.8天）之间的整数，如果超过这个范围，会被自动改为1毫秒。该方法返回一个整数，代表这个新建定时器的编号。</li>
+<li>clearInterval()：终止一个用setInterval方法新建的定时器。</li>
+<li>require()：用于加载模块。</li>
+<li>Buffer()：用于操作二进制数据。</li>
 </ol>
-<p>本人简单的理解：ndoe.js就是JavaScript工具包，里面封装了很多与网络，I/O等相关方法，并提供了API借口查询。而npm就是一个运行在node.js上的一个软件下载管理，帮忙用来下载软件的。类似的，cnpm就是下载的时候不用翻墙。</p>
-<ol>
-<li><strong>安装配置好了gulp之后，那就说说怎么来进行把less编译成css文件</strong></li>
-</ol>
-<p>附：<a href="http://www.cnblogs.com/mingjian/p/5282976.html" target="_blank" rel="noopener">小demo教程</a>。这个教程有基本怎么配置及运行，若读者想多点尝试，也可以把目录树进行修改，按照注释就可以创建自己的目录结构。</p>
 
           
         
@@ -1621,7 +1428,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/13/百度前端任务-3-4-5-——巧谈前端基础html-css布局/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/核心（1）Events/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="广工小成">
@@ -1640,7 +1447,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/01/13/百度前端任务-3-4-5-——巧谈前端基础html-css布局/" itemprop="url">百度前端任务(3)(4)(5)——巧谈前端基础html,css布局</a></h1>
+                <a class="post-title-link" href="/2018/05/28/核心（1）Events/" itemprop="url">核心（1）Events</a></h1>
         
 
         <div class="post-meta">
@@ -1652,8 +1459,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-13T00:00:00+08:00">
-                2017-01-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">
+                2018-05-28
               </time>
             
 
@@ -1675,8 +1482,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
+                  <a href="/categories/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
                   </a>
                 </span>
 
@@ -1714,198 +1521,18 @@
       
         
           
-            <blockquote>
-<p>经过了<a href="http://ife.baidu.com/2016/task/all" target="_blank" rel="noopener">百度前端技术学院</a>任务三和四五，在这里总结一下前端布局的一些个人见解，很多前端新手就是没有理解怎么布局而一直学不好</p>
-</blockquote>
-<hr>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">先说一下，我个人理解的前端布局的思想吧。</span><br><span class="line">在前端布局的时候，</span><br><span class="line">先不要设计太多什么margin,padding什么的</span><br><span class="line">首先，你要清楚的是，你要的布局是什么</span><br><span class="line">例如，我这里拿百度前端技术学院的任务(5)</span><br><span class="line">作为例子讲解一下吧</span><br></pre></td></tr></table></figure>
-<p>附：<a href="http://ife.baidu.com/2016/task/detail?taskId=5" target="_blank" rel="noopener">百度前端技术学院的任务(5)</a></p>
-<p>首先，根据题意，我们很容易得知，这是由一个头尾和内容的布局，布局采用的是类似<a href="http://www.cnblogs.com/imwtr/p/4441741.html" target="_blank" rel="noopener">淘宝双飞翼布局</a>做成的<a href="http://jo2.org/css-auto-adapt-width/" target="_blank" rel="noopener">CSS实现右侧固定宽度，左侧宽度自适应</a>（点击链接即可知道具体怎么实现）</p>
-<p>不过这不是这一篇的重点，重点是上中下布局。怎么实现呢？这里附上html和css代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--首部--&gt;</span><br><span class="line">&lt;div id=&quot;top&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;!--内容--&gt;</span><br><span class="line">&lt;div id=&quot;content&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;!--尾部--&gt;</span><br><span class="line">&lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#top&#123;</span><br><span class="line">    height: 50px;</span><br><span class="line">    background: black;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#content&#123;</span><br><span class="line">    height: 550px;</span><br><span class="line">    background: gray;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#footer&#123;</span><br><span class="line">    height: 50px;</span><br><span class="line">    background: blueviolet;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/9.png?raw=true" alt="image"></p>
-<p>形成了上中下结构之后，再进行其他地方的编辑，注意，其他地方，一般要用class不要滥用id(虽然两者用起来都差不多)。接下来我，来示范一下CSS实现右侧固定宽度，左侧宽度自适应的做法吧。</p>
-<p>附代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;content&quot;&gt;</span><br><span class="line">    &lt;div class=&quot;left&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;div class=&quot;right&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#content&#123;</span><br><span class="line">    height: 550px;</span><br><span class="line">    width: 100%;</span><br><span class="line">    background: gray;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.left&#123;</span><br><span class="line">    height: 500px;</span><br><span class="line">    width: 100%;</span><br><span class="line">    margin-left: -200px;</span><br><span class="line">    float: left;</span><br><span class="line">    background: yellow;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.right&#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 0;</span><br><span class="line">    right: 0;</span><br><span class="line">    height: 200px;</span><br><span class="line">    width: 200px;</span><br><span class="line">    background: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/10.png?raw=true" alt="image"></p>
-<p>这样就用绝对布局实现了一个比较简单的右侧固定宽度，左侧宽度自适应的做法。</p>
-<p>然后再在各个板块上加上各自的margin,padding属性就比较很好看了。</p>
-<p>但是，可能有很多新手还不是很清楚margin,padding和width属性到底具体指什么，这里我用一张图说明一下吧。</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/11.png?raw=true" alt="image"></p>
-<p>具体如果还不知道怎么做，可以留言，我会细心帮你解答。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/12/浏览器默认样式及css初始化/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="广工小成">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/头像.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="前端学习博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/01/12/浏览器默认样式及css初始化/" itemprop="url">浏览器默认样式及css初始化</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-12T00:00:00+08:00">
-                2017-01-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/css/" itemprop="url" rel="index">
-                    <span itemprop="name">css</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <blockquote>
-<p>为什么要初始化css?</p>
-</blockquote>
-<p>建站老手都知道，这是为了考虑到浏览器的兼容问题，其实不同浏览器对有些标签的默认值是不同的，如果没对CSS初始化往往会出现浏览器之间的页面差异。当然，初始化样式会对SEO有一定的影响，但鱼和熊掌不可兼得，但力求影响最小的情况下初始化。</p>
-<hr>
-<p>相信很多人都曾经出现过多多少少的，有时候进行网页布局的时候，不知道为什么设置的网页边距总是达不到自己想要的效果。</p>
-<p>比如，我在这个属性设置了60px，但是，它却变成了92px.</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/css%E5%9B%BE%E7%89%87/1.jpg?raw=true" alt="image"></p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/css%E5%9B%BE%E7%89%87/2.jpg?raw=true" alt="image"></p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/css%E5%9B%BE%E7%89%87/3.png?raw=true" alt="image"></p>
-<p>查看了一下所有属性，原来是浏览器默认加上去的。</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/css%E5%9B%BE%E7%89%87/4.png?raw=true" alt="image"></p>
-<p>再看看，为什么我，没加float之前是正常的。</p>
-<p>加了float后变成不正常了,在这里，我也没有加margin属性。</p>
-<p>原来，是加了float使其脱离了<a href="http://baike.so.com/doc/3979754-4175773.html" target="_blank" rel="noopener">文档流</a></p>
-<p>然后，浏览器默认加上了margin-top: 16px和margin-bottom: 16px;然后60+16+16=92;</p>
-<p>当然，还有很多类似的问题，这里附上一些网站的默认css属性 <a href="http://www.iecss.com/" target="_blank" rel="noopener">http://www.iecss.com/</a></p>
+            <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Events API是node的最主要的核心，node的events类似DOM事件的Event事件。node主要通过一个类EventEmitter来进行模拟实现</p>
+<h2 id="EventEmitter"><a href="#EventEmitter" class="headerlink" title="EventEmitter"></a>EventEmitter</h2><p>EventEmitter提供了不少方法，但是最主要的是两个方法on和emit，其中我们如果使用过<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var http = require(&apos;http&apos;)</span><br><span class="line">var net = requere(&apos;net&apos;)</span><br><span class="line"></span><br><span class="line">var server = http.createServer(...)</span><br></pre></td></tr></table></figure></p>
+<p>就明白，其实http和net也是继承了EventEmitter的实例方法</p>
 <blockquote>
-<p>那么，应该怎么样解决这个问题呢？</p>
+<p>on方法接受两个参数，监听事件名称，及事件触发调用的函数</p>
 </blockquote>
-<ul>
-<li>可以在css加上<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*&#123;</span><br><span class="line">    margin: 0;</span><br><span class="line">    padding: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>有很多人也是这样写的。这确实很简单，但有人就会感到疑问：*号这样一个通用符在编写代码的时候是快，但如果网站很大，CSS样式表文件很大，这样写的话，他会把所有的标签都初始化一遍，这样就大大的加强了网站运行的负载，会使网站加载的时候需要很长一段时间。</p>
-<ul>
-<li>还有就是把可能用上的属性值加上，这里引用了雅虎工程师提供的CSS初始化示例代码</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td &#123; margin:0; padding:0; &#125;</span><br><span class="line">body &#123; background:#fff; color:#555; font-size:14px; font-family: Verdana, Arial, Helvetica, sans-serif; &#125;</span><br><span class="line">td,th,caption &#123; font-size:14px; &#125;</span><br><span class="line">h1, h2, h3, h4, h5, h6 &#123; font-weight:normal; font-size:100%; &#125;</span><br><span class="line">address, caption, cite, code, dfn, em, strong, th, var &#123; font-style:normal; font-weight:normal;&#125;</span><br><span class="line">a &#123; color:#555; text-decoration:none; &#125;</span><br><span class="line">a:hover &#123; text-decoration:underline; &#125;</span><br><span class="line">img &#123; border:none; &#125;</span><br><span class="line">ol,ul,li &#123; list-style:none; &#125;</span><br><span class="line">input, textarea, select, button &#123; font:14px Verdana,Helvetica,Arial,sans-serif; &#125;</span><br><span class="line">table &#123; border-collapse:collapse; &#125;</span><br><span class="line">html &#123;overflow-y: scroll;&#125;</span><br><span class="line"></span><br><span class="line">.clearfix:after &#123;content: &quot;.&quot;; display: block; height:0; clear:both; visibility: hidden;&#125;</span><br><span class="line">.clearfix &#123; *zoom:1; &#125;</span><br></pre></td></tr></table></figure>
-<p>然后，每次写css之前都加上这个就不用担心什么问题了。</p>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">server.on(&apos;eventName&apos;, function()&#123;</span><br><span class="line">    // 执行相应的操作</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>emit方法主要是针对某个对象进行触发事件，接受多个参数即事件名，第一个参数为事件名，另外的为参数</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server.emit(&apos;eventName&apos;)</span><br></pre></td></tr></table></figure>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2>
           
         
       
@@ -1953,7 +1580,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/01/11/前端开发工具篇-3-——tortoiseGit的使用提交代码篇/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/28/Node-js体系结构/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="广工小成">
@@ -1972,7 +1599,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/01/11/前端开发工具篇-3-——tortoiseGit的使用提交代码篇/" itemprop="url">前端开发工具篇(3)——tortoiseGit的使用提交代码篇</a></h1>
+                <a class="post-title-link" href="/2018/05/28/Node-js体系结构/" itemprop="url">Node.js体系结构</a></h1>
         
 
         <div class="post-meta">
@@ -1984,8 +1611,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-11T00:00:00+08:00">
-                2017-01-11
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-28T00:00:00+08:00">
+                2018-05-28
               </time>
             
 
@@ -2007,8 +1634,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/前端开发工具/" itemprop="url" rel="index">
-                    <span itemprop="name">前端开发工具</span>
+                  <a href="/categories/node/" itemprop="url" rel="index">
+                    <span itemprop="name">node</span>
                   </a>
                 </span>
 
@@ -2046,21 +1673,21 @@
       
         
           
-            <blockquote>
-<p>在前面的文章中，我们讲解过git和tortoise的安装，但是，在许多新手面前，git的使用还是一脸懵逼，那么就说一下怎么简单的使用tortoiseGit吧</p>
-</blockquote>
-<hr>
-<p>由于使用git的方法很多，这里就讲一种我觉比较简单的一种吧，首先要配置好github的ssh，如果不知道怎么配置，可以参考<a href="https://segmentfault.com/a/1190000008066240" target="_blank" rel="noopener">前端开发工具篇(1)——安装git和乌龟tortoiseGit</a></p>
-<p>接下来，说正题了</p>
-<p>1.先右键一下桌面(或者其他文件夹),然后选择Git Createrre…</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/5.jpg?raw=true" alt="image"></p>
-<p>在弹出的对话框勾选make it bare</p>
-<p>2.在工作目录下,先确认身份TortoiseGit–&gt;Setting,在打开的对话框里,左边选git,右边就会出现写用户名和邮箱的地方</p>
-<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/6.jpg?raw=true" alt="image"><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/7.jpg?raw=true" alt="image"></p>
-<p>==注意核对用户名和邮箱==</p>
-<p>在用户工作目录下点击右键,选择git clone,弹出对话框<br><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/segment%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E5%9B%BE%E7%89%87/8.jpg?raw=true" alt="image"></p>
-<p>点击ok后,发现此文件夹下多了一个隐藏的文件夹.git,则clone成功</p>
-<p>3.ethan用户在.git同级目录下添加一个文件index.jsp,里面写内容”hello git!”<br>然后右键Tortoisegit–&gt;add,完成后index.jsp变成+号<br>然后右键Git Commit -&gt; “master”… 在弹出的对话框,输入message信息后点ok,此时index.jsp变成对勾,提交到了本地服务器<br>然后右键Tortoisegit–&gt;push则提交到了远程服务器</p>
+            <h2 id="Node架构"><a href="#Node架构" class="headerlink" title="Node架构"></a>Node架构</h2><p>Node.js主要分为四大部分，Node Standard Library，Node Bindings，V8，Libuv，架构图如下: </p>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/node/node%E4%BD%93%E7%B3%BB.jpeg?raw=true" alt="image"></p>
+<p>Node Standard Library 是我们每天都在用的标准库，如Http, Buffer 模块。</p>
+<ol>
+<li>Node Bindings 是沟通JS和C++的桥梁，封装V8和Libuv的细节，向上层提供基础API服务。这一层是支撑 Node.js 运行的关键，由 C/C++ 实现。</li>
+<li>V8 是Google开发的JavaScript引擎，提供JavaScript运行环境，可以说它就是 Node.js 的发动机。</li>
+<li>Libuv 是专门为Node.js开发的一个封装库，提供跨平台的异步I/O能力.</li>
+<li>C-ares：提供了异步处理 DNS 相关的能力。</li>
+<li>http_parser、OpenSSL、zlib 等：提供包括 http 解析、SSL、数据压缩等其他的能力。</li>
+</ol>
+<h2 id="简单实例"><a href="#简单实例" class="headerlink" title="简单实例"></a>简单实例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">const http = require(&apos;http&apos;);   // 加载node的http模块</span><br><span class="line">const hostname = &apos;127.0.0.1&apos;;</span><br><span class="line">const port = 1337;</span><br><span class="line"></span><br><span class="line">http.createServer((req, res) =&gt; &#123;</span><br><span class="line">  res.writeHead(200, &#123; &apos;Content-Type&apos;: &apos;text/plain&apos; &#125;);</span><br><span class="line">  res.end(&apos;Hello World\n&apos;); // 创建成功结束返回的数据</span><br><span class="line">&#125;).listen(port, hostname, () =&gt; &#123;</span><br><span class="line">  console.log(`Server running at http://$&#123;hostname&#125;:$&#123;port&#125;/`);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>首先了解一下HTTP Server的继承关系，有利于更好的理解代码</p>
+<p><img src="https://github.com/XiaoCheng123/markdownImg/blob/master/node/httpserver.png?raw=true" alt="image"></p>
+<p>最后一句<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log(`Server running at http://$&#123;hostname&#125;:$&#123;port&#125;/`);</span><br></pre></td></tr></table></figure></p>
+<p>但却没有通过 require 获取，这就要说到global对象了，Node.js的顶层对象</p>
 
           
         
@@ -2100,7 +1727,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2150,7 +1777,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2161,7 +1788,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2172,7 +1799,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
