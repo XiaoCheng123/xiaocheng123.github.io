@@ -1,0 +1,31 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+.title {
+    height: 70px;
+    padding-top: 40px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #F00;
+}
+
+.btns {
+    text-align: center;
+}
+
+.btns span {
+    display: inline-block;
+    height: 27px;
+    width: 80px;
+    line-height: 27px;
+    background-color: #036;
+    border: 1px solid #eee;
+    border-radius: 7px;
+    margin-right: 10px;
+    color: #eee;
+    text-align: center;
+    font-size: 14px;
+}
