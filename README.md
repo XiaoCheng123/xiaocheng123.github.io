@@ -170,7 +170,7 @@ Distributed under the MIT License. See [LICENSE.txt](https://github.com/ladunjex
 <!-- Contact -->
 ## :handshake: Contact
 
-Liron Abutbul - [@lironabutbul6](https://twitter.com/lironabutbul6) - [@ladunjexa](https://t.me/ladunjexa)
+Xiaocheng Abutbul - [@Xiaochengabutbul6](https://twitter.com/Xiaochengabutbul6) - [@ladunjexa](https://t.me/ladunjexa)
 
 Project Link: [https://github.com/ladunjexa/Threejs_3D_Portfolio](https://github.com/ladunjexa/Threejs_3D_Portfolio)
 
