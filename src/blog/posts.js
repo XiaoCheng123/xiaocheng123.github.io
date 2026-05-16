@@ -8,7 +8,8 @@ export const posts = [
     subtitle: "三十而立，立于自己。",
     date: "2026.05.16",
     location: "深圳 · 多云 · 大风",
-    cover: "/blog/2026-5-16.png",
+    cover: "/blog/2026-5-16-cover.jpg",
+    shareCover: "/blog/2026-5-16-share.jpg",
     shareTitle: "写给未来的我",
     shareDesc: "做你自己，你值得拥有更好",
     excerpt:

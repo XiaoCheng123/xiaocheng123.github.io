@@ -21,7 +21,7 @@ const BlogPost = () => {
       ? {
           title: post.shareTitle || post.title,
           desc: post.shareDesc || post.subtitle || post.excerpt,
-          cover: post.cover,
+          cover: post.shareCover || post.cover,
         }
       : {}
   );
