@@ -21,6 +21,15 @@ module.exports = {
       backgroundImage: {
         "hero-pattern": "url('/src/assets/herobg.png')",
       },
+      fontFamily: {
+        jp: [
+          '"Noto Serif JP"',
+          '"Noto Serif SC"',
+          '"Songti SC"',
+          '"STSong"',
+          'serif',
+        ],
+      },
     },
   },
   plugins: [],

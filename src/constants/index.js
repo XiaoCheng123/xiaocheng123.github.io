@@ -31,8 +31,9 @@ export const navLinks = [
     title: "About",
   },
   {
-    url: "/document-dumi",
-    title: "document",
+    id: "blog",
+    url: "#/blog",
+    title: "Blog",
   },
   {
     id: "contact",
