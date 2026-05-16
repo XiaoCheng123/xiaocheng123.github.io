@@ -11,8 +11,37 @@ const TWIKOO_CDNS = [
   "https://cdn.jsdelivr.net/npm/twikoo@1.6.39/dist/twikoo.all.min.js", // jsdelivr 备份
 ];
 
-// 超时（评论 init 没起来视为失败）
-const INIT_TIMEOUT_MS = 8000;
+// SDK 加载超时
+const SDK_TIMEOUT_MS = 8000;
+// 云函数可达性探测超时（短，快速判定）
+const PING_TIMEOUT_MS = 5000;
+
+const withTimeout = (promise, ms) =>
+  Promise.race([
+    promise,
+    new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), ms)),
+  ]);
+
+// 探测 Twikoo 云函数是否可达（国内访问 Vercel 大概率失败）
+// 用 GET 请求拉云函数根路径，5 秒内拿到任何响应即视为可达
+const pingTwikoo = async () => {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), PING_TIMEOUT_MS);
+  try {
+    // 使用 no-cors 避免 CORS 报错（我们只关心"能不能连上"，不关心响应内容）
+    await fetch(TWIKOO_ENV_ID, {
+      method: "GET",
+      mode: "no-cors",
+      cache: "no-store",
+      signal: ctrl.signal,
+    });
+    return true;
+  } catch (_) {
+    return false;
+  } finally {
+    clearTimeout(t);
+  }
+};
 
 const loadScript = (src) =>
   new Promise((resolve, reject) => {
@@ -56,18 +85,28 @@ const Comments = ({ path }) => {
 
   useEffect(() => {
     let cancelled = false;
-    let timer = null;
 
-    // 超时兜底
-    timer = setTimeout(() => {
+    (async () => {
+      // 1. 先探测云函数可达性
+      const reachable = await pingTwikoo();
       if (cancelled) return;
-      // 用函数式 setState 拿到最新状态，避免闭包陈旧
-      setStatus((cur) => (cur === "ready" ? cur : "timeout"));
-    }, INIT_TIMEOUT_MS);
+      if (!reachable) {
+        setStatus("timeout");
+        return;
+      }
 
-    loadTwikoo()
-      .then((twikoo) => {
-        if (cancelled || !containerRef.current) return;
+      // 2. 加载 SDK（带 8s 超时）
+      let twikoo;
+      try {
+        twikoo = await withTimeout(loadTwikoo(), SDK_TIMEOUT_MS);
+      } catch (_) {
+        if (!cancelled) setStatus("error");
+        return;
+      }
+      if (cancelled || !containerRef.current) return;
+
+      // 3. init
+      try {
         const ret = twikoo.init({
           envId: TWIKOO_ENV_ID,
           el: containerRef.current,
@@ -77,20 +116,23 @@ const Comments = ({ path }) => {
             if (!cancelled) setStatus("ready");
           },
         });
-        // 兼容 init 有/无 Promise 返回值的版本
         if (ret && typeof ret.then === "function") {
           ret
             .then(() => !cancelled && setStatus("ready"))
             .catch(() => !cancelled && setStatus("error"));
+        } else {
+          // 没有 promise 返回，给一个保险超时把状态切到 ready
+          setTimeout(() => {
+            if (!cancelled) setStatus((cur) => (cur === "loading" ? "ready" : cur));
+          }, 3000);
         }
-      })
-      .catch(() => {
+      } catch (_) {
         if (!cancelled) setStatus("error");
-      });
+      }
+    })();
 
     return () => {
       cancelled = true;
-      if (timer) clearTimeout(timer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]);
