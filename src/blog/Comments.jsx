@@ -187,20 +187,33 @@ const Notice = ({ status }) => {
 
   // timeout / error 都给同一种文案
   return (
-    <div className="pointer-events-auto max-w-md mx-auto px-6 py-8 text-center bg-[#f7f4ec]/95 backdrop-blur-sm border border-[#d8d3c4]">
-      <p className="text-xs tracking-[0.4em] text-[#1a1a1a] mb-3">
-        評論加載超時
+    <div className="pointer-events-auto max-w-md mx-auto px-6 py-10 text-center bg-[#f7f4ec]/95 backdrop-blur-sm border border-[#d8d3c4]">
+      <p className="text-xs tracking-[0.5em] text-[#1a1a1a] mb-1">
+        關 於 評 論
       </p>
-      <div className="h-px w-10 bg-[#d8d3c4] mx-auto my-3" />
-      <p className="text-[12px] leading-loose text-[#5a5648] tracking-wide">
-        评论服务部署在海外节点，
-        <br />
-        国内网络访问可能不稳定。
-        <br />
-        若想留言，可尝试切换网络后刷新本页。
+      <p className="text-[10px] tracking-[0.4em] text-[#b8b3a4]">
+        ABOUT COMMENTS
       </p>
-      <p className="mt-4 text-[10px] tracking-[0.3em] text-[#b8b3a4]">
-        — 致 抱 歉 —
+      <div className="h-px w-10 bg-[#d8d3c4] mx-auto my-5" />
+
+      <div className="text-[13px] leading-[2] text-[#2a2820] tracking-wide text-left sm:text-center">
+        <p>评论服务部署于海外节点，</p>
+        <p>受网络环境影响，</p>
+        <p className="mt-3">
+          <span className="text-[#1a1a1a] font-medium">
+            国内大陆地区暂无法直接访问。
+          </span>
+        </p>
+        <p className="mt-5 text-[#5a5648]">
+          若需留言或查看他人评论，
+          <br />
+          请切换至 <span className="text-[#6b5d3a]">海外网络</span> 后刷新本页。
+        </p>
+      </div>
+
+      <div className="h-px w-10 bg-[#d8d3c4] mx-auto my-6" />
+      <p className="text-[10px] tracking-[0.4em] text-[#b8b3a4]">
+        — 静 候 来 信 —
       </p>
     </div>
   );
