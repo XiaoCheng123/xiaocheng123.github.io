@@ -194,6 +194,30 @@ const TWIKOO_CDN = "https://cdn.staticfile.org/twikoo/X.Y.Z/twikoo.all.min.js";
 ```
 服务端升级则需要在 Vercel 项目里 redeploy 一下 fork 的 twikoo 仓库。
 
+### 国内访问问题（已知 / 当前策略）
+Vercel 域名 `*.vercel.app` 在中国大陆访问极不稳定（DNS 污染 / TCP 重置），
+即便 SDK 加载完，调用云函数时大概率超时。
+
+**当前策略（方案 D · 优雅降级）：**
+- 前端 SDK CDN 优先国内（lib.baomitu / staticfile / jsdelivr 三级降级）
+- 评论组件加 **8 秒超时检测**，失败时显示日系风提示卡片：
+  > 評論加載超時
+  > 评论服务部署在海外节点，
+  > 国内网络访问可能不稳定。
+  > 若想留言，可尝试切换网络后刷新本页。
+
+**未来如要根治国内体验，迁移到腾讯云开发 CloudBase：**
+1. 注册腾讯云 + 实名认证
+2. 控制台开通 CloudBase（按量计费环境）
+3. 拿到 envId（形如 `xxx-1g3xxx`）
+4. 把 `Comments.jsx` 中 `TWIKOO_ENV_ID` 改为该 envId（不是 URL）
+5. 数据库需要从 MongoDB 迁移到 CloudBase（Twikoo 管理面板自带导入导出）
+
+CloudBase 免费额度对个人博客绝对够用：
+- 云函数调用 5 万次/月
+- 数据库读 5 万次/月、写 3 万次/月
+- 数据存储 1 GB
+
 ---
 
 ## 十、本地常用命令
