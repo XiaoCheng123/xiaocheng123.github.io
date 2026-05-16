@@ -21,6 +21,76 @@
   color-scheme: light;
 }
 
+/* Twikoo 评论区 · 日系米白主题 */
+.twikoo-jp #tcomment {
+  --twikoo-bg: #f7f4ec;
+  --twikoo-text: #2a2820;
+  --twikoo-muted: #8a8576;
+  --twikoo-border: #d8d3c4;
+  --twikoo-accent: #6b5d3a;
+
+  color: var(--twikoo-text);
+}
+.twikoo-jp #tcomment .tk-comments-title,
+.twikoo-jp #tcomment .tk-meta-input,
+.twikoo-jp #tcomment textarea,
+.twikoo-jp #tcomment input {
+  background: transparent !important;
+  color: var(--twikoo-text) !important;
+  border-color: var(--twikoo-border) !important;
+  font-family: "Noto Serif JP", "Noto Serif SC", "Songti SC", serif !important;
+  border-radius: 0 !important;
+}
+.twikoo-jp #tcomment textarea:focus,
+.twikoo-jp #tcomment input:focus {
+  border-color: var(--twikoo-accent) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.twikoo-jp #tcomment .OwO,
+.twikoo-jp #tcomment .tk-submit,
+.twikoo-jp #tcomment .tk-action-icon,
+.twikoo-jp #tcomment .tk-action-link {
+  color: var(--twikoo-text) !important;
+}
+.twikoo-jp #tcomment .tk-submit {
+  background: #1a1a1a !important;
+  color: #f7f4ec !important;
+  border-radius: 0 !important;
+  letter-spacing: 0.3em !important;
+  font-family: "Noto Serif JP", serif !important;
+  transition: background 0.4s ease !important;
+}
+.twikoo-jp #tcomment .tk-submit:hover {
+  background: var(--twikoo-accent) !important;
+}
+.twikoo-jp #tcomment .tk-comment {
+  background: transparent !important;
+  border-bottom: 1px solid var(--twikoo-border) !important;
+}
+.twikoo-jp #tcomment .tk-nick,
+.twikoo-jp #tcomment .tk-author {
+  color: var(--twikoo-text) !important;
+  font-weight: 500 !important;
+}
+.twikoo-jp #tcomment .tk-time,
+.twikoo-jp #tcomment .tk-tag,
+.twikoo-jp #tcomment .tk-meta {
+  color: var(--twikoo-muted) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.1em !important;
+}
+.twikoo-jp #tcomment a {
+  color: var(--twikoo-accent) !important;
+}
+.twikoo-jp #tcomment .tk-content {
+  line-height: 1.9 !important;
+  color: var(--twikoo-text) !important;
+}
+.twikoo-jp #tcomment .el-loading-mask {
+  background-color: rgba(247, 244, 236, 0.7) !important;
+}
+
 .hash-span {
   margin-top: -100px;
   padding-bottom: 100px;

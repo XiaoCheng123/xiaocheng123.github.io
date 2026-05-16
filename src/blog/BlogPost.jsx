@@ -5,6 +5,7 @@ import { getPostBySlug } from "./posts";
 import Sakura from "./Sakura";
 import { useMotionPrefs } from "./useMotionPrefs";
 import { useShare } from "./useShare";
+import Comments from "./Comments";
 
 const ease = [0.22, 0.61, 0.36, 1];
 
@@ -269,6 +270,9 @@ const BlogPost = () => {
             {post.date}
           </p>
         </motion.div>
+
+        {/* 评论区 */}
+        <Comments path={`/blog/${post.slug}`} />
       </article>
 
       {/* 返回 */}

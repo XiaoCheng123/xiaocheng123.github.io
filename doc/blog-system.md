@@ -19,7 +19,8 @@ src/blog/
 ├── BlogPost.jsx      # 详情页（路由 /blog/:slug）
 ├── Sakura.jsx        # 樱花飘落 SVG 动画
 ├── useMotionPrefs.js # 检测 prefers-reduced-motion + 移动端
-└── useShare.js       # 注入 og/twitter meta + 微信 JS-SDK 分享配置
+├── useShare.js       # 注入 og/twitter meta + 微信 JS-SDK 分享配置
+└── Comments.jsx      # Twikoo 评论组件（无需登录）
 
 public/blog/
 ├── 2026-5-16-cover.jpg   # 页面封面（1200×1200 jpg, ~240KB）
@@ -157,7 +158,45 @@ be26966  perf(blog): 页面封面图压缩到 240KB，提升手机端加载速�
 5. 抽离 `mdx` 支持，让 `content` 直接写 Markdown 而不是字符串
 6. 加阅读统计（umami / 访问计数 SVG）
 
-## 九、本地常用命令
+## 九、评论系统（Twikoo · 无需登录）
+
+### 架构
+- 前端：`src/blog/Comments.jsx`（懒加载 twikoo CDN）
+- 服务端：Twikoo 云函数，部署在 **Vercel**
+- 数据库：**MongoDB Atlas Free Cluster (M0)**，512MB 免费
+
+### 关键信息
+- Twikoo 云函数 URL（envId）：`https://twikoo-g4818gj5e-xiaochengs-projects.vercel.app`
+- Vercel 项目：基于 fork 的 imaegoo/twikoo（XiaoCheng123 账户）
+- MongoDB Atlas：用户 `alen`，cluster `cluster0.wx9e7og.mongodb.net`
+- Vercel 环境变量：`MONGODB_URI`（带密码完整连接串）
+- MongoDB Network Access：`0.0.0.0/0`（必须）
+
+### 功能
+- 完全匿名评论，昵称/邮箱/链接均选填
+- 支持 Markdown、emoji、回复
+- Twikoo 自带管理面板：访问云函数 URL 即可登录管理（首次访问会引导设置管理员密码）
+- 自定义 CSS 见 `src/index.css` 的 `.twikoo-jp` 部分（米白底 + 宋体 + 直角按钮）
+
+### 评论隔离
+每篇文章用 `path={/blog/:slug}` 隔离，互不串扰。
+
+### 后续维护
+- **想换数据库**：改 Vercel 环境变量 `MONGODB_URI` → Redeploy
+- **想备份评论**：管理面板有"导出"功能（JSON）
+- **想反垃圾**：管理面板支持关键词、IP 黑名单、Akismet
+- **MongoDB Atlas 密码改了**：同步更新 Vercel 的 MONGODB_URI 即可
+
+### 升级 Twikoo
+前端 CDN 写死了版本号 `1.6.39`（在 `Comments.jsx`）。要升级时改这一行即可：
+```js
+const TWIKOO_CDN = "https://cdn.staticfile.org/twikoo/X.Y.Z/twikoo.all.min.js";
+```
+服务端升级则需要在 Vercel 项目里 redeploy 一下 fork 的 twikoo 仓库。
+
+---
+
+## 十、本地常用命令
 
 ```bash
 npm run dev        # 启动本地预览
