@@ -60,30 +60,29 @@ const Comments = ({ path }) => {
 
     // 超时兜底
     timer = setTimeout(() => {
-      if (!cancelled && status !== "ready") {
-        setStatus("timeout");
-      }
+      if (cancelled) return;
+      // 用函数式 setState 拿到最新状态，避免闭包陈旧
+      setStatus((cur) => (cur === "ready" ? cur : "timeout"));
     }, INIT_TIMEOUT_MS);
 
     loadTwikoo()
       .then((twikoo) => {
         if (cancelled || !containerRef.current) return;
-        twikoo
-          .init({
-            envId: TWIKOO_ENV_ID,
-            el: containerRef.current,
-            path: path || window.location.pathname,
-            lang: "zh-CN",
-            onCommentLoaded: () => {
-              if (!cancelled) setStatus("ready");
-            },
-          })
-          .then(() => {
+        const ret = twikoo.init({
+          envId: TWIKOO_ENV_ID,
+          el: containerRef.current,
+          path: path || window.location.pathname,
+          lang: "zh-CN",
+          onCommentLoaded: () => {
             if (!cancelled) setStatus("ready");
-          })
-          .catch(() => {
-            if (!cancelled) setStatus("error");
-          });
+          },
+        });
+        // 兼容 init 有/无 Promise 返回值的版本
+        if (ret && typeof ret.then === "function") {
+          ret
+            .then(() => !cancelled && setStatus("ready"))
+            .catch(() => !cancelled && setStatus("error"));
+        }
       })
       .catch(() => {
         if (!cancelled) setStatus("error");
@@ -96,7 +95,12 @@ const Comments = ({ path }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]);
 
-  const showOverlay = status === "loading" || status === "timeout" || status === "error";
+  // 超时 / 失败时清空 Twikoo 自身渲染的 loading 占位
+  useEffect(() => {
+    if ((status === "timeout" || status === "error") && containerRef.current) {
+      containerRef.current.innerHTML = "";
+    }
+  }, [status]);
 
   return (
     <section className="font-jp">
@@ -129,20 +133,38 @@ const Comments = ({ path }) => {
         transition={{ duration: 0.9, ease: [0.22, 0.61, 0.36, 1] }}
         className="twikoo-jp relative min-h-[120px]"
       >
-        <div ref={containerRef} id="tcomment" />
+        {/* 失败/超时：直接替换内容，不再保留 Twikoo 的 loading */}
+        {(status === "timeout" || status === "error") && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="py-10"
+          >
+            <Notice status={status} />
+          </motion.div>
+        )}
 
-        {/* 加载/失败 提示层（覆盖在评论区上方） */}
+        {/* 评论容器：失败时隐藏（避免 Twikoo 仍可能塞内容进来） */}
+        <div
+          ref={containerRef}
+          id="tcomment"
+          style={{
+            display: status === "timeout" || status === "error" ? "none" : "block",
+          }}
+        />
+
+        {/* 仅 loading 阶段叠加居中提示 */}
         <AnimatePresence>
-          {showOverlay && (
+          {status === "loading" && (
             <motion.div
-              key={status}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              transition={{ duration: 0.4 }}
+              className="absolute inset-0 flex items-start justify-center pt-10 pointer-events-none"
             >
-              <Notice status={status} />
+              <Notice status="loading" />
             </motion.div>
           )}
         </AnimatePresence>
