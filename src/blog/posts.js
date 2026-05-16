@@ -4,7 +4,7 @@
 export const posts = [
   {
     slug: "2026-5-16",
-    title: "写给即将三十岁的我",
+    title: "写给未来的我",
     subtitle: "三十而立，立于自己。",
     date: "2026.05.16",
     location: "深圳 · 多云 · 大风",
