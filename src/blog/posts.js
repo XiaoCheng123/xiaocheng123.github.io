@@ -8,6 +8,9 @@ export const posts = [
     subtitle: "三十而立，立于自己。",
     date: "2026.05.16",
     location: "深圳 · 多云 · 大风",
+    cover: "/blog/2026-5-16.png",
+    shareTitle: "写给未来的我",
+    shareDesc: "做你自己，你值得拥有更好",
     excerpt:
       "注册公众号五年多了，至今未发布过一篇文章。这一次，我想写给未来的自己——做你自己，你已经委屈很久了。",
     content: `注：以下内容为本人天马行空的想法，请勿较真。

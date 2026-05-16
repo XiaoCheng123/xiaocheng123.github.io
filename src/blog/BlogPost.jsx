@@ -4,6 +4,7 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import { getPostBySlug } from "./posts";
 import Sakura from "./Sakura";
 import { useMotionPrefs } from "./useMotionPrefs";
+import { useShare } from "./useShare";
 
 const ease = [0.22, 0.61, 0.36, 1];
 
@@ -13,6 +14,17 @@ const BlogPost = () => {
   const { reducedMotion, isMobile } = useMotionPrefs();
   const animOn = !reducedMotion;
   const [sakuraOn, setSakuraOn] = useState(true);
+
+  // 微信/通用社交分享卡片
+  useShare(
+    post
+      ? {
+          title: post.shareTitle || post.title,
+          desc: post.shareDesc || post.subtitle || post.excerpt,
+          cover: post.cover,
+        }
+      : {}
+  );
 
   // 滚动进度
   const { scrollYProgress } = useScroll();
@@ -83,7 +95,30 @@ const BlogPost = () => {
       </header>
 
       {/* 文章主体 */}
-      <article className="relative z-10 max-w-2xl mx-auto px-6 pt-10 pb-24">
+      <article className="relative z-10 max-w-2xl mx-auto px-6 pt-6 pb-24">
+        {/* 封面图 */}
+        {post.cover && (
+          <motion.figure
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease }}
+            className="mb-12 sm:mb-16 overflow-hidden"
+          >
+            <div className="relative w-full aspect-[3/2] bg-[#ece7d8] overflow-hidden">
+              <motion.img
+                src={post.cover}
+                alt={post.title}
+                initial={{ scale: 1.06 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 1.6, ease }}
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
+          </motion.figure>
+        )}
+
         {/* 标题区 */}
         <div className="text-center">
           <motion.p

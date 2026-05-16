@@ -109,6 +109,19 @@ const BlogList = () => {
               className="py-10"
             >
               <Link to={`/blog/${post.slug}`} className="group block">
+                {post.cover && (
+                  <div className="mb-6 overflow-hidden">
+                    <div className="relative w-full aspect-[3/2] bg-[#ece7d8] overflow-hidden">
+                      <img
+                        src={post.cover}
+                        alt={post.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                      />
+                    </div>
+                  </div>
+                )}
                 <div className="flex items-baseline gap-4 sm:gap-6 text-[10px] sm:text-xs tracking-[0.25em] text-[#8a8576]">
                   <span>{post.date}</span>
                   <span>·</span>
