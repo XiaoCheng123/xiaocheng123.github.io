@@ -3304,7 +3304,7 @@ No matching component was found for:
 	Copyright (c) 2018 Jed Watson.
 	Licensed under the MIT License (MIT), see
 	http://jedwatson.github.io/classnames
-*/(function(n){(function(){var e={}.hasOwnProperty;function t(){for(var i=[],r=0;r<arguments.length;r++){var s=arguments[r];if(s){var o=typeof s;if(o==="string"||o==="number")i.push(s);else if(Array.isArray(s)){if(s.length){var a=t.apply(null,s);a&&i.push(a)}}else if(o==="object"){if(s.toString!==Object.prototype.toString&&!s.toString.toString().includes("[native code]")){i.push(s.toString());continue}for(var l in s)e.call(s,l)&&s[l]&&i.push(l)}}}return i.join(" ")}n.exports?(t.default=t,n.exports=t):window.classNames=t})()})(FJ);var NJ=AS(I),mo=AS(ag),kJ=AS(mg);function AS(n){return n&&n.__esModule?n:{default:n}}const OJ=({animate:n=!0,className:e="",layout:t="2-columns",lineColor:i="#FFF",children:r})=>(typeof window=="object"&&document.documentElement.style.setProperty("--line-color",i),NJ.default.createElement("div",{className:(0,kJ.default)(e,"vertical-timeline",{"vertical-timeline--animate":n,"vertical-timeline--two-columns":t==="2-columns","vertical-timeline--one-column-left":t==="1-column"||t==="1-column-left","vertical-timeline--one-column-right":t==="1-column-right"})},r));OJ.propTypes={children:mo.default.oneOfType([mo.default.arrayOf(mo.default.node),mo.default.node]).isRequired,className:mo.default.string,animate:mo.default.bool,layout:mo.default.oneOf(["1-column-left","1-column","2-columns","1-column-right"]),lineColor:mo.default.string};function o_(){return o_=Object.assign||function(n){for(var e=1;e<arguments.length;e++){var t=arguments[e];for(var i in t)Object.prototype.hasOwnProperty.call(t,i)&&(n[i]=t[i])}return n},o_.apply(this,arguments)}function UJ(n,e){n.prototype=Object.create(e.prototype),n.prototype.constructor=n,a_(n,e)}function a_(n,e){return a_=Object.setPrototypeOf||function(i,r){return i.__proto__=r,i},a_(n,e)}function zJ(n,e){if(n==null)return{};var t={},i=Object.keys(n),r,s;for(s=0;s<i.length;s++)r=i[s],!(e.indexOf(r)>=0)&&(t[r]=n[r]);return t}var l_=new Map,tm=new WeakMap,Pb=0,VL=void 0;function GJ(n){VL=n}function HJ(n){return n?(tm.has(n)||(Pb+=1,tm.set(n,Pb.toString())),tm.get(n)):"0"}function VJ(n){return Object.keys(n).sort().filter(function(e){return n[e]!==void 0}).map(function(e){return e+"_"+(e==="root"?HJ(n.root):n[e])}).toString()}function WJ(n){var e=VJ(n),t=l_.get(e);if(!t){var i=new Map,r,s=new IntersectionObserver(function(o){o.forEach(function(a){var l,c=a.isIntersecting&&r.some(function(d){return a.intersectionRatio>=d});n.trackVisibility&&typeof a.isVisible>"u"&&(a.isVisible=c),(l=i.get(a.target))==null||l.forEach(function(d){d(c,a)})})},n);r=s.thresholds||(Array.isArray(n.threshold)?n.threshold:[n.threshold||0]),t={id:e,observer:s,elements:i},l_.set(e,t)}return t}function CS(n,e,t,i){if(t===void 0&&(t={}),i===void 0&&(i=VL),typeof window.IntersectionObserver>"u"&&i!==void 0){var r=n.getBoundingClientRect();return e(i,{isIntersecting:i,target:n,intersectionRatio:typeof t.threshold=="number"?t.threshold:0,time:0,boundingClientRect:r,intersectionRect:r,rootBounds:r}),function(){}}var s=WJ(t),o=s.id,a=s.observer,l=s.elements,c=l.get(n)||[];return l.has(n)||l.set(n,c),c.push(e),a.observe(n),function(){c.splice(c.indexOf(e),1),c.length===0&&(l.delete(n),a.unobserve(n)),l.size===0&&(a.disconnect(),l_.delete(o))}}var jJ=["children","as","triggerOnce","threshold","root","rootMargin","onChange","skip","trackVisibility","delay","initialInView","fallbackInView"];function Bb(n){return typeof n.children!="function"}var gg=function(n){UJ(e,n);function e(i){var r;return r=n.call(this,i)||this,r.node=null,r._unobserveCb=null,r.handleNode=function(s){r.node&&(r.unobserve(),!s&&!r.props.triggerOnce&&!r.props.skip&&r.setState({inView:!!r.props.initialInView,entry:void 0})),r.node=s||null,r.observeNode()},r.handleChange=function(s,o){s&&r.props.triggerOnce&&r.unobserve(),Bb(r.props)||r.setState({inView:s,entry:o}),r.props.onChange&&r.props.onChange(s,o)},r.state={inView:!!i.initialInView,entry:void 0},r}var t=e.prototype;return t.componentDidUpdate=function(r){(r.rootMargin!==this.props.rootMargin||r.root!==this.props.root||r.threshold!==this.props.threshold||r.skip!==this.props.skip||r.trackVisibility!==this.props.trackVisibility||r.delay!==this.props.delay)&&(this.unobserve(),this.observeNode())},t.componentWillUnmount=function(){this.unobserve(),this.node=null},t.observeNode=function(){if(!(!this.node||this.props.skip)){var r=this.props,s=r.threshold,o=r.root,a=r.rootMargin,l=r.trackVisibility,c=r.delay,d=r.fallbackInView;this._unobserveCb=CS(this.node,this.handleChange,{threshold:s,root:o,rootMargin:a,trackVisibility:l,delay:c},d)}},t.unobserve=function(){this._unobserveCb&&(this._unobserveCb(),this._unobserveCb=null)},t.render=function(){if(!Bb(this.props)){var r=this.state,s=r.inView,o=r.entry;return this.props.children({inView:s,entry:o,ref:this.handleNode})}var a=this.props,l=a.children,c=a.as,d=zJ(a,jJ);return I.createElement(c||"div",o_({ref:this.handleNode},d),l)},e}(I.Component);gg.displayName="InView";gg.defaultProps={threshold:0,triggerOnce:!1,initialInView:!1};function JJ(n){var e=n===void 0?{}:n,t=e.threshold,i=e.delay,r=e.trackVisibility,s=e.rootMargin,o=e.root,a=e.triggerOnce,l=e.skip,c=e.initialInView,d=e.fallbackInView,h=I.useRef(),p=I.useState({inView:!!c}),m=p[0],y=p[1],v=I.useCallback(function(_){h.current!==void 0&&(h.current(),h.current=void 0),!l&&_&&(h.current=CS(_,function(M,w){y({inView:M,entry:w}),w.isIntersecting&&a&&h.current&&(h.current(),h.current=void 0)},{root:o,rootMargin:s,threshold:t,trackVisibility:r,delay:i},d))},[Array.isArray(t)?t.toString():t,o,s,a,l,r,d,i]);I.useEffect(function(){!h.current&&m.entry&&!a&&!l&&y({inView:!!c})});var x=[v,m.inView,m.entry];return x.ref=x[0],x.inView=x[1],x.entry=x[2],x}const XJ=Object.freeze(Object.defineProperty({__proto__:null,InView:gg,default:gg,defaultFallbackInView:GJ,observe:CS,useInView:JJ},Symbol.toStringTag,{value:"Module"})),KJ=HI(XJ);var go=ES(I),Qt=ES(ag),nm=ES(mg),YJ=KJ;function ES(n){return n&&n.__esModule?n:{default:n}}const QJ=({children:n="",className:e="",contentArrowStyle:t=null,contentStyle:i=null,date:r="",dateClassName:s="",icon:o=null,iconClassName:a="",iconOnClick:l=null,onTimelineElementClick:c=null,iconStyle:d=null,id:h="",position:p="",style:m=null,textClassName:y="",intersectionObserverProps:v={rootMargin:"0px 0px -40px 0px",triggerOnce:!0},visible:x=!1})=>go.default.createElement(YJ.InView,v,({inView:_,ref:M})=>go.default.createElement("div",{ref:M,id:h,className:(0,nm.default)(e,"vertical-timeline-element",{"vertical-timeline-element--left":p==="left","vertical-timeline-element--right":p==="right","vertical-timeline-element--no-children":n===""}),style:m},go.default.createElement(go.default.Fragment,null,go.default.createElement("span",{style:d,onClick:l,className:(0,nm.default)(a,"vertical-timeline-element-icon",{"bounce-in":_||x,"is-hidden":!(_||x)})},o),go.default.createElement("div",{style:i,onClick:c,className:(0,nm.default)(y,"vertical-timeline-element-content",{"bounce-in":_||x,"is-hidden":!(_||x)})},go.default.createElement("div",{style:t,className:"vertical-timeline-element-content-arrow"}),n,go.default.createElement("span",{className:(0,nm.default)(s,"vertical-timeline-element-date")},r)))));QJ.propTypes={children:Qt.default.oneOfType([Qt.default.arrayOf(Qt.default.node),Qt.default.node]),className:Qt.default.string,contentArrowStyle:Qt.default.shape({}),contentStyle:Qt.default.shape({}),date:Qt.default.node,dateClassName:Qt.default.string,icon:Qt.default.element,iconClassName:Qt.default.string,iconStyle:Qt.default.shape({}),iconOnClick:Qt.default.func,onTimelineElementClick:Qt.default.func,id:Qt.default.string,position:Qt.default.string,style:Qt.default.shape({}),textClassName:Qt.default.string,visible:Qt.default.bool,intersectionObserverProps:Qt.default.shape({root:Qt.default.object,rootMargin:Qt.default.string,threshold:Qt.default.number,triggerOnce:Qt.default.bool})};const md={_origin:"https://api.emailjs.com"},ZJ=(n,e="https://api.emailjs.com")=>{md._userID=n,md._origin=e},WL=(n,e,t)=>{if(!n)throw"The public key is required. Visit https://dashboard.emailjs.com/admin/account";if(!e)throw"The service ID is required. Visit https://dashboard.emailjs.com/admin";if(!t)throw"The template ID is required. Visit https://dashboard.emailjs.com/admin/templates";return!0};class Rb{constructor(e){this.status=e?e.status:0,this.text=e?e.responseText:"Network Error"}}const jL=(n,e,t={})=>new Promise((i,r)=>{const s=new XMLHttpRequest;s.addEventListener("load",({target:o})=>{const a=new Rb(o);a.status===200||a.text==="OK"?i(a):r(a)}),s.addEventListener("error",({target:o})=>{r(new Rb(o))}),s.open("POST",md._origin+n,!0),Object.keys(t).forEach(o=>{s.setRequestHeader(o,t[o])}),s.send(e)}),qJ=(n,e,t,i)=>{const r=i||md._userID;return WL(r,n,e),jL("/api/v1.0/email/send",JSON.stringify({lib_version:"3.10.0",user_id:r,service_id:n,template_id:e,template_params:t}),{"Content-type":"application/json"})},$J=n=>{let e;if(typeof n=="string"?e=document.querySelector(n):e=n,!e||e.nodeName!=="FORM")throw"The 3rd parameter is expected to be the HTML form element or the style selector of form";return e},eX=(n,e,t,i)=>{const r=i||md._userID,s=$J(t);WL(r,n,e);const o=new FormData(s);return o.append("lib_version","3.10.0"),o.append("service_id",n),o.append("template_id",e),o.append("user_id",r),jL("/api/v1.0/email/send-form",o)},tX={init:ZJ,send:qJ,sendForm:eX},nX=()=>{const n=I.useRef(),[e,t]=I.useState({name:"",email:"",message:""}),[i,r]=I.useState(!1),s=a=>{const{name:l,value:c}=a.target;t({...e,[l]:c})},o=a=>{a.preventDefault(),r(!0),tX.send("service_14dqsuc","template_uh8ui7s",{form_name:e.name,to_name:"Xiaocheng",from_email:e.email,to_email:"contact@mail.com",message:e.message},"OcgvyN5NpkEfPi4KH").then(()=>{r(!1),alert("Thank you. I will get back to you as soon as possible."),t({name:"",email:"",message:""})},l=>{r(!1),console.log(l),alert("Something went wrong.")})};return qe("div",{className:"xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden",children:[qe(Dt.div,{variants:bb("left","tween",.2,1),className:"flex-[0.75] bg-black-100 p-8 rounded-2xl",children:[$("p",{className:Gs.sectionSubText,children:"Get in touch"}),$("h3",{className:Gs.sectionHeadText,children:"Contact."}),qe("form",{ref:n,onSubmit:o,className:"mt-12 flex flex-col gap-8",children:[qe("label",{className:"flex flex-col",children:[$("span",{className:"text-white font-medium mb-4",children:"Your Name"}),$("input",{type:"text",name:"name",value:e.name,onChange:s,placeholder:"What's your name?",className:"bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"})]}),qe("label",{className:"flex flex-col",children:[$("span",{className:"text-white font-medium mb-4",children:"Your email"}),$("input",{type:"email",name:"email",value:e.email,onChange:s,placeholder:"What's your email?",className:"bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"})]}),qe("label",{className:"flex flex-col",children:[$("span",{className:"text-white font-medium mb-4",children:"Your Message"}),$("textarea",{rows:7,name:"message",value:e.message,onChange:s,placeholder:"What do you want to say?",className:"bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"})]}),$("button",{type:"submit",className:"bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary",children:i?"Sending...":"Send"})]})]}),$(Dt.div,{variants:bb("right","tween",.2,1),className:"xl:flex-1 xl:h-auto md:h-[550px] h-[350px]",children:$(x8,{})})]})},iX=HL(nX,"contact"),JL=[{slug:"2026-9-20",title:"为什么我们说话，总想赢",subtitle:"一个亚健康者的自白",date:"2026.09.20",location:"深圳 · 秋夜",cover:"/blog/2026-9-20-cover.jpg",shareCover:"/blog/2026-9-20-share.jpg",shareTitle:"为什么我们说话，总想赢",shareDesc:"逻辑不是钥匙，有时候它就是门栓。",excerpt:"我发现自己一直在用逻辑去堵住别人。后来才明白：一个人在情绪里的时候，你把道理讲得越对，他关得越紧。逻辑不是钥匙，有时候它就是门栓。",content:`有很长一段时间，我以为自己是个讲道理的人。
+*/(function(n){(function(){var e={}.hasOwnProperty;function t(){for(var i=[],r=0;r<arguments.length;r++){var s=arguments[r];if(s){var o=typeof s;if(o==="string"||o==="number")i.push(s);else if(Array.isArray(s)){if(s.length){var a=t.apply(null,s);a&&i.push(a)}}else if(o==="object"){if(s.toString!==Object.prototype.toString&&!s.toString.toString().includes("[native code]")){i.push(s.toString());continue}for(var l in s)e.call(s,l)&&s[l]&&i.push(l)}}}return i.join(" ")}n.exports?(t.default=t,n.exports=t):window.classNames=t})()})(FJ);var NJ=AS(I),mo=AS(ag),kJ=AS(mg);function AS(n){return n&&n.__esModule?n:{default:n}}const OJ=({animate:n=!0,className:e="",layout:t="2-columns",lineColor:i="#FFF",children:r})=>(typeof window=="object"&&document.documentElement.style.setProperty("--line-color",i),NJ.default.createElement("div",{className:(0,kJ.default)(e,"vertical-timeline",{"vertical-timeline--animate":n,"vertical-timeline--two-columns":t==="2-columns","vertical-timeline--one-column-left":t==="1-column"||t==="1-column-left","vertical-timeline--one-column-right":t==="1-column-right"})},r));OJ.propTypes={children:mo.default.oneOfType([mo.default.arrayOf(mo.default.node),mo.default.node]).isRequired,className:mo.default.string,animate:mo.default.bool,layout:mo.default.oneOf(["1-column-left","1-column","2-columns","1-column-right"]),lineColor:mo.default.string};function o_(){return o_=Object.assign||function(n){for(var e=1;e<arguments.length;e++){var t=arguments[e];for(var i in t)Object.prototype.hasOwnProperty.call(t,i)&&(n[i]=t[i])}return n},o_.apply(this,arguments)}function UJ(n,e){n.prototype=Object.create(e.prototype),n.prototype.constructor=n,a_(n,e)}function a_(n,e){return a_=Object.setPrototypeOf||function(i,r){return i.__proto__=r,i},a_(n,e)}function zJ(n,e){if(n==null)return{};var t={},i=Object.keys(n),r,s;for(s=0;s<i.length;s++)r=i[s],!(e.indexOf(r)>=0)&&(t[r]=n[r]);return t}var l_=new Map,tm=new WeakMap,Pb=0,VL=void 0;function GJ(n){VL=n}function HJ(n){return n?(tm.has(n)||(Pb+=1,tm.set(n,Pb.toString())),tm.get(n)):"0"}function VJ(n){return Object.keys(n).sort().filter(function(e){return n[e]!==void 0}).map(function(e){return e+"_"+(e==="root"?HJ(n.root):n[e])}).toString()}function WJ(n){var e=VJ(n),t=l_.get(e);if(!t){var i=new Map,r,s=new IntersectionObserver(function(o){o.forEach(function(a){var l,c=a.isIntersecting&&r.some(function(d){return a.intersectionRatio>=d});n.trackVisibility&&typeof a.isVisible>"u"&&(a.isVisible=c),(l=i.get(a.target))==null||l.forEach(function(d){d(c,a)})})},n);r=s.thresholds||(Array.isArray(n.threshold)?n.threshold:[n.threshold||0]),t={id:e,observer:s,elements:i},l_.set(e,t)}return t}function CS(n,e,t,i){if(t===void 0&&(t={}),i===void 0&&(i=VL),typeof window.IntersectionObserver>"u"&&i!==void 0){var r=n.getBoundingClientRect();return e(i,{isIntersecting:i,target:n,intersectionRatio:typeof t.threshold=="number"?t.threshold:0,time:0,boundingClientRect:r,intersectionRect:r,rootBounds:r}),function(){}}var s=WJ(t),o=s.id,a=s.observer,l=s.elements,c=l.get(n)||[];return l.has(n)||l.set(n,c),c.push(e),a.observe(n),function(){c.splice(c.indexOf(e),1),c.length===0&&(l.delete(n),a.unobserve(n)),l.size===0&&(a.disconnect(),l_.delete(o))}}var jJ=["children","as","triggerOnce","threshold","root","rootMargin","onChange","skip","trackVisibility","delay","initialInView","fallbackInView"];function Bb(n){return typeof n.children!="function"}var gg=function(n){UJ(e,n);function e(i){var r;return r=n.call(this,i)||this,r.node=null,r._unobserveCb=null,r.handleNode=function(s){r.node&&(r.unobserve(),!s&&!r.props.triggerOnce&&!r.props.skip&&r.setState({inView:!!r.props.initialInView,entry:void 0})),r.node=s||null,r.observeNode()},r.handleChange=function(s,o){s&&r.props.triggerOnce&&r.unobserve(),Bb(r.props)||r.setState({inView:s,entry:o}),r.props.onChange&&r.props.onChange(s,o)},r.state={inView:!!i.initialInView,entry:void 0},r}var t=e.prototype;return t.componentDidUpdate=function(r){(r.rootMargin!==this.props.rootMargin||r.root!==this.props.root||r.threshold!==this.props.threshold||r.skip!==this.props.skip||r.trackVisibility!==this.props.trackVisibility||r.delay!==this.props.delay)&&(this.unobserve(),this.observeNode())},t.componentWillUnmount=function(){this.unobserve(),this.node=null},t.observeNode=function(){if(!(!this.node||this.props.skip)){var r=this.props,s=r.threshold,o=r.root,a=r.rootMargin,l=r.trackVisibility,c=r.delay,d=r.fallbackInView;this._unobserveCb=CS(this.node,this.handleChange,{threshold:s,root:o,rootMargin:a,trackVisibility:l,delay:c},d)}},t.unobserve=function(){this._unobserveCb&&(this._unobserveCb(),this._unobserveCb=null)},t.render=function(){if(!Bb(this.props)){var r=this.state,s=r.inView,o=r.entry;return this.props.children({inView:s,entry:o,ref:this.handleNode})}var a=this.props,l=a.children,c=a.as,d=zJ(a,jJ);return I.createElement(c||"div",o_({ref:this.handleNode},d),l)},e}(I.Component);gg.displayName="InView";gg.defaultProps={threshold:0,triggerOnce:!1,initialInView:!1};function JJ(n){var e=n===void 0?{}:n,t=e.threshold,i=e.delay,r=e.trackVisibility,s=e.rootMargin,o=e.root,a=e.triggerOnce,l=e.skip,c=e.initialInView,d=e.fallbackInView,h=I.useRef(),p=I.useState({inView:!!c}),m=p[0],y=p[1],v=I.useCallback(function(_){h.current!==void 0&&(h.current(),h.current=void 0),!l&&_&&(h.current=CS(_,function(M,w){y({inView:M,entry:w}),w.isIntersecting&&a&&h.current&&(h.current(),h.current=void 0)},{root:o,rootMargin:s,threshold:t,trackVisibility:r,delay:i},d))},[Array.isArray(t)?t.toString():t,o,s,a,l,r,d,i]);I.useEffect(function(){!h.current&&m.entry&&!a&&!l&&y({inView:!!c})});var x=[v,m.inView,m.entry];return x.ref=x[0],x.inView=x[1],x.entry=x[2],x}const XJ=Object.freeze(Object.defineProperty({__proto__:null,InView:gg,default:gg,defaultFallbackInView:GJ,observe:CS,useInView:JJ},Symbol.toStringTag,{value:"Module"})),KJ=HI(XJ);var go=ES(I),Qt=ES(ag),nm=ES(mg),YJ=KJ;function ES(n){return n&&n.__esModule?n:{default:n}}const QJ=({children:n="",className:e="",contentArrowStyle:t=null,contentStyle:i=null,date:r="",dateClassName:s="",icon:o=null,iconClassName:a="",iconOnClick:l=null,onTimelineElementClick:c=null,iconStyle:d=null,id:h="",position:p="",style:m=null,textClassName:y="",intersectionObserverProps:v={rootMargin:"0px 0px -40px 0px",triggerOnce:!0},visible:x=!1})=>go.default.createElement(YJ.InView,v,({inView:_,ref:M})=>go.default.createElement("div",{ref:M,id:h,className:(0,nm.default)(e,"vertical-timeline-element",{"vertical-timeline-element--left":p==="left","vertical-timeline-element--right":p==="right","vertical-timeline-element--no-children":n===""}),style:m},go.default.createElement(go.default.Fragment,null,go.default.createElement("span",{style:d,onClick:l,className:(0,nm.default)(a,"vertical-timeline-element-icon",{"bounce-in":_||x,"is-hidden":!(_||x)})},o),go.default.createElement("div",{style:i,onClick:c,className:(0,nm.default)(y,"vertical-timeline-element-content",{"bounce-in":_||x,"is-hidden":!(_||x)})},go.default.createElement("div",{style:t,className:"vertical-timeline-element-content-arrow"}),n,go.default.createElement("span",{className:(0,nm.default)(s,"vertical-timeline-element-date")},r)))));QJ.propTypes={children:Qt.default.oneOfType([Qt.default.arrayOf(Qt.default.node),Qt.default.node]),className:Qt.default.string,contentArrowStyle:Qt.default.shape({}),contentStyle:Qt.default.shape({}),date:Qt.default.node,dateClassName:Qt.default.string,icon:Qt.default.element,iconClassName:Qt.default.string,iconStyle:Qt.default.shape({}),iconOnClick:Qt.default.func,onTimelineElementClick:Qt.default.func,id:Qt.default.string,position:Qt.default.string,style:Qt.default.shape({}),textClassName:Qt.default.string,visible:Qt.default.bool,intersectionObserverProps:Qt.default.shape({root:Qt.default.object,rootMargin:Qt.default.string,threshold:Qt.default.number,triggerOnce:Qt.default.bool})};const md={_origin:"https://api.emailjs.com"},ZJ=(n,e="https://api.emailjs.com")=>{md._userID=n,md._origin=e},WL=(n,e,t)=>{if(!n)throw"The public key is required. Visit https://dashboard.emailjs.com/admin/account";if(!e)throw"The service ID is required. Visit https://dashboard.emailjs.com/admin";if(!t)throw"The template ID is required. Visit https://dashboard.emailjs.com/admin/templates";return!0};class Rb{constructor(e){this.status=e?e.status:0,this.text=e?e.responseText:"Network Error"}}const jL=(n,e,t={})=>new Promise((i,r)=>{const s=new XMLHttpRequest;s.addEventListener("load",({target:o})=>{const a=new Rb(o);a.status===200||a.text==="OK"?i(a):r(a)}),s.addEventListener("error",({target:o})=>{r(new Rb(o))}),s.open("POST",md._origin+n,!0),Object.keys(t).forEach(o=>{s.setRequestHeader(o,t[o])}),s.send(e)}),qJ=(n,e,t,i)=>{const r=i||md._userID;return WL(r,n,e),jL("/api/v1.0/email/send",JSON.stringify({lib_version:"3.10.0",user_id:r,service_id:n,template_id:e,template_params:t}),{"Content-type":"application/json"})},$J=n=>{let e;if(typeof n=="string"?e=document.querySelector(n):e=n,!e||e.nodeName!=="FORM")throw"The 3rd parameter is expected to be the HTML form element or the style selector of form";return e},eX=(n,e,t,i)=>{const r=i||md._userID,s=$J(t);WL(r,n,e);const o=new FormData(s);return o.append("lib_version","3.10.0"),o.append("service_id",n),o.append("template_id",e),o.append("user_id",r),jL("/api/v1.0/email/send-form",o)},tX={init:ZJ,send:qJ,sendForm:eX},nX=()=>{const n=I.useRef(),[e,t]=I.useState({name:"",email:"",message:""}),[i,r]=I.useState(!1),s=a=>{const{name:l,value:c}=a.target;t({...e,[l]:c})},o=a=>{a.preventDefault(),r(!0),tX.send("service_14dqsuc","template_uh8ui7s",{form_name:e.name,to_name:"Xiaocheng",from_email:e.email,to_email:"contact@mail.com",message:e.message},"OcgvyN5NpkEfPi4KH").then(()=>{r(!1),alert("Thank you. I will get back to you as soon as possible."),t({name:"",email:"",message:""})},l=>{r(!1),console.log(l),alert("Something went wrong.")})};return qe("div",{className:"xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden",children:[qe(Dt.div,{variants:bb("left","tween",.2,1),className:"flex-[0.75] bg-black-100 p-8 rounded-2xl",children:[$("p",{className:Gs.sectionSubText,children:"Get in touch"}),$("h3",{className:Gs.sectionHeadText,children:"Contact."}),qe("form",{ref:n,onSubmit:o,className:"mt-12 flex flex-col gap-8",children:[qe("label",{className:"flex flex-col",children:[$("span",{className:"text-white font-medium mb-4",children:"Your Name"}),$("input",{type:"text",name:"name",value:e.name,onChange:s,placeholder:"What's your name?",className:"bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"})]}),qe("label",{className:"flex flex-col",children:[$("span",{className:"text-white font-medium mb-4",children:"Your email"}),$("input",{type:"email",name:"email",value:e.email,onChange:s,placeholder:"What's your email?",className:"bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"})]}),qe("label",{className:"flex flex-col",children:[$("span",{className:"text-white font-medium mb-4",children:"Your Message"}),$("textarea",{rows:7,name:"message",value:e.message,onChange:s,placeholder:"What do you want to say?",className:"bg-tertiary py-4 px-6 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium"})]}),$("button",{type:"submit",className:"bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary",children:i?"Sending...":"Send"})]})]}),$(Dt.div,{variants:bb("right","tween",.2,1),className:"xl:flex-1 xl:h-auto md:h-[550px] h-[350px]",children:$(x8,{})})]})},iX=HL(nX,"contact"),JL=[{slug:"2026-9-20",title:"心灵健康指南",subtitle:"从亚健康到生病，中间隔着什么",date:"2026.09.20",location:"深圳 · 秋夜",cover:"/blog/2026-9-20-cover.jpg",shareCover:"/blog/2026-9-20-share.jpg",shareTitle:"心灵健康指南",shareDesc:"我们把道理讲得越对，对方关得越紧。一份写给亚健康者的心灵健康指南。",excerpt:"我一直以为自己是个讲道理的人，后来才发现，逻辑有时候不是钥匙，是门栓。这篇文章从一段自己的经历出发：往外看一层，是我们共同的说话方式；往里看一层，是心灵怎么一点点变累的；最后落到一份尽量能用、也尽量科学的指南。",content:`有很长一段时间，我以为自己是个讲道理的人。
 
 别人跟我诉苦，我先去找他话里的漏洞；别人情绪上来，我就一条一条把事实摆回去。我不觉得自己冷漠——恰恰相反，我觉得自己很负责：事情说清楚了，人才能好起来。
 
@@ -3312,9 +3312,13 @@ No matching component was found for:
 
 逻辑不是钥匙，有时候它就是门栓。
 
+这件事让我想了很久。先是想自己，再想我们这些说话的人，最后想到身体里到底发生了什么。
+
+所以下面分成三层：往外看一层，是我们共同的说话方式；往里看一层，是心灵是怎么一点点变累的。最后，落到一份尽量写得科学、也尽量能用的指南。
+
 ———
 
-一　我以为我在帮他
+一　起点：我用道理堵住了一个人
 
 我当时想得很简单：如果你说的事情不符合事实，那我把它纠正过来，你的痛苦就应该减轻一点。在我的世界里，这叫讲逻辑。
 
@@ -3326,29 +3330,7 @@ No matching component was found for:
 
 ———
 
-二　家里有人生病之后
-
-家里有人生病之后，我才开始真正去了解这些事。我老哥是全科医生，我去问他，他给我讲过一个很好记的分法。
-
-他说，精神疾病大致可以看成两条线：
-
-一条是认知出了问题——偏执，坚信一些旁人无法理解的东西，精神分裂常在这条线上；
-
-另一条是情感出了问题——情绪像脱了缰，一会儿在谷底，一会儿在峰顶，双相常在这条线上。
-
-这个分法很好记，我把它当成家人给我画的一张草图。但草图不是地图，更不能当尺子。抑郁、焦虑、PTSD、强迫，都塞不进这个框；双相的人也常常有认知上的损伤，精神分裂的人也常有情绪上的症状。医生面对的是一个人，不是一个标签。
-
-更要紧的是下面这一句，我花了很久才真的接受：
-
-他不是不想控制，他是控制不住。
-
-我一开始总以为，只要把道理讲通，他就能“想明白”；“想明白”了，就能“控制住”。这是我对生病这件事最大的误解。双相是一种有生理基础的病，是可以用药物控制的——像糖尿病需要胰岛素一样，它需要的不是更努力，是治疗。
-
-我用了很长时间，才把两件事分开：我可以跟一个观点不同的人讲道理，但我没有任何办法，用讲道理治好一个病人。
-
-———
-
-三　这不是我一个人的毛病
+二　往外看一层：这不是我一个人的毛病
 
 后来我往外看，发现这件事比我以为的大得多。
 
@@ -3368,7 +3350,7 @@ No matching component was found for:
 
 ———
 
-四　为什么我们明明知道，却做不到
+三　再往下看一层：为什么我们明明知道，却做不到
 
 看到这里，你大概和我一样，已经在心里点头了。
 
@@ -3384,17 +3366,77 @@ No matching component was found for:
 
 还有一层：我们从小就是在被反驳里长大的。一个人如果在小饭桌上被否定过很多次，长大以后就很难不反驳——因为在他的经验里，不反驳，就等着被否定。
 
-这不是性格问题。这是被训练出来的条件反射。
+这不是性格问题，也不是修养问题。这是被环境训练出来的条件反射。
 
 ———
 
-五　我有病吗
+四　往里看一层：心灵是怎么一点点变累的
+
+到这一步，我想知道的已经不只是“我该怎么说话”，而是“我们身上到底发生了什么”。
+
+我不是医生。下面这几件事，是我这段时间查到的，它们能解释前面写到的那些现象。
+
+第一件：我们的身体里，有一套为“逃跑”设计的系统。
+
+遇到威胁的时候，身体会自动进入应激状态：心跳加快，呼吸变浅，肌肉绷紧，注意力收窄到眼前的危险上。这套反应在真正的危险里能救命。它的问题在于，它分不清“老虎”和“一句难听的话”。
+
+短跑用它，是好事；一直开着，就变成消耗。长期处在应激里，人容易失眠、烦躁、记不住事，身体各处不舒服却查不出毛病。我们说的“亚健康”，很多就发生在这里。
+
+第二件：情绪和理性，不是同时上岗的。
+
+情绪的反应比推理快得多。有一种通俗的说法叫“杏仁核劫持”：情绪被点燃的时候，负责警报的那部分会先接管，负责推理和克制的那部分要靠后才慢慢恢复。
+
+所以“先处理情绪，再处理事情”不是一句客套话，它是顺序问题。一个人正在情绪的峰顶上，你讲的道理他其实接不住——他不是不讲理，是那一刻讲不了。
+
+第三件：直接反驳，会让人更固执。
+
+心理咨询里有一种方法叫动机式访谈。它有一条经验：当一个人被直接纠正的时候，会本能地为自己的立场辩护；你越是站在正确的一边，他越往反方向走。所以咨询师宁可复述对方的话，也不跟对方辩论。
+
+看到这里我才明白，我和他之间那堵墙，不是他砌的，是我砌的。
+
+第四件：把情绪说出来，它本身就会变轻。
+
+有研究发现，给情绪命个名——“我现在很生气”“我有点害怕”——这个动作本身就能降低情绪的强度。情绪模糊的时候最吓人；一旦被叫出名字，它就从一件笼罩你全身的事，变成一件可以放在桌上的事。
+
+第五件：长期没有能说话的人，是一种风险。
+
+人不是靠意志独自扛住一切的。有可以倾诉、不会立刻被评判的关系，是心理健康最基本的缓冲垫之一。反过来说，一个人如果所有的话都要在心里过一遍才敢说，他那杯水就会一直满着。
+
+———
+
+五　亚健康和病，隔着什么
 
 这几年，抑郁、焦虑、精分、狂躁、PTSD这些词越来越常听见，多到有点吓人。
 
 很多人会问：这些到底是怎么来的？我们又是什么时候变成这样的？
 
-我不知道答案，也不敢乱答。但我知道一件事：绝大多数人并不在“病”的那一侧，而是在中间那一层——很累，睡不好，容易烦，控制不住说一些伤人的话，但还能上班，还能笑，还能撑住。
+先说一句实话：“亚健康”不是医学上的诊断名词。它不是病，也不是健康的反面，它只是一个很好用的日常说法，意思是“我还没到病的程度，但也不算健康”。
+
+再说一件我理解错了很久的事：精神障碍不是两条线，是一个谱系。
+
+我是最近才慢慢了解到这些的。我老哥是全科医生，我去问他，他给我画过一张草图：认知出问题是一条线，情感出问题是一条线——偏执、坚信旁人无法理解的东西，精神分裂常在这条线上；情绪像脱了缰，一会儿谷底一会儿峰顶，双相常在这条线上。
+
+这张草图很好记，但它不是地图。
+
+临床上不是这么分的。医生按症状群分类：心境障碍、焦虑障碍、物质使用障碍、精神分裂症谱系、进食障碍等等，而且一个人身上常常同时有几样，这叫共病。抑郁、焦虑、PTSD、强迫，都装不进那两条线里；双相的人也常带着认知上的损伤。医生面对的是一个人，不是一个标签。
+
+那么医生怎么判断一个人是在亚健康这一层，还是已经生病了？通常看三件事：
+
+症状持续了多久，本人有多痛苦，功能有没有受损。
+
+第三条最要紧。所谓功能受损，就是“我想正常过日子，但我做不到了”——睡不着，吃不下，上不了班，维持不了关系。亚健康是“我还能正常过日子，只是很累”；病是“我做不到了”。
+
+这个病有多大？有两个数字，可以放在一起看。
+
+一个是世界卫生组织的估计：2023 年，全球有 4.7 亿人受焦虑障碍困扰，3.22 亿人受抑郁困扰，约 3600 万人患双相情感障碍，约 2700 万人患精神分裂症。
+
+另一个来自中国。2012 年启动的中国精神卫生调查，在全国 31 个省、157 个调查点访问了 32552 名成年人，结果 2019 年发表在《柳叶刀·精神病学》上：任何一类精神障碍的终生患病率是 16.6%——大约每六个人里，就有一个人在一生中经历过精神障碍；最近 12 个月内的患病率是 9.3%。其中最常见的一类是焦虑障碍。
+
+这里要补一句，不然容易被误读：这些数字不能直接读成“人越来越疯了”。同一份研究把结果和过去的调查放在一起比较——1982 年的终生患病率是 1.3%，2002 年是 13.2%，看上去像一条陡峭的上升曲线。可是这四十年里，诊断标准换过版本，调查工具、访谈方式、人们愿不愿意说，全都变了。数字的变化里，有多少是真的有更多人生病，有多少只是我们现在终于能看见、也敢说出来了，没有人能算得清楚。
+
+所以“我们是什么时候变成这样的”，我给不出一个干净的答案。我只能说：这不是哪一年突然发生的事，是一代人在同一种环境里，慢慢长成的样子。
+
+但有件事我可以说得确定：绝大多数人并不在“病”的那一侧，而是在中间那一层——很累，睡不好，容易烦，控制不住说一些伤人的话，但还能上班，还能笑，还能撑住。
 
 我自己就在这一层。
 
@@ -3406,19 +3448,19 @@ No matching component was found for:
 
 反过来，一个快要溢出来的人，他不是坏。他只是满了。
 
-至于亚健康和病的分界，我自己的感觉是：亚健康是“我还能正常过日子，只是很累”；病是“我想正常过日子，但我做不到了”。如果已经长期睡不着、吃不下、上不了班，或者出现伤害自己的念头，那这就不再是说话方式的问题了，去找医生。看医生，和感冒了去看医生，是一回事。
+还有一个数字我查不到，但每个人都能感觉到：生病的人里，真正去看医生的只是一部分。原因说来也平常——觉得丢人，觉得没用，觉得“这就是性格问题”，或者身边根本没有这样的医生。
 
 ———
 
-六　那么，从哪一句话开始
+六　指南（上）：七件能自己做的事
 
-如果你跟我差不多，还在亚健康这一层，想往回走一点，我能想到的，是下面这些很笨的动作。
+如果你还在亚健康这一层，想往回走一点，下面是七件很笨、但今天就能开始做的事。
 
 第一个：先复述，再表达。
 
 听到一句让你不舒服的话，先别急着说“不是”。先说一句：“你的意思是……对吗？”
 
-这句话看着像废话，但它有用。它不是话术，它是一个刹车。反射要用另一个动作去替换，不能用决心去硬压。
+这句话看着像废话，但它有用。它不是话术，它是一个刹车。心理学上把这件事做到极致的，叫“反映式倾听”——先让对方确认你真的听懂了他，后面的谈话才谈得下去。反射要用另一个动作去替换，不能用决心去硬压。
 
 第二个：把“接住情绪”和“同意观点”分开。
 
@@ -3428,21 +3470,35 @@ No matching component was found for:
 
 问一个具体的问题，比讲一个道理更接近人。比如：“那天到底发生了什么？”一个人被问的时候，他会往自己里面看；一个人被讲道理的时候，他只会往外面看——看怎么防住你。
 
-第四个：允许自己不全对。
+第四个：给自己发出来的情绪命名。
+
+不只是接住别人，也接住自己。心里堵的时候，先试着说清楚它到底是什么：“我现在是被否定的那种害怕，不只是生气。”能叫出名字的情绪，通常没那么吓人。写下来也算。
+
+第五个：允许自己不全对。
 
 我后来发现，自己反驳得最凶的时候，往往不是我最确信的时候，而恰恰是我最不确定的时候。真正站得住的人，不太需要把别人按下去。
 
-第五个：对正在情绪里的人，别讲道理，先给情绪让一个位置。
+第六个：守住身体这一层的地基。
 
-如果他是你的家人，而且正在发作，那就不辩论、不纠正，也不要要求他“讲道理”。那个时刻他确实讲不了。你能做的事情是：在旁边，把话说短，把他送到能帮他的地方。
+睡眠、运动、晒太阳、按时吃饭，这些听起来最不像“心理学”的建议，恰恰是最底层的。长期睡不好的人，情绪调节的能力会先垮下来。如果只能先改一件事，我选睡眠。
 
-第六个：对放不下的恨，试着写下来。
+第七个：留住至少一个不用过脑子就能说话的人。
 
-恨放不下，常常是因为那件事一直没有被说完。写下来不用给任何人看，只是把它从脑子里搬到纸上。搬出来一部分，它在脑子里就轻一点。
+不需要很多，一个就够。那种你说完之后，不用担心被评判、被反驳、被拿去当谈资的关系，是心理健康的底盘。
 
-第七个：记得那道门槛。
+———
 
-上面这些，都是给还有余量的人的。如果连睡眠和基本生活都守不住，那不是换几句话能解决的事。看医生，不丢人。
+七　指南（下）：什么时候必须交给医生
+
+上面这些，都是给还有余量的人的。指南的另一半，是知道自己这双手能够到哪里。
+
+如果那个正在情绪里的人是你的家人，而且在发作——不辩论，不纠正，也不要要求他“讲道理”。那个时刻他确实讲不了。你能做的事情是：在旁边，把话说短，把刺激降下来，然后把他送到能帮他的地方。
+
+如果那个人是你自己：症状持续两周以上，明显影响了睡觉、吃饭、工作和关系，或者出现了伤害自己的念头，那就别再自己扛了。去精神科或者心理科，这不是软弱，和你感冒了去看医生是一回事。全国统一的心理援助热线是 12356，需要的时候可以打。
+
+还有一句要紧的：对双相情感障碍这样的疾病，药物是治疗的基础，心理支持和生活规律是配合。它需要的不是更努力，是治疗。这一点我用了很久才真的接受。
+
+最后，照顾人的那个人也要被照顾。照顾一个生病的人很消耗，你也需要有能说话的人，也要允许自己有撑不住的时候。
 
 ———
 
@@ -3460,7 +3516,17 @@ No matching component was found for:
 
 “你是不是，很难受？”
 
-然后闭上嘴，把人接住。`},{slug:"2026-7-22",title:"写给自己",subtitle:"带着一点点无畏，继续出发。",date:"2026.07.22",location:"深圳 · 夏夜",cover:"/blog/2026-7-22-cover.jpg",shareCover:"/blog/2026-7-22-share.jpg",shareTitle:"写给自己",shareDesc:"人生不是一片旷野吗？可为什么走着走着，大家却都走上了相似的路。",excerpt:"人生不是一片旷野吗？可为什么走着走着，大家却都走上了相似的路。那么，就请带着一点点无畏，继续出发。",content:`人生不是一片旷野吗？
+然后闭上嘴，把人接住。
+
+———
+
+附　文中数据来源
+
+世界卫生组织《精神障碍实况报道》，2023 年数据：全球焦虑障碍 4.7 亿人，抑郁 3.22 亿人，双相情感障碍约 3600 万人，精神分裂症约 2700 万人。
+
+Huang Y, et al. Prevalence of mental disorders in China: a cross-sectional epidemiological study. The Lancet Psychiatry, 2019, 6(3): 211-224.（中国精神卫生调查，覆盖全国 31 个省、32552 名成年人）
+
+最后说明一句：我不是医生。这篇文章是一个普通人的整理，不是医学建议，诊断和治疗请交给医生。`},{slug:"2026-7-22",title:"写给自己",subtitle:"带着一点点无畏，继续出发。",date:"2026.07.22",location:"深圳 · 夏夜",cover:"/blog/2026-7-22-cover.jpg",shareCover:"/blog/2026-7-22-share.jpg",shareTitle:"写给自己",shareDesc:"人生不是一片旷野吗？可为什么走着走着，大家却都走上了相似的路。",excerpt:"人生不是一片旷野吗？可为什么走着走着，大家却都走上了相似的路。那么，就请带着一点点无畏，继续出发。",content:`人生不是一片旷野吗？
 
 可为什么走着走着，大家却都走上了相似的路。
 
